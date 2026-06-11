@@ -1066,7 +1066,7 @@ function renderPanel(card){
   if(card.stage==='planning'){
     var prodTypes=parseJ(card.product_types,[]);
     var ptHtml='<div class="p-section"><div class="p-lbl">// Product Types for This Theme</div><div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.65rem;">';
-    ['Alpha PNGs','Clipart','Digital Paper','Journals','Patterns','Procreate Brushes','Procreate Stamps','Sticker Sheets','Sublimation Designs','SVG Files'].forEach(function(t){
+    ['Alpha PNGs','Clipart','Coloring Books','Digital Paper','Journals','Procreate Brushes','Procreate Stamps','Seamless Paper','Sticker Sheets','Sublimation Designs','SVG Files'].forEach(function(t){
       var isSel=prodTypes.indexOf(t)>=0;
       ptHtml+='<button class="type-multi-btn'+(isSel?' selected':'')+'" data-cid="'+card.id+'" onclick="toggleProductType(this.dataset.cid,this.textContent)">'+t+'</button>';
     });
@@ -1093,6 +1093,8 @@ function renderPanel(card){
       '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Competitor 3 sales</div><input class="p-input" placeholder="e.g. 40/mo" value="'+esc(card.research_sales3||'')+'" data-id="'+card.id+'" data-f="research_sales3" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
       '</div></div>';
   }
+
+  var postNote=card.stage==='postlisting'?'<div style="margin-top:1.25rem;background:var(--accent-glow);border:1px solid var(--accent);border-radius:12px;padding:1rem 1.1rem;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">** Reminder</div><div style="font-size:0.88rem;color:var(--text-primary);line-height:1.6;">Make sure to follow up in <strong>30 days</strong> to see how this listing is doing — both visually and monetarily — to see if any changes need to be made.</div></div>':'';
 
   document.getElementById('panel-scroll').innerHTML=staleHtml+
     '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem"><div class="panel-title">'+esc(card.title)+'</div></div>'+
