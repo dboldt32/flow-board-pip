@@ -671,10 +671,10 @@ window.addEventListener('DOMContentLoaded',function(){
   document.getElementById('login-email').addEventListener('keydown',function(e){if(e.key==='Enter')handleLogin();});
 });
 
-function loadAll(){loadCards();loadBadges();loadJourney();loadGoal();loadStats();loadCalChecks();}
+function loadAll(){loadCards();loadBadges();loadJourney();loadGoal();loadStats();loadCalChecks();loadVault();}
 
 function loadCards(){
-  sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&order=created_at.asc',null,function(err,data){
+  sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&stage=neq.vault&order=created_at.asc',null,function(err,data){
     cards=(!err&&Array.isArray(data))?data.map(function(c){return Object.assign({},c,{checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[]),research_links:parseJ(c.research_links,['','','','']),research_images:parseJ(c.research_images,['','']),product_types:parseJ(c.product_types,[]),designed_types:parseJ(c.designed_types,[]),created_types:parseJ(c.created_types,[])});}):[];
     renderAll();
   });
@@ -818,90 +818,238 @@ function renderPipeline(){
 
 function getHint(k){var h={ideas:'Capture a product idea to start your pipeline.',planning:'Move here when ready to plan it out.',designing:'Move here when ready to design.',creating:'Move here when you start creating files.',preparing:'Move here to upscale, clean up, and rename.',listing:'Move here to build your Etsy listing.',listed:'Products land here once live on Etsy.',postlisting:'Move here after listing to complete your post-listing workflow.'};return h[k]||'';}
 
-var ideaFilterMode='all';
-function filterIdeas(mode,btn){
-  ideaFilterMode=mode;
-  document.querySelectorAll('.idea-filter-btn').forEach(function(b){b.classList.remove('active');});
-  if(btn)btn.classList.add('active');
-  renderIdeas();
-}
-function renderIdeas(){
-  var show=cards.filter(function(c){return c.stage==='ideas';});
-  if(ideaFilterMode==='starred')show=show.filter(function(c){return c.is_starred;});
-  else if(ideaFilterMode!=='all')show=show.filter(function(c){return (c.category||c.product_type)===ideaFilterMode;});
-  var g=document.getElementById('ideas-grid');
-  if(!show.length){
-    g.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon" style="font-size:3rem;margin-bottom:1rem">💡</div><h3 style="font-size:1.1rem;margin-bottom:0.5rem">'+(ideaFilterMode!=='all'?'No ideas in this category yet.':'Your Idea Vault is empty.')+'</h3><p style="font-size:0.88rem;line-height:1.6;max-width:400px;margin:0 auto">'+(ideaFilterMode!=='all'?'Try a different filter or add a new idea.':'Tap "+ Capture Idea" to start building your idea bank. Drop every spark here — trends you spot, holidays coming up, niches you want to explore. Nothing gets lost!')+'</p></div>';
-    return;
-  }
-  g.innerHTML='';
-  show.forEach(function(c){
-    var card=document.createElement('div');
-    card.className='idea-vault-card'+(c.is_starred?' pinned':'');
-    card.onclick=function(){openPanel(c.id);};
-    // Color bar at top based on category
-    var colorMap={'Clipart':'--s1','Patterns':'--s2','Alpha PNGs':'--s3','Journals':'--s4','Sublimation Designs':'--s5','Sticker Sheets':'--s6','Digital Paper':'--s7','Procreate Brushes':'--s2','Procreate Stamps':'--s3','SVG Files':'--s5'};
-    var stageColor=colorMap[c.category||c.product_type]||'--s1';
-    var colorBar=document.createElement('div');
-    colorBar.style.cssText='height:4px;background:var('+stageColor+');width:100%;';
-    card.appendChild(colorBar);
-    // Top section
-    var top=document.createElement('div');
-    top.className='idea-card-top';
-    var titleEl=document.createElement('div');
-    titleEl.className='idea-card-title';
-    titleEl.textContent=c.title;
-    var star=document.createElement('button');
-    star.className='card-star'+(c.is_starred?' on':'');
-    star.style.cssText='position:static;font-size:1rem;flex-shrink:0;';
-    star.textContent=c.is_starred?'★':'☆';
-    star.onclick=function(e){e.stopPropagation();toggleStar(c.id);};
-    top.appendChild(titleEl);top.appendChild(star);
-    card.appendChild(top);
-    // Body
-    var body=document.createElement('div');
-    body.className='idea-card-body';
-    // Show snippet of notes or research data if available
-    var snippet=c.notes||(c.research_demand?'Demand: '+c.research_demand:'')||(c.research_price?'Price range: '+c.research_price:'');
-    if(snippet){
-      var snipEl=document.createElement('div');
-      snipEl.className='idea-card-snippet';
-      snipEl.textContent=snippet;
-      body.appendChild(snipEl);
-    }
-    // Tags row
-    var tags=document.createElement('div');
-    tags.className='idea-card-tags';
-    if(c.category||c.product_type){
-      var catTag=document.createElement('span');
-      catTag.className='type-tag';
-      catTag.style.cssText='background:var('+stageColor+'-bg,rgba(255,255,255,0.08));color:var('+stageColor+')';
-      catTag.textContent=c.category||c.product_type;
-      tags.appendChild(catTag);
-    }
-    // Show research data pills if filled
-    if(c.research_demand){var d=document.createElement('span');d.className='type-tag';d.style.cssText='background:var(--bg-panel);color:var(--text-muted)';d.textContent='Demand: '+c.research_demand;tags.appendChild(d);}
-    if(c.research_price){var p=document.createElement('span');p.className='type-tag';p.style.cssText='background:var(--bg-panel);color:var(--text-muted)';p.textContent=c.research_price;tags.appendChild(p);}
-    body.appendChild(tags);
-    card.appendChild(body);
-    // Footer
-    var foot=document.createElement('div');
-    foot.className='idea-card-foot';
-    var dateEl=document.createElement('span');
-    dateEl.className='idea-foot-date';
-    dateEl.textContent='Added '+fmtDate(c.created_at);
-    // Research link indicator
-    var hasLinks=c.research_links&&c.research_links.filter(function(l){return l;}).length>0;
-    var linkEl=document.createElement('span');
-    linkEl.className='idea-foot-cat';
-    linkEl.textContent=hasLinks?'Has research links':'No research yet';
-    foot.appendChild(dateEl);foot.appendChild(linkEl);
-    card.appendChild(foot);
-    g.appendChild(card);
+var vaultItems=[];
+var vaultFilter='all';
+var vaultSubFilter='';
+
+function loadVault(){
+  sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&stage=eq.vault&order=created_at.desc',null,function(err,data){
+    vaultItems=(!err&&Array.isArray(data))?data:[];
+    renderVault();
   });
 }
 
-function toggleStarFilter(){filterIdeas('starred',null);}
+function renderVault(){
+  var show=vaultItems.slice();
+  if(vaultFilter==='product'&&vaultSubFilter)show=show.filter(function(v){return v.product_type===vaultSubFilter;});
+  if(vaultFilter==='holiday'&&vaultSubFilter)show=show.filter(function(v){var nd=parseJ(v.notes,{});return nd.holiday===vaultSubFilter;});
+  if(vaultFilter==='theme'&&vaultSubFilter)show=show.filter(function(v){var nd=parseJ(v.notes,{});return nd.theme===vaultSubFilter;});
+  var g=document.getElementById('ideas-grid');
+  if(!show.length){
+    g.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon" style="font-size:3rem;margin-bottom:1rem">&#x1F4A1;</div><h3 style="font-size:1.1rem;margin-bottom:0.5rem">No ideas saved yet.</h3><p style="font-size:0.88rem;line-height:1.6;max-width:400px;margin:0 auto">Tap &quot;+ Save Idea&quot; to start building your trend board. Save Etsy finds, Pinterest inspo, trending products.</p></div>';
+    return;
+  }
+  g.innerHTML='';
+  show.forEach(function(v){
+    var nd=parseJ(v.notes,{});
+    var colorMap={'Clipart':'--s1','Alpha PNGs':'--s3','Coloring Books':'--s2','Digital Paper':'--s7','Journals':'--s4','Seamless Paper':'--s2','Sticker Sheets':'--s6','Sublimation Designs':'--s5','Procreate Brushes':'--s3','Procreate Stamps':'--s4','SVG Files':'--s5'};
+    var sc=colorMap[v.product_type]||'--s1';
+    var card=document.createElement('div');
+    card.className='idea-vault-card';
+    // color bar
+    var bar=document.createElement('div');
+    bar.style.cssText='height:4px;background:var('+sc+');';
+    card.appendChild(bar);
+    // image
+    if(nd.img){
+      var imgWrap=document.createElement('div');
+      imgWrap.style.cssText='width:100%;height:160px;overflow:hidden;background:var(--bg-panel);';
+      var img=document.createElement('img');
+      img.src=nd.img;
+      img.style.cssText='width:100%;height:160px;object-fit:cover;';
+      img.onerror=function(){imgWrap.style.display='none';};
+      imgWrap.appendChild(img);
+      card.appendChild(imgWrap);
+    }
+    // body
+    var body=document.createElement('div');
+    body.style.cssText='padding:0.875rem 1rem 0.75rem;';
+    // title + actions
+    var titleRow=document.createElement('div');
+    titleRow.style.cssText='display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;margin-bottom:0.5rem;';
+    var titleEl=document.createElement('div');
+    titleEl.style.cssText='font-family:Syne,sans-serif;font-weight:800;font-size:0.95rem;color:var(--text-primary);line-height:1.25;flex:1;';
+    titleEl.textContent=v.title;
+    var actRow=document.createElement('div');
+    actRow.style.cssText='display:flex;gap:0.3rem;flex-shrink:0;';
+    var editBtn=document.createElement('button');
+    editBtn.style.cssText='background:var(--bg-raised);border:1px solid var(--border);border-radius:6px;color:var(--text-secondary);font-size:0.72rem;padding:0.2rem 0.5rem;cursor:pointer;';
+    editBtn.textContent='Edit';
+    (function(vid){editBtn.onclick=function(){openVaultModal(vid);};})(v.id);
+    var delBtn=document.createElement('button');
+    delBtn.style.cssText='background:none;border:1px solid rgba(255,85,85,0.4);border-radius:6px;color:#FF5555;font-size:0.72rem;padding:0.2rem 0.5rem;cursor:pointer;';
+    delBtn.textContent='x';
+    (function(vid){delBtn.onclick=function(){deleteVaultItem(vid);};})(v.id);
+    actRow.appendChild(editBtn);actRow.appendChild(delBtn);
+    titleRow.appendChild(titleEl);titleRow.appendChild(actRow);
+    body.appendChild(titleRow);
+    // tags
+    var tags=document.createElement('div');
+    tags.style.cssText='display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.5rem;';
+    if(v.product_type){
+      var pt=document.createElement('span');pt.className='type-tag';
+      pt.style.cssText='background:var('+sc+'-bg,rgba(255,255,255,0.08));color:var('+sc+')';
+      pt.textContent=v.product_type;tags.appendChild(pt);
+    }
+    if(nd.holiday&&nd.holiday!=='None'){
+      var ht=document.createElement('span');ht.className='type-tag';
+      ht.style.cssText='background:var(--bg-raised);color:var(--accent3)';
+      ht.textContent=nd.holiday;tags.appendChild(ht);
+    }
+    if(nd.theme){
+      var tt=document.createElement('span');tt.className='type-tag';
+      tt.style.cssText='background:var(--bg-raised);color:var(--text-secondary)';
+      tt.textContent=nd.theme;tags.appendChild(tt);
+    }
+    if(tags.children.length)body.appendChild(tags);
+    // tag pills
+    if(nd.tags){
+      var tagPills=document.createElement('div');
+      tagPills.style.cssText='display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.5rem;';
+      nd.tags.split(',').slice(0,6).forEach(function(t){
+        if(!t.trim())return;
+        var tp=document.createElement('span');
+        tp.style.cssText='font-size:0.65rem;padding:0.12rem 0.45rem;border-radius:10px;background:var(--bg-panel);color:var(--text-muted);border:1px solid var(--border);';
+        tp.textContent=t.trim();tagPills.appendChild(tp);
+      });
+      body.appendChild(tagPills);
+    }
+    // price + link
+    var infoRow=document.createElement('div');
+    infoRow.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.35rem;';
+    if(nd.price){
+      var priceEl=document.createElement('span');
+      priceEl.style.cssText='font-family:Syne,sans-serif;font-weight:800;font-size:0.95rem;color:var(--accent2);';
+      priceEl.textContent=nd.price;infoRow.appendChild(priceEl);
+    }
+    if(nd.link){
+      var linkEl=document.createElement('a');
+      linkEl.href=nd.link;linkEl.target='_blank';
+      linkEl.style.cssText='font-size:0.72rem;color:var(--accent);text-decoration:none;font-weight:600;';
+      linkEl.textContent='View listing';infoRow.appendChild(linkEl);
+    }
+    if(infoRow.children.length)body.appendChild(infoRow);
+    // my thoughts
+    if(nd.my_notes){
+      var notesEl=document.createElement('div');
+      notesEl.style.cssText='font-size:0.78rem;color:var(--text-secondary);margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);line-height:1.5;';
+      notesEl.textContent='My thoughts: '+nd.my_notes;
+      body.appendChild(notesEl);
+    }
+    card.appendChild(body);g.appendChild(card);
+  });
+}
+
+function filterVault(mode,btn){
+  vaultFilter=mode;vaultSubFilter='';
+  document.querySelectorAll('.idea-filter-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  var row=document.getElementById('vault-sort-row');
+  if(mode==='product'){
+    row.style.display='flex';
+    row.innerHTML=['All','Alpha PNGs','Clipart','Coloring Books','Digital Paper','Journals','Procreate Brushes','Procreate Stamps','Seamless Paper','Sticker Sheets','Sublimation Designs','SVG Files'].map(function(t){
+      return '<button class="idea-filter-btn'+(t==='All'?' active':'')+'" onclick="setVaultSub(\''+t+'\',this)">'+t+'</button>';
+    }).join('');
+  } else if(mode==='holiday'){
+    row.style.display='flex';
+    row.innerHTML=['All','Christmas','Halloween','Valentine\'s Day','Easter','Mother\'s Day','4th of July','Back to School','Thanksgiving','Summer','Fall / Autumn','Winter','Spring'].map(function(t){
+      return '<button class="idea-filter-btn'+(t==='All'?' active':'')+'" onclick="setVaultSub(\''+t+'\',this)">'+t+'</button>';
+    }).join('');
+  } else if(mode==='theme'){
+    var themes=['All'];
+    vaultItems.forEach(function(v){var nd=parseJ(v.notes,{});if(nd.theme&&themes.indexOf(nd.theme)<0)themes.push(nd.theme);});
+    row.style.display='flex';
+    row.innerHTML=themes.map(function(t){
+      return '<button class="idea-filter-btn'+(t==='All'?' active':'')+'" onclick="setVaultSub(\''+t+'\',this)">'+t+'</button>';
+    }).join('');
+  } else {row.style.display='none';}
+  renderVault();
+}
+
+function setVaultSub(val,btn){
+  vaultSubFilter=val==='All'?'':val;
+  document.querySelectorAll('#vault-sort-row .idea-filter-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  renderVault();
+}
+
+function openVaultModal(editId){
+  ['v-title','v-link','v-img','v-price','v-tags','v-theme','v-notes'].forEach(function(f){document.getElementById(f).value='';});
+  document.getElementById('v-product').value='';
+  document.getElementById('v-holiday').value='';
+  document.getElementById('v-edit-id').value='';
+  document.getElementById('v-img-preview').style.display='none';
+  document.getElementById('vault-modal-title').textContent='Save Trending Idea';
+  if(editId){
+    var item=vaultItems.filter(function(v){return v.id===editId;})[0];
+    if(item){
+      var nd=parseJ(item.notes,{});
+      document.getElementById('v-title').value=item.title||'';
+      document.getElementById('v-link').value=nd.link||'';
+      document.getElementById('v-img').value=nd.img||'';
+      document.getElementById('v-price').value=nd.price||'';
+      document.getElementById('v-tags').value=nd.tags||'';
+      document.getElementById('v-product').value=item.product_type||'';
+      document.getElementById('v-theme').value=nd.theme||'';
+      document.getElementById('v-holiday').value=nd.holiday||'';
+      document.getElementById('v-notes').value=nd.my_notes||'';
+      document.getElementById('v-edit-id').value=editId;
+      document.getElementById('vault-modal-title').textContent='Edit Idea';
+      if(nd.img)previewVaultImg(nd.img);
+    }
+  }
+  openModal('modal-vault');
+  setTimeout(function(){document.getElementById('v-title').focus();},100);
+}
+
+function previewVaultImg(url){
+  var p=document.getElementById('v-img-preview'),i=document.getElementById('v-img-preview-img');
+  if(url&&url.startsWith('http')){i.src=url;p.style.display='block';}
+  else p.style.display='none';
+}
+
+function saveVaultIdea(){
+  var title=document.getElementById('v-title').value.trim();
+  if(!title){showToast('// enter a title first');return;}
+  var editId=document.getElementById('v-edit-id').value;
+  var nd={
+    link:document.getElementById('v-link').value.trim(),
+    img:document.getElementById('v-img').value.trim(),
+    price:document.getElementById('v-price').value.trim(),
+    tags:document.getElementById('v-tags').value.trim(),
+    theme:document.getElementById('v-theme').value.trim(),
+    holiday:document.getElementById('v-holiday').value,
+    my_notes:document.getElementById('v-notes').value.trim()
+  };
+  var pt=document.getElementById('v-product').value||'';
+  if(editId){
+    sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+editId+'&member_email=eq.'+enc(user),{title:title,product_type:pt,category:pt,notes:JSON.stringify(nd)},function(err){
+      if(!err){
+        var item=vaultItems.filter(function(v){return v.id===editId;})[0];
+        if(item){item.title=title;item.product_type=pt;item.notes=JSON.stringify(nd);}
+        closeModal('modal-vault');renderVault();showToast('// idea updated!');
+      }
+    });
+  } else {
+    sb('POST','/rest/v1/pip_flowboard_cards',{member_email:user,title:title,product_type:pt,category:pt,stage:'vault',notes:JSON.stringify(nd),checklist:{},etsy_url:'',is_starred:false,stale_nudge_dismissed:false},function(err,resp){
+      if(!err&&Array.isArray(resp)&&resp.length){
+        vaultItems.unshift(resp[0]);
+        closeModal('modal-vault');renderVault();showToast('// idea saved!');
+      } else showToast('// something went wrong');
+    });
+  }
+}
+
+function deleteVaultItem(id){
+  if(!confirm('Delete this idea?'))return;
+  sb('DELETE','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),null,function(){
+    vaultItems=vaultItems.filter(function(v){return v.id!==id;});
+    renderVault();showToast('// idea deleted');
+  });
+}
+
+
+function toggleStarFilter(){filterVault('all',null);}
 
 function renderCollections(){
   var cat=document.getElementById('coll-cat').value,sort=document.getElementById('coll-sort').value;
@@ -1373,6 +1521,7 @@ function switchTab(tab){
   if(tab==='collections')renderCollections();
   if(tab==='calendar')renderCalendar();
   if(tab==='stats'){renderStats();renderChart();}
+  if(tab==='ideas'){loadVault();}
 }
 
 function openModal(id){
@@ -1397,5 +1546,51 @@ function fmtRange(ws,we){var s=new Date(ws+'T12:00:00'),e=new Date(we+'T12:00:00
 function getThisWeekCount(){var ws=weekStart(),we=weekEnd(ws);return cards.filter(function(c){return c.stage==='listed'&&c.listed_date&&c.listed_date>=ws&&c.listed_date<=we+'T23:59:59';}).length;}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closePanel();document.querySelectorAll('.modal-bg.open').forEach(function(m){m.classList.remove('open');});}});
 </script>
+
+<div class="modal-bg" id="modal-vault">
+  <div class="modal-box" style="max-width:520px;max-height:90vh;overflow-y:auto;">
+    <div class="modal-head">
+      <div class="modal-head-title" id="vault-modal-title">Save Trending Idea</div>
+      <div class="modal-x" onclick="closeModal('modal-vault')">&#x2715;</div>
+    </div>
+    <label class="m-label">Product / Listing Title</label>
+    <input class="m-input" id="v-title" placeholder="e.g. Boho Sunflower Clipart Bundle">
+    <label class="m-label">Link to Listing or Page</label>
+    <input class="m-input" id="v-link" placeholder="https://www.etsy.com/listing/...">
+    <label class="m-label">Image URL (from Etsy, Pinterest, etc.)</label>
+    <input class="m-input" id="v-img" placeholder="https://..." oninput="previewVaultImg(this.value)">
+    <div id="v-img-preview" style="display:none;margin-bottom:0.875rem;"><img id="v-img-preview-img" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;border:1px solid var(--border);" onerror="this.parentElement.style.display=none"></div>
+    <label class="m-label">Price</label>
+    <input class="m-input" id="v-price" placeholder="e.g. $4.99">
+    <label class="m-label">Tags (comma separated)</label>
+    <input class="m-input" id="v-tags" placeholder="e.g. boho, floral, summer, clipart">
+    <label class="m-label">Product Type</label>
+    <select class="m-select" id="v-product">
+      <option value="">select type</option>
+      <option>Alpha PNGs</option><option>Clipart</option><option>Coloring Books</option>
+      <option>Digital Paper</option><option>Journals</option><option>Procreate Brushes</option>
+      <option>Procreate Stamps</option><option>Seamless Paper</option><option>Sticker Sheets</option>
+      <option>Sublimation Designs</option><option>SVG Files</option>
+    </select>
+    <label class="m-label">Theme</label>
+    <input class="m-input" id="v-theme" placeholder="e.g. Boho, Coquette, Halloween, Christmas...">
+    <label class="m-label">Holiday / Season</label>
+    <select class="m-select" id="v-holiday">
+      <option value="">select if applicable</option>
+      <option>None</option><option>New Year</option><option>Valentine Day</option>
+      <option>St Patricks Day</option><option>Easter</option><option>Mothers Day</option>
+      <option>Fathers Day</option><option>4th of July</option><option>Back to School</option>
+      <option>Halloween</option><option>Thanksgiving</option><option>Christmas</option>
+      <option>Summer</option><option>Fall Autumn</option><option>Winter</option><option>Spring</option>
+    </select>
+    <label class="m-label">My Thoughts - How I Will Use This</label>
+    <textarea class="m-input" id="v-notes" placeholder="e.g. Could turn into clipart set, seamless pattern, and journal cover..." style="min-height:80px;resize:vertical;"></textarea>
+    <input type="hidden" id="v-edit-id" value="">
+    <div class="modal-btns" style="margin-top:0.5rem;">
+      <button class="btn-cancel" onclick="closeModal('modal-vault')">Cancel</button>
+      <button class="btn-go" onclick="saveVaultIdea()">Save Idea</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
