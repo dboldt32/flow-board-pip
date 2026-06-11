@@ -109,6 +109,9 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .p-lbl{font-family:'Space Mono',monospace;font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.55rem;}
 .type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.3rem;}
 .type-btn{padding:0.38rem 0.25rem;border:1px solid var(--border);border-radius:6px;background:none;font-family:'Space Grotesk',sans-serif;font-size:0.67rem;color:var(--text-secondary);cursor:pointer;transition:all 0.15s;text-align:center;}
+.type-multi-btn{padding:0.4rem 0.75rem;border:1.5px solid var(--border);border-radius:20px;background:none;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;}
+.type-multi-btn:hover{border-color:var(--accent);color:var(--accent);}
+.type-multi-btn.selected{background:var(--accent);border-color:var(--accent);color:white;font-weight:600;}
 .type-btn:hover{border-color:var(--accent);color:var(--accent);}
 .type-btn.picked{background:var(--accent-glow);border-color:var(--accent);color:var(--accent);font-weight:700;}
 .tools-wrap{display:flex;flex-wrap:wrap;gap:0.35rem;}
@@ -125,7 +128,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .check-label.done{text-decoration:line-through;color:var(--text-muted);}
 .stale-banner{background:var(--bg-raised);border:1px solid var(--accent3);border-radius:9px;padding:0.55rem 0.8rem;font-size:0.75rem;color:var(--accent3);display:flex;align-items:center;justify-content:space-between;gap:0.45rem;margin-bottom:0.875rem;font-family:'Space Mono',monospace;}
 .nudge-x{background:none;border:none;color:var(--accent3);cursor:pointer;opacity:0.7;font-size:0.82rem;}
-.p-textarea{width:100%;padding:0.65rem 0.8rem;background:var(--bg-input);border:1px solid var(--border);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:var(--text-primary);resize:vertical;min-height:75px;outline:none;transition:border-color 0.2s;}
+.p-textarea{width:100%;padding:0.75rem 0.9rem;background:var(--bg-input);border:1px solid var(--border);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:0.88rem;color:var(--text-primary);resize:vertical;min-height:100px;outline:none;transition:border-color 0.2s;}
 .p-textarea:focus{border-color:var(--accent);}
 .p-input{width:100%;padding:0.55rem 0.8rem;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:var(--text-primary);outline:none;transition:border-color 0.2s;}
 .p-input:focus{border-color:var(--accent);}
@@ -299,23 +302,37 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 @media(max-width:900px){.pipeline-row-1,.pipeline-row-2{grid-template-columns:repeat(2,1fr);}.cal-grid{grid-template-columns:repeat(2,1fr);}.stats-grid{grid-template-columns:repeat(2,1fr);}.badges-grid{grid-template-columns:repeat(2,1fr);}.week-mini-bar{display:none;}}
 @media(max-width:600px){.pipeline-row-1,.pipeline-row-2{grid-template-columns:1fr;}.cal-grid{grid-template-columns:1fr;}.power-bar{flex-wrap:wrap;}}
 
-/* White text boost for dark themes */
-[data-theme="pip"] body,[data-theme="mocha"] body,[data-theme="slate"] body{color:#F0F4FF;}
-[data-theme="pip"] .text-secondary,[data-theme="mocha"] .text-secondary,[data-theme="slate"] .text-secondary{color:#D0E0F0;}
-[data-theme="pip"] .stage-sub,[data-theme="mocha"] .stage-sub,[data-theme="slate"] .stage-sub{color:#B0C8E0;font-size:0.8rem;}
-[data-theme="pip"] .card-title,[data-theme="mocha"] .card-title,[data-theme="slate"] .card-title{color:#F0F4FF;}
-[data-theme="pip"] .check-label,[data-theme="mocha"] .check-label,[data-theme="slate"] .check-label{color:#F0F4FF;}
+/* White text for ALL dark themes - easy to read */
+[data-theme="pip"],[data-theme="mocha"],[data-theme="slate"]{
+  --text-primary:#FFFFFF;
+  --text-secondary:#D8E8F8;
+  --text-muted:#A0B8D0;
+}
+[data-theme="pip"] *,[data-theme="mocha"] *,[data-theme="slate"] *{
+  -webkit-font-smoothing:antialiased;
+}
+[data-theme="pip"] .stage-sub,[data-theme="mocha"] .stage-sub,[data-theme="slate"] .stage-sub{color:#C0D8F0;font-size:0.8rem;}
+[data-theme="pip"] .card-title,[data-theme="mocha"] .card-title,[data-theme="slate"] .card-title{color:#FFFFFF;}
+[data-theme="pip"] .check-label,[data-theme="mocha"] .check-label,[data-theme="slate"] .check-label{color:#F0F8FF;}
+[data-theme="pip"] .check-label.done,[data-theme="mocha"] .check-label.done,[data-theme="slate"] .check-label.done{color:#7090A8;}
 [data-theme="pip"] .panel-title,[data-theme="mocha"] .panel-title,[data-theme="slate"] .panel-title{color:#FFFFFF;}
-[data-theme="pip"] .p-textarea,[data-theme="mocha"] .p-textarea,[data-theme="slate"] .p-textarea{color:#F0F4FF;}
-[data-theme="pip"] .p-input,[data-theme="mocha"] .p-input,[data-theme="slate"] .p-input{color:#F0F4FF;}
-[data-theme="pip"] .stage-empty,[data-theme="mocha"] .stage-empty,[data-theme="slate"] .stage-empty{color:#8AAAC8;font-size:0.85rem;}
+[data-theme="pip"] .p-textarea,[data-theme="mocha"] .p-textarea,[data-theme="slate"] .p-textarea{color:#FFFFFF;}
+[data-theme="pip"] .p-input,[data-theme="mocha"] .p-input,[data-theme="slate"] .p-input{color:#FFFFFF;}
+[data-theme="pip"] .stage-empty,[data-theme="mocha"] .stage-empty,[data-theme="slate"] .stage-empty{color:#90B0C8;font-size:0.85rem;}
 [data-theme="pip"] .idea-tile-title,[data-theme="mocha"] .idea-tile-title,[data-theme="slate"] .idea-tile-title{color:#FFFFFF;}
-[data-theme="pip"] .cal-item-text,[data-theme="mocha"] .cal-item-text,[data-theme="slate"] .cal-item-text{color:#F0F4FF;}
-[data-theme="pip"] .tab-pill,[data-theme="mocha"] .tab-pill,[data-theme="slate"] .tab-pill{color:#90B0D0;}
+[data-theme="pip"] .cal-item-text,[data-theme="mocha"] .cal-item-text,[data-theme="slate"] .cal-item-text{color:#F0F8FF;}
+[data-theme="pip"] .tab-pill,[data-theme="mocha"] .tab-pill,[data-theme="slate"] .tab-pill{color:#C0D8F0;}
 [data-theme="pip"] .tab-pill.active,[data-theme="mocha"] .tab-pill.active,[data-theme="slate"] .tab-pill.active{color:var(--accent);}
-[data-theme="pip"] .power-btn,[data-theme="mocha"] .power-btn,[data-theme="slate"] .power-btn{color:#C0D8F0;}
-[data-theme="pip"] .week-dates,[data-theme="mocha"] .week-dates,[data-theme="slate"] .week-dates{color:#90B0D0;font-size:0.78rem;}
-[data-theme="pip"] .week-count,[data-theme="mocha"] .week-count,[data-theme="slate"] .week-count{font-size:0.88rem;}
+[data-theme="pip"] .power-btn,[data-theme="mocha"] .power-btn,[data-theme="slate"] .power-btn{color:#D0E8FF;}
+[data-theme="pip"] .week-dates,[data-theme="mocha"] .week-dates,[data-theme="slate"] .week-dates{color:#C0D8F0;font-size:0.78rem;}
+[data-theme="pip"] .week-count,[data-theme="mocha"] .week-count,[data-theme="slate"] .week-count{font-size:0.88rem;color:#FFFFFF;}
+[data-theme="pip"] .stage-name,[data-theme="mocha"] .stage-name,[data-theme="slate"] .stage-name{font-weight:800;}
+[data-theme="pip"] .modal-head-title,[data-theme="mocha"] .modal-head-title,[data-theme="slate"] .modal-head-title{color:#FFFFFF;}
+[data-theme="pip"] .badge-name,[data-theme="mocha"] .badge-name,[data-theme="slate"] .badge-name{color:#FFFFFF;}
+[data-theme="pip"] .coll-title,[data-theme="mocha"] .coll-title,[data-theme="slate"] .coll-title{color:#FFFFFF;}
+[data-theme="pip"] .coll-l-title,[data-theme="mocha"] .coll-l-title,[data-theme="slate"] .coll-l-title{color:#FFFFFF;}
+[data-theme="pip"] .panel-added,[data-theme="mocha"] .panel-added,[data-theme="slate"] .panel-added{color:#90B0C8;}
+[data-theme="pip"] .p-lbl,[data-theme="mocha"] .p-lbl,[data-theme="slate"] .p-lbl{color:#A0C0D8;}
 </style>
 </head>
 <body data-theme="pip">
@@ -522,8 +539,8 @@ const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 const STAGES=[{key:'ideas',label:'Ideas',sub:'Research it',icon:'💡',n:1,sc:'--s1'},{key:'planning',label:'Planning',sub:'Plan the product',icon:'📋',n:2,sc:'--s2'},{key:'designing',label:'Designing',sub:'Design it',icon:'🎨',n:3,sc:'--s3'},{key:'creating',label:'Creating',sub:'Create it',icon:'✨',n:4,sc:'--s4'},{key:'preparing',label:'Preparing',sub:'Polish the files',icon:'🛠',n:5,sc:'--s5'},{key:'listing',label:'Listing',sub:'Build the listing',icon:'🏷',n:6,sc:'--s6'},{key:'listed',label:'Listed',sub:'Live on Etsy!',icon:'🚀',n:7,sc:'--s7'}];
 const ROW1=['ideas','planning','designing','creating'];
 const ROW2=['preparing','listing','listed'];
-const CHECKLISTS={ideas:['Search Etsy for this product idea','Note top competitor shop names','Record sales numbers (eRank or EverBee)','Note number of competing listings','Check price range of top sellers','Review top listing images for style ideas','Confirm demand is strong enough','Ready to move forward'],planning:['Style and aesthetic decided','Collection elements brainstormed','Piece count chosen','Color palette planned','Reference images gathered'],designing:['Rough layouts or sketches done','AI prompts written and saved','Design tool chosen','Design session scheduled'],creating:['Images or files created','Best work selected and culled','Prompt saved for future use','Raw files organized in named folder'],preparing:['Images upscaled to 4000px or 2x','Backgrounds removed','Edges cleaned up in Photopea','Files checked at 300 DPI','Files renamed with SEO names','Delivery ZIP or PDF built','Final check complete'],listing:['Files uploaded to Drive or Dropbox','Delivery link tested','Thumbnail image created','All listing images ready','Listing video optional','Etsy title written','13 tags added','Description written','Price set','Published on Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable']};
-const STAGE_TOOLS={designing:{Clipart:['Q4 Prompt Studio','Tile Me Pretty'],Patterns:['Tile Me Pretty','Q4 Prompt Studio'],'Alpha PNGs':['Letter Lab Luxe','Alpha Forge Studio'],'Procreate Brushes':[],'Procreate Stamps':[],Journals:['Planner Prompt Studio','Word Slay'],'Sublimation Designs':['Q4 Prompt Studio','Tile Me Pretty'],'Sticker Sheets':['Q4 Prompt Studio'],'Digital Paper':['Tile Me Pretty'],'SVG Files':[],default:['Q4 Prompt Studio','Tile Me Pretty','Word Slay','Letter Lab Luxe','Planner Prompt Studio']},creating:{default:['Chroma Snap','Glow & Go']},preparing:{default:['SheetCraft Studio','FileFlip','Mockup Studio']},listing:{default:['Word Slay','Chroma Snap']}};
+const CHECKLISTS={ideas:['Search Etsy for this product idea','Note top competitor shop names','Record sales numbers (eRank or EverBee)','Note number of competing listings','Check price range of top sellers','Review top listing images for style ideas','Confirm demand is strong enough','Ready to move forward'],planning:['Product types selected','Style and aesthetic decided','Collection theme confirmed','Elements and subjects brainstormed','Piece count per product type chosen','Color palette planned','Style keywords noted','Reference images gathered','Ready to design'],designing:['Rough layouts or sketches done','AI prompts written and saved','Design tool chosen','Design session scheduled'],creating:['Images or files created','Best work selected and culled','Prompt saved for future use','Raw files organized in named folder'],preparing:['Images upscaled to 4000px or 2x','Backgrounds removed','Edges cleaned up in Photopea','Files checked at 300 DPI','Files renamed with SEO names','Delivery ZIP or PDF built','Final check complete'],listing:['Files uploaded to Drive or Dropbox','Delivery link tested','Thumbnail image created','All listing images ready','Listing video optional','Etsy title written','13 tags added','Description written','Price set','Published on Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable']};
+const STAGE_TOOLS={planning:{default:['Chroma Snap']},designing:{Clipart:['Q4 Prompt Studio'],Patterns:['Tile Me Pretty','Q4 Prompt Studio'],'Alpha PNGs':['Letter Lab Luxe','Alpha Forge Studio'],'Procreate Brushes':[],'Procreate Stamps':[],Journals:['Planner Prompt Studio','Word Slay'],'Sublimation Designs':['Q4 Prompt Studio','Word Slay'],'Sticker Sheets':['Q4 Prompt Studio','Word Slay'],'Digital Paper':['Tile Me Pretty'],'SVG Files':['Word Slay'],default:['Q4 Prompt Studio','Word Slay','Letter Lab Luxe','Planner Prompt Studio']},creating:{default:['Chroma Snap','Glow & Go']},preparing:{default:['SheetCraft Studio','FileFlip','Mockup Studio']},listing:{default:['Word Slay','Chroma Snap']}};
 const TOOL_URLS={'Q4 Prompt Studio':'https://pip-member-hub.vercel.app','Tile Me Pretty':'https://tile-me-pretty-pip.vercel.app','Word Slay':'https://word-slay-studio-pip.vercel.app','Letter Lab Luxe':'https://letter-luxe-studio-pip.vercel.app','Alpha Forge Studio':'https://alpha-forge-studio-pip.vercel.app','Planner Prompt Studio':'https://planner-prompt-architect.vercel.app','Chroma Snap':'https://chroma-snap-pip.vercel.app','Glow & Go':'https://glow-go-pip.vercel.app','SheetCraft Studio':'https://pip-sheetcraft-studio.vercel.app','FileFlip':'https://fileflip-pip.vercel.app','Mockup Studio':'https://mockery-reloaded-pip.vercel.app'};
 const PRODUCT_TYPES=['Clipart','Patterns','Alpha PNGs','Procreate Brushes','Procreate Stamps','Journals','Sublimation Designs','Sticker Sheets','Digital Paper','SVG Files'];
 const BADGES=[{key:'first',name:'First Blood',icon:'🥇',req:1},{key:'five',name:'Five and Thriving',icon:'🌱',req:5},{key:'ten',name:'Double Digits',icon:'🚀',req:10},{key:'twenty5',name:'Quarter Century',icon:'🎨',req:25},{key:'fifty',name:'Fifty Strong',icon:'💪',req:50},{key:'hundred',name:'The Century',icon:'💯',req:100},{key:'two00',name:'Bundle Boss',icon:'💼',req:200},{key:'fivehun',name:'Shop Legend',icon:'👑',req:500}];
@@ -592,7 +609,7 @@ function loadAll(){loadCards();loadBadges();loadJourney();loadGoal();loadStats()
 
 function loadCards(){
   sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&order=created_at.asc',null,function(err,data){
-    cards=(!err&&Array.isArray(data))?data.map(function(c){return Object.assign({},c,{checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[]),research_links:parseJ(c.research_links,['','','','']),research_images:parseJ(c.research_images,['',''])});}):[];
+    cards=(!err&&Array.isArray(data))?data.map(function(c){return Object.assign({},c,{checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[]),research_links:parseJ(c.research_links,['','','','']),research_images:parseJ(c.research_images,['','']),product_types:parseJ(c.product_types,[])});}):[];
     renderAll();
   });
 }
@@ -892,7 +909,7 @@ function renderPanel(card){
   document.getElementById('panel-scroll').innerHTML=staleHtml+
     '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem"><div class="panel-title">'+esc(card.title)+'</div></div>'+
     '<div class="panel-added">// Added '+fmtDate(card.created_at)+'</div>'+
-    typePickerHtml+toolsHtml+checklistHtml+researchHtml+etsyHtml+
+    typePickerHtml+toolsHtml+checklistHtml+planningHtml+researchHtml+etsyHtml+
     '<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(\''+card.id+'\',this.value)" oninput="this.nextElementSibling.textContent=this.value.length+\'/2000\'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';
 }
 
@@ -923,6 +940,17 @@ function updateNotes(id,notes){
   if(card){card.notes=notes;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{notes:notes,updated_at:new Date().toISOString()},function(){});}
 }
 
+function toggleProductType(id,type){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  if(!card.product_types)card.product_types=[];
+  var idx=card.product_types.indexOf(type);
+  if(idx>=0)card.product_types.splice(idx,1);
+  else card.product_types.push(type);
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{product_types:JSON.stringify(card.product_types)},function(){
+    renderPanel(card);
+  });
+}
 function updateResearchLink(id,idx,url){
   var card=cards.filter(function(c){return c.id===id;})[0];
   if(!card)return;
