@@ -244,14 +244,23 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .j-dot.done{background:var(--accent);border-color:var(--accent);color:white;}
 .j-dot.milestone{border-color:var(--accent2);}
 .j-num{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--text-muted);}
-.streak-row{display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:0.875rem;}
-.streak-box{background:var(--bg-panel);border:1px solid var(--border);border-radius:11px;padding:0.8rem;text-align:center;}
-.streak-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.7rem;color:var(--text-primary);}
-.streak-lbl{font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
-.next-unlock{background:var(--accent-glow);border:1px solid var(--accent);border-radius:11px;padding:0.8rem;text-align:center;}
-.next-unlock-label{font-family:'Space Mono',monospace;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:0.25rem;}
-.next-unlock-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--text-primary);}
-.next-unlock-sub{font-size:0.75rem;color:var(--text-secondary);margin-top:0.18rem;}
+.streak-cards-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.1rem;}
+.streak-box{background:var(--bg-raised);border-radius:14px;padding:1.1rem;text-align:center;position:relative;overflow:hidden;}
+.streak-box::before{content:"";position:absolute;inset:0;border-radius:14px;border:1.5px solid var(--accent);opacity:0.4;}
+.streak-val{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;color:var(--accent);line-height:1;}
+.streak-val-sub{font-size:0.72rem;color:var(--text-secondary);margin-top:0.15rem;font-weight:500;}
+.streak-lbl{font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-secondary);margin-top:0.3rem;}
+.journey-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem;margin-bottom:1.1rem;}
+.j-dot-wrap{text-align:center;}
+.j-dot{width:42px;height:42px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg-panel);margin:0 auto 0.25rem;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all 0.2s;}
+.j-dot.done{background:var(--accent);border-color:var(--accent);box-shadow:0 0 10px var(--accent-glow);}
+.j-dot.milestone{border-color:var(--accent2);border-width:2px;}
+.j-num{font-family:'Space Grotesk',sans-serif;font-size:0.68rem;font-weight:600;color:var(--text-muted);}
+.streak-next-box{background:var(--bg-raised);border-radius:14px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;border:1px solid var(--border);}
+.streak-next-icon{font-size:2rem;flex-shrink:0;}
+.streak-next-label{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.2rem;}
+.streak-next-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text-primary);}
+.streak-next-sub{font-size:0.8rem;color:var(--text-secondary);margin-top:0.15rem;}
 .goal-opts{display:flex;flex-wrap:wrap;gap:0.38rem;margin-bottom:0.8rem;}
 .goal-opt{padding:0.42rem 0.85rem;border:1.5px solid var(--border);border-radius:20px;background:none;font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;}
 .goal-opt:hover{border-color:var(--accent);color:var(--accent);}
@@ -350,7 +359,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
     </div>
   </nav>
   <div id="tab-workflow" class="view active">
-    <div class="pipeline-label">// YOUR PRODUCT PIPELINE — WORK EACH CARD THROUGH THE STAGES TO GET IT LIVE</div>
+    <div class="pipeline-label">YOUR PRODUCT PIPELINE — WORK EACH CARD THROUGH THE STAGES TO GET IT LIVE</div>
     <div class="pipeline-row pipeline-row-1" id="row1"></div>
     <div class="pipeline-row pipeline-row-2" id="row2"></div>
   </div>
@@ -430,15 +439,18 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
   </div>
 </div>
 <div class="modal-bg" id="modal-streak">
-  <div class="modal-box" style="max-width:460px">
-    <div class="modal-head">
-      <div><div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.25rem">Creator Rhythm</div><div class="modal-head-title">Consistency Streak</div><div class="modal-head-sub">Hit your weekly goal to keep the streak alive.</div></div>
+  <div class="modal-box" style="max-width:520px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--text-primary)">Your Streak</div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-top:0.25rem" id="streak-weeks-label">Hit your weekly listing goal to keep it going</div>
+      </div>
       <div class="modal-x" onclick="closeModal('modal-streak')">✕</div>
     </div>
-    <div style="font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--text-secondary);text-align:center;margin-bottom:0.65rem" id="streak-weeks-label">0 / 12 weeks</div>
+    <div class="streak-cards-row" id="streak-row"></div>
+    <div style="margin:1.25rem 0 0.75rem;font-family:'Space Grotesk',sans-serif;font-size:0.82rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em">12-Week Journey</div>
     <div class="journey-grid" id="j-grid"></div>
-    <div class="streak-row" id="streak-row"></div>
-    <div class="next-unlock" id="next-unlock"></div>
+    <div class="streak-next-box" id="next-unlock"></div>
   </div>
 </div>
 <div class="modal-bg" id="modal-goal">
