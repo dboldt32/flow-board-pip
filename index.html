@@ -348,12 +348,16 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 
     <div style="display:flex;align-items:center;gap:0.55rem;">
       <select class="theme-select" id="theme-select" onchange="setTheme(this.value)">
-        <option value="pip">🌙 PIP Dark — Navy/Pink/Cyan</option>
-        <option value="mocha">☕ Mocha Dark — Brown/Peach</option>
-        <option value="slate">🌌 Slate Dark — Blue/Lavender</option>
-        <option value="warm">🌿 Warm Light — Cream/Terracotta</option>
-        <option value="blush">🌸 Blush Light — Rose/Pink</option>
-        <option value="fresh">🍃 Fresh Light — Mint/Green</option>
+        <optgroup label="── Dark Themes ──">
+          <option value="pip">🌙 PIP Dark — Navy/Pink/Cyan</option>
+          <option value="mocha">☕ Mocha Dark — Brown/Peach</option>
+          <option value="slate">🌌 Slate Dark — Blue/Lavender</option>
+        </optgroup>
+        <optgroup label="── Light Themes ──">
+          <option value="warm">🌿 Warm Light — Cream/Terracotta</option>
+          <option value="blush">🌸 Blush Light — Rose/Pink</option>
+          <option value="fresh">🍃 Fresh Light — Mint/Green</option>
+        </optgroup>
       </select>
       <button class="btn-signout" onclick="handleLogout()">Sign out</button>
     </div>
@@ -388,7 +392,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
   <div id="tab-collections" class="view">
     <div class="collections-bar">
       <div class="filter-row">
-        <select class="f-select" id="coll-cat" onchange="renderCollections()"><option value="">All types</option><option>Clipart</option><option>Patterns</option><option>Alpha PNGs</option><option>Procreate Brushes</option><option>Procreate Stamps</option><option>Journals</option><option>Sublimation Designs</option><option>Sticker Sheets</option><option>Digital Paper</option><option>SVG Files</option></select>
+        <select class="f-select" id="coll-cat" onchange="renderCollections()"><option value="">All types</option><option>Alpha PNGs</option><option>Clipart</option><option>Digital Paper</option><option>Journals</option><option>Patterns</option><option>Procreate Brushes</option><option>Procreate Stamps</option><option>Sticker Sheets</option><option>Sublimation Designs</option><option>SVG Files</option></select>
         <select class="f-select" id="coll-sort" onchange="renderCollections()"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="az">A to Z</option></select>
       </div>
       <div class="view-toggle">
@@ -439,7 +443,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
     <label class="m-label">Product name</label>
     <input class="m-input" id="new-name" placeholder="e.g. Boho Sunflower Clipart Set" maxlength="80">
     <label class="m-label">Category</label>
-    <select class="m-select" id="new-cat"><option value="">— pick a category —</option><option>Clipart</option><option>Patterns</option><option>Alpha PNGs</option><option>Procreate Brushes</option><option>Procreate Stamps</option><option>Journals</option><option>Sublimation Designs</option><option>Sticker Sheets</option><option>Digital Paper</option><option>SVG Files</option></select>
+    <select class="m-select" id="new-cat"><option value="">— pick a category —</option><option>Alpha PNGs</option><option>Clipart</option><option>Digital Paper</option><option>Journals</option><option>Patterns</option><option>Procreate Brushes</option><option>Procreate Stamps</option><option>Sticker Sheets</option><option>Sublimation Designs</option><option>SVG Files</option></select>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal('modal-add')">Cancel</button>
       <button class="btn-go" onclick="createCard()">Create card →</button>
@@ -518,7 +522,7 @@ const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 const STAGES=[{key:'ideas',label:'Ideas',sub:'Research it',icon:'💡',n:1,sc:'--s1'},{key:'planning',label:'Planning',sub:'Plan the product',icon:'📋',n:2,sc:'--s2'},{key:'designing',label:'Designing',sub:'Design it',icon:'🎨',n:3,sc:'--s3'},{key:'creating',label:'Creating',sub:'Create it',icon:'✨',n:4,sc:'--s4'},{key:'preparing',label:'Preparing',sub:'Polish the files',icon:'🛠',n:5,sc:'--s5'},{key:'listing',label:'Listing',sub:'Build the listing',icon:'🏷',n:6,sc:'--s6'},{key:'listed',label:'Listed',sub:'Live on Etsy!',icon:'🚀',n:7,sc:'--s7'}];
 const ROW1=['ideas','planning','designing','creating'];
 const ROW2=['preparing','listing','listed'];
-const CHECKLISTS={ideas:['Research Etsy competition','Note sales and competition numbers','Confirm demand is strong enough','Ready to move forward'],planning:['Style and aesthetic decided','Collection elements brainstormed','Piece count chosen','Color palette planned','Reference images gathered'],designing:['Rough layouts or sketches done','AI prompts written and saved','Design tool chosen','Design session scheduled'],creating:['Images or files created','Best work selected and culled','Prompt saved for future use','Raw files organized in named folder'],preparing:['Images upscaled to 4000px or 2x','Backgrounds removed','Edges cleaned up in Photopea','Files checked at 300 DPI','Files renamed with SEO names','Delivery ZIP or PDF built','Final check complete'],listing:['Files uploaded to Drive or Dropbox','Delivery link tested','Thumbnail image created','All listing images ready','Listing video optional','Etsy title written','13 tags added','Description written','Price set','Published on Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable']};
+const CHECKLISTS={ideas:['Search Etsy for this product idea','Note top competitor shop names','Record sales numbers (eRank or EverBee)','Note number of competing listings','Check price range of top sellers','Review top listing images for style ideas','Confirm demand is strong enough','Ready to move forward'],planning:['Style and aesthetic decided','Collection elements brainstormed','Piece count chosen','Color palette planned','Reference images gathered'],designing:['Rough layouts or sketches done','AI prompts written and saved','Design tool chosen','Design session scheduled'],creating:['Images or files created','Best work selected and culled','Prompt saved for future use','Raw files organized in named folder'],preparing:['Images upscaled to 4000px or 2x','Backgrounds removed','Edges cleaned up in Photopea','Files checked at 300 DPI','Files renamed with SEO names','Delivery ZIP or PDF built','Final check complete'],listing:['Files uploaded to Drive or Dropbox','Delivery link tested','Thumbnail image created','All listing images ready','Listing video optional','Etsy title written','13 tags added','Description written','Price set','Published on Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable']};
 const STAGE_TOOLS={designing:{Clipart:['Q4 Prompt Studio','Tile Me Pretty'],Patterns:['Tile Me Pretty','Q4 Prompt Studio'],'Alpha PNGs':['Letter Lab Luxe','Alpha Forge Studio'],'Procreate Brushes':[],'Procreate Stamps':[],Journals:['Planner Prompt Studio','Word Slay'],'Sublimation Designs':['Q4 Prompt Studio','Tile Me Pretty'],'Sticker Sheets':['Q4 Prompt Studio'],'Digital Paper':['Tile Me Pretty'],'SVG Files':[],default:['Q4 Prompt Studio','Tile Me Pretty','Word Slay','Letter Lab Luxe','Planner Prompt Studio']},creating:{default:['Chroma Snap','Glow & Go']},preparing:{default:['SheetCraft Studio','FileFlip','Mockup Studio']},listing:{default:['Word Slay','Chroma Snap']}};
 const TOOL_URLS={'Q4 Prompt Studio':'https://pip-member-hub.vercel.app','Tile Me Pretty':'https://tile-me-pretty-pip.vercel.app','Word Slay':'https://word-slay-studio-pip.vercel.app','Letter Lab Luxe':'https://letter-luxe-studio-pip.vercel.app','Alpha Forge Studio':'https://alpha-forge-studio-pip.vercel.app','Planner Prompt Studio':'https://planner-prompt-architect.vercel.app','Chroma Snap':'https://chroma-snap-pip.vercel.app','Glow & Go':'https://glow-go-pip.vercel.app','SheetCraft Studio':'https://pip-sheetcraft-studio.vercel.app','FileFlip':'https://fileflip-pip.vercel.app','Mockup Studio':'https://mockery-reloaded-pip.vercel.app'};
 const PRODUCT_TYPES=['Clipart','Patterns','Alpha PNGs','Procreate Brushes','Procreate Stamps','Journals','Sublimation Designs','Sticker Sheets','Digital Paper','SVG Files'];
@@ -588,7 +592,7 @@ function loadAll(){loadCards();loadBadges();loadJourney();loadGoal();loadStats()
 
 function loadCards(){
   sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&order=created_at.asc',null,function(err,data){
-    cards=(!err&&Array.isArray(data))?data.map(function(c){return Object.assign({},c,{checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[])});}):[];
+    cards=(!err&&Array.isArray(data))?data.map(function(c){return Object.assign({},c,{checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[]),research_links:parseJ(c.research_links,['','','','']),research_images:parseJ(c.research_images,['',''])});}):[];
     renderAll();
   });
 }
@@ -888,7 +892,7 @@ function renderPanel(card){
   document.getElementById('panel-scroll').innerHTML=staleHtml+
     '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem"><div class="panel-title">'+esc(card.title)+'</div></div>'+
     '<div class="panel-added">// Added '+fmtDate(card.created_at)+'</div>'+
-    typePickerHtml+toolsHtml+checklistHtml+etsyHtml+
+    typePickerHtml+toolsHtml+checklistHtml+researchHtml+etsyHtml+
     '<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(\''+card.id+'\',this.value)" oninput="this.nextElementSibling.textContent=this.value.length+\'/2000\'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';
 }
 
@@ -919,6 +923,29 @@ function updateNotes(id,notes){
   if(card){card.notes=notes;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{notes:notes,updated_at:new Date().toISOString()},function(){});}
 }
 
+function updateResearchLink(id,idx,url){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  if(!card.research_links)card.research_links=['','','',''];
+  card.research_links[idx]=url;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{research_links:card.research_links},function(){});
+}
+function updateResearchImage(id,idx,url){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  if(!card.research_images)card.research_images=['',''];
+  card.research_images[idx]=url;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{research_images:card.research_images},function(){
+    renderPanel(card);
+  });
+}
+function updateResearchField(id,field,val){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  card[field]=val;
+  var patch={};patch[field]=val;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),patch,function(){});
+}
 function updateEtsy(id,url){
   var card=cards.filter(function(c){return c.id===id;})[0];
   if(card){card.etsy_url=url;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{etsy_url:url},function(){});}
@@ -957,7 +984,7 @@ function openAddModal(){document.getElementById('new-name').value='';document.ge
 function createCard(){
   var name=document.getElementById('new-name').value.trim(),cat=document.getElementById('new-cat').value;
   if(!name){showToast('// enter a product name first');return;}
-  sb('POST','/rest/v1/pip_flowboard_cards',{member_email:user,title:name,product_type:cat||'Clipart',category:cat,stage:'ideas',checklist:{},notes:'',etsy_url:'',is_starred:false,stale_nudge_dismissed:false},function(err,data){
+  sb('POST','/rest/v1/pip_flowboard_cards',{member_email:user,title:name,product_type:cat||'Clipart',category:cat,stage:'ideas',checklist:{},notes:'',etsy_url:'',is_starred:false,stale_nudge_dismissed:false,research_links:['','','',''],research_images:['',''],research_price:'',research_sales:'',research_competition:'',research_demand:''},function(err,data){
     if(!err&&Array.isArray(data)&&data.length){cards.push(Object.assign({},data[0],{checklist:{},competition_links:[]}));closeModal('modal-add');renderAll();showToast('// "'+name+'" added!');}
     else showToast('// something went wrong');
   });
