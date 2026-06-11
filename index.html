@@ -78,7 +78,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .stage-add-btn{width:100%;padding:0.45rem;background:none;border:1px dashed var(--border);border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:var(--text-muted);cursor:pointer;transition:all 0.2s;flex-shrink:0;}
 .stage-add-btn:hover{color:var(--accent);border-color:var(--accent);}
 .stage-empty{font-size:0.72rem;color:var(--text-muted);text-align:center;padding:1rem 0.4rem;line-height:1.6;flex:1;display:flex;align-items:center;justify-content:center;}
-.product-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:9px;padding:0.6rem 0.7rem;cursor:pointer;transition:all 0.18s;position:relative;flex-shrink:0;}
+.product-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:9px;padding:0.6rem 0.7rem;cursor:grab;transition:all 0.18s;position:relative;flex-shrink:0;}.product-card:active{cursor:grabbing;}
 .product-card:hover{border-color:var(--border-bright);transform:translateY(-1px);box-shadow:var(--shadow-card);}
 .product-card.stale{border-left:3px solid var(--accent3);}
 .card-title{font-weight:600;font-size:0.88rem;margin-bottom:0.35rem;line-height:1.3;color:var(--text-primary);padding-right:1.1rem;}
@@ -358,6 +358,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 [data-theme="pip"] .coll-l-title,[data-theme="mocha"] .coll-l-title,[data-theme="slate"] .coll-l-title{color:#FFFFFF;}
 [data-theme="pip"] .panel-added,[data-theme="mocha"] .panel-added,[data-theme="slate"] .panel-added{color:#90B0C8;}
 [data-theme="pip"] .p-lbl,[data-theme="mocha"] .p-lbl,[data-theme="slate"] .p-lbl{color:#A0C0D8;}
+.stage-col-body.drag-over{background:var(--accent-glow)!important;border:1.5px dashed var(--accent);border-radius:10px;}
 </style>
 </head>
 <body data-theme="pip">
@@ -727,6 +728,34 @@ function renderPipeline(){
     var body=document.createElement('div');
     body.className='stage-col-body';
     body.id='col-'+st.key;
+    body.addEventListener('dragover',function(e){
+      e.preventDefault();
+      e.dataTransfer.dropEffect='move';
+      body.style.background='var(--accent-glow)';
+    });
+    body.addEventListener('dragleave',function(){body.style.background='';});
+    body.addEventListener('drop',function(e){
+      e.preventDefault();
+      body.style.background='';
+      var cardId=e.dataTransfer.getData('text/plain');
+      var dropCard=cards.filter(function(c){return c.id===cardId;})[0];
+      if(!dropCard||dropCard.stage===st.key)return;
+      // Only allow moving to postlisting from listed, or forward moves
+      var fromIdx=STAGES.indexOf(STAGES.filter(function(s){return s.key===dropCard.stage;})[0]);
+      var toIdx=STAGES.indexOf(st);
+      if(toIdx<fromIdx)return; // no going backwards
+      dropCard.stage=st.key;
+      dropCard.checklist={};
+      dropCard.updated_at=new Date().toISOString();
+      var patch={stage:st.key,checklist:{},updated_at:dropCard.updated_at};
+      if(st.key==='listed'&&!dropCard.listed_date){dropCard.listed_date=new Date().toISOString();patch.listed_date=dropCard.listed_date;}
+      sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+cardId+'&member_email=eq.'+enc(user),patch,function(){
+        renderAll();
+        if(st.key==='postlisting'){openPanel(cardId);}
+        else if(st.key==='listed'){checkBadges();updateStatsDB();showTrophy(dropCard);}
+        else showToast('// moved to '+st.label);
+      });
+    });
     if(st.key==='ideas'){
       var addBtn=document.createElement('button');
       addBtn.className='stage-add-btn';
@@ -748,7 +777,15 @@ function renderPipeline(){
         var stale=days>=7&&card.stage!=='listed'&&!card.stale_nudge_dismissed;
         var el=document.createElement('div');
         el.className='product-card'+(stale?' stale':'');
+        el.draggable=true;
+        el.dataset.cardId=card.id;
         el.onclick=function(){openPanel(card.id);};
+        el.addEventListener('dragstart',function(e){
+          e.dataTransfer.setData('text/plain',card.id);
+          e.dataTransfer.effectAllowed='move';
+          setTimeout(function(){el.style.opacity='0.5';},0);
+        });
+        el.addEventListener('dragend',function(){el.style.opacity='1';});
         var starBtn=document.createElement('button');
         starBtn.className='card-star'+(card.is_starred?' on':'');
         starBtn.textContent=card.is_starred?'★':'☆';
@@ -1016,8 +1053,12 @@ function renderPanel(card){
   var nextIdx=STAGES.indexOf(st)+1;
   var nextSt=nextIdx<STAGES.length?STAGES[nextIdx]:null;
   var btn=document.getElementById('btn-next');
-  if(nextSt&&pct===100){btn.textContent='Next: '+nextSt.label+' \u2192';btn.classList.add('show');}
-  else btn.classList.remove('show');
+  // Listed cards always show the Post Listing button
+  var showNext=nextSt&&(pct===100||card.stage==='listed');
+  if(showNext){
+    btn.textContent=card.stage==='listed'?'Move to Post Listing →':'Next: '+nextSt.label+' →';
+    btn.classList.add('show');
+  } else btn.classList.remove('show');
 
   var toolMap=STAGE_TOOLS[card.stage];
   var tools=toolMap?(toolMap[card.product_type]||toolMap.default||[]):[];
