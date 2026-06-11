@@ -261,14 +261,10 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .streak-next-label{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.2rem;}
 .streak-next-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text-primary);}
 .streak-next-sub{font-size:0.8rem;color:var(--text-secondary);margin-top:0.15rem;}
-.goal-opts{display:flex;flex-wrap:wrap;gap:0.38rem;margin-bottom:0.8rem;}
-.goal-opt{padding:0.42rem 0.85rem;border:1.5px solid var(--border);border-radius:20px;background:none;font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;}
-.goal-opt:hover{border-color:var(--accent);color:var(--accent);}
-.goal-opt.chosen{background:var(--accent-glow);border-color:var(--accent);color:var(--accent);font-weight:700;}
-.goal-custom-row{display:flex;align-items:center;gap:0.65rem;margin-bottom:0.875rem;}
-.goal-num-input{width:65px;padding:0.5rem;text-align:center;background:var(--bg-input);border:1px solid var(--border);border-radius:7px;font-family:'Space Mono',monospace;font-size:0.88rem;color:var(--text-primary);outline:none;}
-.goal-unit{font-size:0.8rem;color:var(--text-secondary);}
-.goal-locked-note{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent3);margin-bottom:0.8rem;display:none;}
+.goal-quick{padding:0.45rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg-panel);font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;min-width:42px;text-align:center;}
+.goal-quick:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-glow);}
+.goal-quick.chosen{background:var(--accent);border-color:var(--accent);color:white;}
+.goal-locked-note{font-size:0.78rem;color:var(--accent3);margin-bottom:0.875rem;display:none;padding:0.5rem 0.75rem;background:rgba(255,214,0,0.08);border-radius:8px;border:1px solid rgba(255,214,0,0.2);}
 .trophy-wrap{text-align:center;padding:0.4rem 0;}
 .trophy-big{font-size:3.8rem;animation:bounce 0.5s ease;margin-bottom:0.45rem;}
 @keyframes bounce{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
@@ -454,21 +450,40 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
   </div>
 </div>
 <div class="modal-bg" id="modal-goal">
-  <div class="modal-box" style="max-width:370px">
-    <div class="modal-head"><div class="modal-head-title">Weekly Goal</div><div class="modal-x" onclick="closeModal('modal-goal')">✕</div></div>
-    <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.875rem;line-height:1.6">How many products do you want listed this week? Locks until next Monday.</p>
-    <div class="goal-opts">
-      <button class="goal-opt" onclick="pickGoal(2)">2 / week</button>
-      <button class="goal-opt" onclick="pickGoal(4)">4 / week</button>
-      <button class="goal-opt" onclick="pickGoal(10)">10 / week</button>
-      <button class="goal-opt" onclick="pickGoal(20)">20 / week</button>
+  <div class="modal-box" style="max-width:420px;padding:0;overflow:hidden;">
+    <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding:1.5rem 1.75rem;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:white;line-height:1.1;">Set Your<br>Weekly Target</div>
+          <div style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin-top:0.4rem;">How many products will you list this week?</div>
+        </div>
+        <div class="modal-x" style="background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3);color:white;" onclick="closeModal('modal-goal')">✕</div>
+      </div>
+      <div style="margin-top:1.25rem;display:flex;align-items:center;gap:0.75rem;">
+        <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:0.5rem 0.75rem;display:flex;align-items:center;gap:0.5rem;">
+          <button onclick="adjustGoal(-1)" style="background:rgba(255,255,255,0.2);border:none;color:white;width:28px;height:28px;border-radius:6px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">−</button>
+          <input type="number" id="goal-num" min="1" max="200" value="4" style="width:50px;background:none;border:none;color:white;font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;text-align:center;outline:none;" oninput="pickGoal(parseInt(this.value)||1)">
+          <button onclick="adjustGoal(1)" style="background:rgba(255,255,255,0.2);border:none;color:white;width:28px;height:28px;border-radius:6px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+        </div>
+        <div style="color:rgba(255,255,255,0.9);font-size:0.88rem;font-weight:600;">listings<br>this week</div>
+      </div>
     </div>
-    <div class="goal-custom-row">
-      <input class="goal-num-input" type="number" id="goal-num" min="1" max="200" placeholder="—" oninput="pickGoal(parseInt(this.value)||0)">
-      <span class="goal-unit">products / week</span>
+    <div style="padding:1.25rem 1.75rem;">
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.65rem;">Quick pick</div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.1rem;">
+        <button class="goal-quick" onclick="pickGoal(1)">1</button>
+        <button class="goal-quick" onclick="pickGoal(2)">2</button>
+        <button class="goal-quick" onclick="pickGoal(3)">3</button>
+        <button class="goal-quick" onclick="pickGoal(4)">4</button>
+        <button class="goal-quick" onclick="pickGoal(5)">5</button>
+        <button class="goal-quick" onclick="pickGoal(7)">7</button>
+        <button class="goal-quick" onclick="pickGoal(10)">10</button>
+        <button class="goal-quick" onclick="pickGoal(15)">15</button>
+        <button class="goal-quick" onclick="pickGoal(20)">20</button>
+      </div>
+      <div class="goal-locked-note" id="goal-locked-note">Goal is locked for this week. Unlocks next Monday.</div>
+      <button id="lock-goal-btn" onclick="saveGoal()" style="width:100%;padding:0.85rem;background:var(--accent);color:white;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:opacity 0.2s;letter-spacing:0.03em;">Lock In My Goal</button>
     </div>
-    <div class="goal-locked-note" id="goal-locked-note">🔒 Locked until next Monday.</div>
-    <button class="login-btn" id="lock-goal-btn" onclick="saveGoal()">Lock it in →</button>
   </div>
 </div>
 <div class="modal-bg" id="modal-trophy">
@@ -957,7 +972,7 @@ function renderStreakModal(){
   document.getElementById('next-unlock').innerHTML=nextMs?'<div class="next-unlock-label">Next unlock</div><div class="next-unlock-name">'+ms[nextMs]+' '+(nextMs===2?'On Fire':nextMs===6?'On a Roll':'Consistency Queen')+'</div><div class="next-unlock-sub">'+(nextMs-done)+' more week'+(nextMs-done!==1?'s':'')+' to go</div>':'<div class="next-unlock-name">👑 All streak badges earned!</div>';
 }
 
-function pickGoal(n){pendingGoal=n;document.querySelectorAll('.goal-opt').forEach(function(b){b.classList.toggle('chosen',parseInt(b.textContent)===n);});if(document.getElementById('goal-num').value!=n)document.getElementById('goal-num').value=n||'';}
+function pickGoal(n){if(n<1)n=1;if(n>200)n=200;pendingGoal=n;document.querySelectorAll('.goal-quick').forEach(function(b){b.classList.toggle('chosen',parseInt(b.textContent)===n);});var inp=document.getElementById('goal-num');if(inp&&inp.value!=n)inp.value=n;}
 
 function saveGoal(){
   if(goal.locked)return;
@@ -967,7 +982,7 @@ function saveGoal(){
   });
 }
 
-function openGoalModal(){pickGoal(goal.weekly_goal||4);document.getElementById('goal-locked-note').style.display=goal.locked?'block':'none';document.getElementById('lock-goal-btn').disabled=goal.locked;openModal('modal-goal');}
+function adjustGoal(delta){var cur=parseInt(document.getElementById('goal-num').value)||4;pickGoal(cur+delta);}function openGoalModal(){pickGoal(goal.weekly_goal||4);document.getElementById('goal-locked-note').style.display=goal.locked?'block':'none';document.getElementById('lock-goal-btn').disabled=goal.locked;if(goal.locked)document.getElementById('lock-goal-btn').style.opacity='0.5';else document.getElementById('lock-goal-btn').style.opacity='1';openModal('modal-goal');}
 
 function showTrophy(card){
   var total=cards.filter(function(c){return c.stage==='listed';}).length;
