@@ -275,14 +275,16 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .ps-bar-wrap{flex:1;height:10px;background:var(--progress-bg);border-radius:5px;overflow:hidden;}
 .ps-bar-fill{height:100%;border-radius:5px;transition:width 0.6s ease;}
 .ps-count{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text-secondary);min-width:30px;text-align:right;flex-shrink:0;}
-.badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.65rem;}
-.badge-tile{background:var(--bg-panel);border:1px solid var(--border);border-radius:11px;padding:0.8rem 0.55rem;text-align:center;}
-.badge-tile.got{border-color:var(--accent);background:var(--accent-glow);}
-.badge-tile.locked{opacity:0.4;}
-.badge-icon-big{font-size:1.7rem;margin-bottom:0.35rem;}
-.badge-name{font-weight:700;font-size:0.75rem;color:var(--text-primary);margin-bottom:0.18rem;}
-.badge-req{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--text-muted);}
-.badge-date{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--accent);margin-top:0.18rem;font-weight:700;}
+.badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;}
+.badge-tile{background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;padding:1rem 0.75rem;text-align:center;transition:all 0.2s;cursor:default;position:relative;overflow:hidden;}
+.badge-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.badge-tile.got{border-color:var(--accent);background:var(--accent-glow);box-shadow:0 0 14px var(--accent-glow);}
+.badge-tile.got::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.badge-tile.locked{opacity:0.5;filter:grayscale(0.3);}
+.badge-icon-big{font-size:2rem;margin-bottom:0.4rem;display:block;}
+.badge-name{font-family:'Syne',sans-serif;font-weight:800;font-size:0.8rem;color:var(--text-primary);margin-bottom:0.2rem;}
+.badge-req{font-size:0.68rem;color:var(--text-muted);}
+.badge-date{font-size:0.65rem;color:var(--accent);margin-top:0.2rem;font-weight:700;}
 .journey-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:0.35rem;margin:0.875rem 0;}
 .j-dot-wrap{text-align:center;}
 .j-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);background:var(--bg-panel);margin:0 auto 0.22rem;display:flex;align-items:center;justify-content:center;font-size:0.75rem;transition:all 0.2s;}
@@ -592,7 +594,20 @@ postlisting:['All mockups, product listing PDF and images zipped into one folder
 const STAGE_TOOLS={planning:{default:['Chroma Snap']},designing:{Clipart:['Q4 Prompt Studio'],Patterns:['Tile Me Pretty','Q4 Prompt Studio'],'Alpha PNGs':['Letter Lab Luxe','Alpha Forge Studio'],'Procreate Brushes':[],'Procreate Stamps':[],Journals:['Planner Prompt Studio','Word Slay'],'Sublimation Designs':['Q4 Prompt Studio','Word Slay'],'Sticker Sheets':['Q4 Prompt Studio','Word Slay'],'Digital Paper':['Tile Me Pretty'],'SVG Files':['Word Slay'],default:['Q4 Prompt Studio','Word Slay','Letter Lab Luxe','Planner Prompt Studio']},creating:{default:[]},preparing:{default:['SheetCraft Studio','FileFlip','Mockup Studio']},listing:{default:['Mockup Studio']}};
 const TOOL_URLS={'Q4 Prompt Studio':'https://pip-member-hub.vercel.app','Tile Me Pretty':'https://tile-me-pretty-pip.vercel.app','Word Slay':'https://word-slay-studio-pip.vercel.app','Letter Lab Luxe':'https://letter-luxe-studio-pip.vercel.app','Alpha Forge Studio':'https://alpha-forge-studio-pip.vercel.app','Planner Prompt Studio':'https://planner-prompt-architect.vercel.app','Chroma Snap':'https://chroma-snap-pip.vercel.app','Glow & Go':'https://glow-go-pip.vercel.app','SheetCraft Studio':'https://pip-sheetcraft-studio.vercel.app','FileFlip':'https://fileflip-pip.vercel.app','Mockup Studio':'https://mockery-reloaded-pip.vercel.app'};
 const PRODUCT_TYPES=['Clipart','Patterns','Alpha PNGs','Procreate Brushes','Procreate Stamps','Journals','Sublimation Designs','Sticker Sheets','Digital Paper','SVG Files'];
-const BADGES=[{key:'first',name:'First Blood',icon:'🥇',req:1},{key:'five',name:'Five and Thriving',icon:'🌱',req:5},{key:'ten',name:'Double Digits',icon:'🚀',req:10},{key:'twenty5',name:'Quarter Century',icon:'🎨',req:25},{key:'fifty',name:'Fifty Strong',icon:'💪',req:50},{key:'hundred',name:'The Century',icon:'💯',req:100},{key:'two00',name:'Bundle Boss',icon:'💼',req:200},{key:'fivehun',name:'Shop Legend',icon:'👑',req:500}];
+const BADGES=[
+  {key:'firstspark',  name:'First Spark',      icon:'✨', req:1,    label:'Your very first listing is live! The journey begins, babe!'},
+  {key:'bouquet',     name:'Bouquet of Five',   icon:'💐', req:5,    label:'5 listings live! Your shop is blooming!'},
+  {key:'glowup',      name:'Glow Up',           icon:'💅', req:10,   label:'10 listings! You are absolutely glowing!'},
+  {key:'confetti',    name:'Confetti Queen',    icon:'🎉', req:25,   label:'25 listings! Time to celebrate, Queen!'},
+  {key:'hottea',      name:'Hot Tea',           icon:'☕', req:50,   label:'50 listings! You are steaming hot right now!'},
+  {key:'mainchar',    name:'Main Character',    icon:'🌟', req:100,  label:'100 listings! You ARE the main character!'},
+  {key:'bundle',      name:'Bundle Bestie',     icon:'🎀', req:0,    label:'Created and listed a product bundle!', special:'bundle'},
+  {key:'fullshop',    name:'Full Shop Moment',  icon:'🏪', req:0,    label:'Built out a full shop collection!', special:'fullshop'},
+  {key:'consistency', name:'Consistency Queen', icon:'👸', req:0,    label:'Hit your weekly goal 4 weeks in a row!', special:'streak4'},
+  {key:'trendsetter', name:'Trendsetter',       icon:'🔥', req:0,    label:'Listed a product within 2 weeks of adding the idea!', special:'fast'},
+  {key:'nightowl',    name:'Night Owl Creator', icon:'🦉', req:0,    label:'Listed 3 products in a single week!', special:'week3'},
+  {key:'pipstar',     name:'PIP Star',          icon:'⭐', req:0,    label:'Completed every stage on a card without skipping a step!', special:'fullflow'},
+];
 const CAL={1:{name:'January',color:'#4A6FA5',create:["St Patrick's Day","Spring and Easter","Super Bowl prep"],major:["New Year's Day","Valentine's Day prep","Black History Month"],minor:["MLK Day","Winter Olympics","Hot Cocoa Day"]},2:{name:'February',color:'#C84870',create:["Spring and Easter","Mother's Day","St Patrick's Day"],major:["Valentine's Day","Black History Month","Groundhog Day"],minor:["Chinese New Year","Super Bowl","Presidents Day","National Pizza Day"]},3:{name:'March',color:'#5A9E6A',create:["Mother's Day","Cinco de Mayo","Teacher Appreciation","Mental Health Month"],major:["Spring equinox","Women's Day","Easter","St Patrick's Day"],minor:[]},4:{name:'April',color:'#C4A040',create:["Father's Day","Summer and Beach","4th of July","Pride Month"],major:["April Fools","Easter","National Pet Day"],minor:["Autism Awareness","Earth Day","World Book Day","Superhero Day"]},5:{name:'May',color:'#8A6EA8',create:["4th of July","Summer collections","Father's Day"],major:["Mother's Day","Memorial Day","Cinco de Mayo"],minor:["Star Wars Day","Teacher Appreciation","Mental Health Month"]},6:{name:'June',color:'#D4885A',create:["Back to School","4th of July last push","Summer watercolor"],major:["Father's Day","Juneteenth","First Day of Summer"],minor:["Donut Day","Pride Month"]},7:{name:'July',color:'#5A8AC4',create:["Halloween","Back to School","Fall and Autumn"],major:["Independence Day"],minor:["Hot Dog Day","Ice Cream Day"]},8:{name:'August',color:'#6AA870',create:["Christmas","Halloween","Thanksgiving and Fall"],major:["Back to School season"],minor:["Friendship Day","Cat Day","Book Lover's Day","National Dog Day"]},9:{name:'September',color:'#A86A50',create:["Christmas","Winter and Holiday","Thanksgiving"],major:["First Day of Fall","Labor Day","Grandparents Day"],minor:["Hispanic Heritage Month","Oktoberfest"]},10:{name:'October',color:'#C87A30',create:["Christmas","Valentine's Day","Winter and New Year"],major:["Halloween","World Coffee Day"],minor:["Indigenous Peoples Day","Breast Cancer Awareness","NBA and NHL start"]},11:{name:'November',color:'#7A5EA8',create:["Valentine's Day","Chinese New Year","Winter and New Year sets"],major:["Thanksgiving","Black Friday","Veterans Day"],minor:["World Kindness Day","International Mens Day"]},12:{name:'December',color:'#C84848',create:["Valentine's Day","Chinese New Year","Spring and Easter","Black History Month"],major:["Christmas","Kwanzaa","New Year's Eve"],minor:["Cyber Monday"]}};
 
 let user=null,cards=[],badges=[],journey=[],weeklyHistory=[],goal={weekly_goal:4,locked:false},stats={total_listed:0,best_week:0,best_streak:0},calChecks={},currentCard=null,collView='grid',starFilter=false,pendingGoal=4,currentTheme=localStorage.getItem('pip-flow-theme')||'pip';
@@ -1221,19 +1236,48 @@ function createCard(){
 
 function checkBadges(){
   var total=cards.filter(function(c){return c.stage==='listed';}).length;
-  BADGES.forEach(function(b){
+  // Check listing count badges
+  BADGES.filter(function(b){return b.req>0;}).forEach(function(b){
     if(total>=b.req&&!badges.filter(function(x){return x.badge_key===b.key;}).length){
-      sb('POST','/rest/v1/pip_flowboard_badges',{member_email:user,badge_name:b.name,badge_key:b.key},function(err){
-        if(!err){badges.push({badge_key:b.key,badge_name:b.name,earned_at:new Date().toISOString()});updatePowerBar();showToast('// milestone unlocked: '+b.name+'!');}
-      });
+      awardBadge(b);
     }
+  });
+  // Check fast lister badge (listed within 14 days of idea creation)
+  cards.filter(function(c){return c.stage==='listed'&&c.listed_date;}).forEach(function(c){
+    var days=Math.floor((new Date(c.listed_date)-new Date(c.created_at))/86400000);
+    if(days<=14&&!badges.filter(function(x){return x.badge_key==='trendsetter';}).length){
+      awardBadge(BADGES.filter(function(b){return b.key==='trendsetter';})[0]);
+    }
+  });
+  // Check week3 badge (3+ listed this week)
+  if(getThisWeekCount()>=3&&!badges.filter(function(x){return x.badge_key==='nightowl';}).length){
+    awardBadge(BADGES.filter(function(b){return b.key==='nightowl';})[0]);
+  }
+  // Check streak4 badge
+  if(calcStreak()>=4&&!badges.filter(function(x){return x.badge_key==='consistency';}).length){
+    awardBadge(BADGES.filter(function(b){return b.key==='consistency';})[0]);
+  }
+}
+function awardBadge(b){
+  if(!b)return;
+  sb('POST','/rest/v1/pip_flowboard_badges',{member_email:user,badge_name:b.name,badge_key:b.key},function(err){
+    if(!err){badges.push({badge_key:b.key,badge_name:b.name,earned_at:new Date().toISOString()});updatePowerBar();showToast('// badge unlocked: '+b.icon+' '+b.name+'!');}
   });
 }
 
 function renderMilestones(){
   var total=cards.filter(function(c){return c.stage==='listed';}).length;
   document.getElementById('milestones-sub').textContent='// '+badges.length+' of '+BADGES.length+' unlocked · '+total+' total listed';
-  document.getElementById('badges-grid').innerHTML=BADGES.map(function(b){var got=badges.filter(function(x){return x.badge_key===b.key;})[0];return'<div class="badge-tile'+(got?' got':' locked')+'"><div class="badge-icon-big">'+b.icon+'</div><div class="badge-name">'+b.name+'</div><div class="badge-req">'+b.req+' listings</div>'+(got?'<div class="badge-date">'+fmtDate(got.earned_at)+'</div>':'<div class="badge-req">NOT YET</div>')+'</div>';}).join('');
+  document.getElementById('badges-grid').innerHTML=BADGES.map(function(b){
+    var got=badges.filter(function(x){return x.badge_key===b.key;})[0];
+    var reqText=b.req>0?(b.req+' listings'):(b.special?'Special unlock':'Special unlock');
+    return'<div class="badge-tile'+(got?' got':' locked')+'" title="'+b.label+'">'+
+      '<div class="badge-icon-big">'+b.icon+'</div>'+
+      '<div class="badge-name">'+b.name+'</div>'+
+      '<div class="badge-req">'+reqText+'</div>'+
+      (got?'<div class="badge-date">'+fmtDate(got.earned_at)+'</div>':'<div class="badge-req" style="margin-top:0.2rem;font-style:italic;">not yet...</div>')+
+    '</div>';
+  }).join('');
 }
 
 function renderStreakModal(){
@@ -1261,7 +1305,7 @@ function adjustGoal(delta){var cur=parseInt(document.getElementById('goal-num').
 
 function showTrophy(card){
   var total=cards.filter(function(c){return c.stage==='listed';}).length;
-  var newBadge=BADGES.filter(function(b){return b.req===total;})[0];
+  var newBadge=BADGES.filter(function(b){return b.req>0&&b.req===total;})[0];
   document.getElementById('trophy-content').innerHTML='<div class="trophy-big">🏆</div><div class="trophy-title">IT\'S LIVE!</div><div class="trophy-sub">"'+esc(card.title)+'" is on Etsy!<br>'+total+' listing'+(total!==1?'s':'')+' total.</div>'+(newBadge?'<div class="trophy-badge-box"><div style="font-size:1.5rem">'+newBadge.icon+'</div><div style="font-weight:700;color:var(--accent)">'+newBadge.name+'</div></div>':'')+'<button class="login-btn" style="margin-top:1rem" onclick="closeModal(\'modal-trophy\')">Keep building 🚀</button>';
   openModal('modal-trophy');launchConfetti();
 }
