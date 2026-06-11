@@ -587,7 +587,7 @@ const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 const STAGES=[{key:'ideas',label:'Ideas',sub:'Research it',icon:'💡',n:1,sc:'--s1'},{key:'planning',label:'Planning',sub:'Plan the product',icon:'📋',n:2,sc:'--s2'},{key:'designing',label:'Designing',sub:'Design it',icon:'🎨',n:3,sc:'--s3'},{key:'creating',label:'Creating',sub:'Create it',icon:'✨',n:4,sc:'--s4'},{key:'preparing',label:'Preparing',sub:'Polish the files',icon:'🛠',n:5,sc:'--s5'},{key:'listing',label:'Listing',sub:'Build the listing',icon:'🏷',n:6,sc:'--s6'},{key:'listed',label:'Listed',sub:'Live on Etsy!',icon:'🚀',n:7,sc:'--s7'}];
 const ROW1=['ideas','planning','designing','creating'];
 const ROW2=['preparing','listing','listed'];
-const CHECKLISTS={ideas:['Search Etsy for this product idea','Note top competitor shop names','Record sales numbers (ProfitTree, eRank, or EverBee)','Note number of competing listings','Check price range of top sellers','Review top listing images for style ideas','Confirm demand is strong enough','Ready to move forward'],planning:['Style and aesthetic decided','Collection theme confirmed','Elements and subjects brainstormed','Piece count per product type chosen','Color palette planned','Reference images gathered','Ready to design'],designing:['Rough layouts or sketches done','AI prompts written and saved','Design tool chosen','Design session scheduled'],creating:['Images or files created','Best work selected and culled','Prompt saved for future use','Raw files organized in named folder'],preparing:['Images upscaled to 4000-5000px or 4x','Backgrounds removed','Cleanup done in Canva, Photoshop, or Affinity if needed','Files checked at 300 DPI','Files renamed','Delivery ZIP and PDF mockup done','Final check complete'],listing:['Files uploaded to Drive or Dropbox','Delivery link for PDF tested','All listing mockup images created','Listing video created','Etsy title written','13 tags added','Alt text written for all images','Description written','Price set','Published on Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable']};
+const CHECKLISTS={ideas:['Search Etsy for this product idea','Note top competitor shop names','Record sales numbers (ProfitTree, eRank, or EverBee)','Note number of competing listings','Check price range of top sellers','Review top listing images for style ideas','Confirm demand is strong enough','Ready to move forward'],planning:['Style and aesthetic decided','Collection theme confirmed','Elements and subjects brainstormed','Piece count per product type chosen','Color palette planned','Reference images gathered','Ready to design'],designing:['Rough layouts or sketches done','AI prompts written and saved','Design tool chosen','Design schedule laid out'],creating:['Images or files created','Best work selected and culled','Prompt saved for future use','Raw files organized in named folder'],preparing:['Images upscaled to 4000-5000px or 4x','Backgrounds removed','Cleanup done in Canva, Photoshop, or Affinity if needed','Files checked at 300 DPI','Files renamed','Delivery ZIP and PDF mockup done','Final check complete'],listing:['Files uploaded to Drive or Dropbox','Delivery link for PDF tested','All listing mockup images created','Listing video created','Etsy title written','13 tags added','Alt text written for all images','Description written','Price set','Published on Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable']};
 const STAGE_TOOLS={planning:{default:['Chroma Snap']},designing:{Clipart:['Q4 Prompt Studio'],Patterns:['Tile Me Pretty','Q4 Prompt Studio'],'Alpha PNGs':['Letter Lab Luxe','Alpha Forge Studio'],'Procreate Brushes':[],'Procreate Stamps':[],Journals:['Planner Prompt Studio','Word Slay'],'Sublimation Designs':['Q4 Prompt Studio','Word Slay'],'Sticker Sheets':['Q4 Prompt Studio','Word Slay'],'Digital Paper':['Tile Me Pretty'],'SVG Files':['Word Slay'],default:['Q4 Prompt Studio','Word Slay','Letter Lab Luxe','Planner Prompt Studio']},creating:{default:['Chroma Snap','Glow & Go']},preparing:{default:['SheetCraft Studio','FileFlip','Mockup Studio']},listing:{default:['Mockup Studio']}};
 const TOOL_URLS={'Q4 Prompt Studio':'https://pip-member-hub.vercel.app','Tile Me Pretty':'https://tile-me-pretty-pip.vercel.app','Word Slay':'https://word-slay-studio-pip.vercel.app','Letter Lab Luxe':'https://letter-luxe-studio-pip.vercel.app','Alpha Forge Studio':'https://alpha-forge-studio-pip.vercel.app','Planner Prompt Studio':'https://planner-prompt-architect.vercel.app','Chroma Snap':'https://chroma-snap-pip.vercel.app','Glow & Go':'https://glow-go-pip.vercel.app','SheetCraft Studio':'https://pip-sheetcraft-studio.vercel.app','FileFlip':'https://fileflip-pip.vercel.app','Mockup Studio':'https://mockery-reloaded-pip.vercel.app'};
 const PRODUCT_TYPES=['Clipart','Patterns','Alpha PNGs','Procreate Brushes','Procreate Stamps','Journals','Sublimation Designs','Sticker Sheets','Digital Paper','SVG Files'];
@@ -657,7 +657,7 @@ function loadAll(){loadCards();loadBadges();loadJourney();loadGoal();loadStats()
 
 function loadCards(){
   sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&order=created_at.asc',null,function(err,data){
-    cards=(!err&&Array.isArray(data))?data.map(function(c){return Object.assign({},c,{checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[]),research_links:parseJ(c.research_links,['','','','']),research_images:parseJ(c.research_images,['','']),product_types:parseJ(c.product_types,[])});}):[];
+    cards=(!err&&Array.isArray(data))?data.map(function(c){return Object.assign({},c,{checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[]),research_links:parseJ(c.research_links,['','','','']),research_images:parseJ(c.research_images,['','']),product_types:parseJ(c.product_types,[]),designed_types:parseJ(c.designed_types,[])});}):[];
     renderAll();
   });
 }
@@ -1004,6 +1004,26 @@ function renderPanel(card){
 
   var toolMap=STAGE_TOOLS[card.stage];
   var tools=toolMap?(toolMap[card.product_type]||toolMap.default||[]):[];
+  // Designing: show product types from planning as checkboxes
+  var designProgressHtml='';
+  if(card.stage==='designing'){
+    var plannedTypes=parseJ(card.product_types,[]);
+    if(plannedTypes.length>0){
+      var designedTypes=parseJ(card.designed_types,[]);
+      designProgressHtml='<div class="p-section"><div class="p-lbl">// Product Types — Check Off as You Design Each</div>'+
+        '<div class="checklist-box">';
+      plannedTypes.forEach(function(t){
+        var done=designedTypes.indexOf(t)>=0;
+        designProgressHtml+='<div class="check-row" onclick="toggleDesignedType(this.dataset.id,this.dataset.t)" data-id="'+card.id+'" data-t="'+t+'">'+
+          '<div class="check-box'+(done?' ticked':'')+'"></div>'+
+          '<span class="check-label'+(done?' done':'')+'">'+t+'</span>'+
+        '</div>';
+      });
+      designProgressHtml+='</div></div>';
+    } else {
+      designProgressHtml='<div class="p-section"><div style="background:var(--bg-raised);border:1px solid var(--border);border-radius:10px;padding:0.75rem 1rem;font-size:0.82rem;color:var(--text-secondary);">No product types selected yet — go back to Planning and select the types for this theme first.</div></div>';
+    }
+  }
   var toolsHtml='';
   if(tools.length){
     toolsHtml='<div class="p-section"><div class="p-lbl">// PIP tools for this stage</div><div class="tools-wrap">';
@@ -1011,7 +1031,7 @@ function renderPanel(card){
     toolsHtml+='</div></div>';
   }
 
-  var showTypePicker=['designing','creating'].indexOf(card.stage)>=0;
+  var showTypePicker=['creating'].indexOf(card.stage)>=0;
   var stale=Math.floor((new Date()-new Date(card.updated_at))/86400000)>=7&&card.stage!=='listed'&&!card.stale_nudge_dismissed;
   var typePickerHtml='';
   if(showTypePicker){
@@ -1059,7 +1079,7 @@ function renderPanel(card){
   document.getElementById('panel-scroll').innerHTML=staleHtml+
     '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem"><div class="panel-title">'+esc(card.title)+'</div></div>'+
     '<div class="panel-added">// Added '+fmtDate(card.created_at)+'</div>'+
-    typePickerHtml+toolsHtml+checklistHtml+planningHtml+researchHtml+etsyHtml+
+    typePickerHtml+designProgressHtml+toolsHtml+checklistHtml+planningHtml+researchHtml+etsyHtml+
     '<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(this.dataset.id,this.value)" data-id="'+card.id+'" oninput="this.nextElementSibling.textContent=this.value.length+\'/2000\'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';
 }
 
@@ -1090,6 +1110,20 @@ function updateNotes(id,notes){
   if(card){card.notes=notes;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{notes:notes,updated_at:new Date().toISOString()},function(){});}
 }
 
+function toggleDesignedType(id,type){
+  if(!id||!type)return;
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  var designed=parseJ(card.designed_types,[]);
+  var idx=designed.indexOf(type);
+  if(idx>=0)designed.splice(idx,1);
+  else designed.push(type);
+  card.designed_types=designed;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{designed_types:JSON.stringify(designed)},function(){
+    renderPanel(card);
+    renderAll();
+  });
+}
 function toggleProductType(id,type){
   if(!id)return;
   var card=cards.filter(function(c){return c.id===id;})[0];
