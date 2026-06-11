@@ -1,0 +1,3582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIP Flow Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS VARIABLES — 6 THEMES
+   ============================================================ */
+
+/* LIGHT 1: Warm Studio — cream, terracotta rose, sage */
+[data-theme="warm"] {
+  --bg: #F7F3EE;
+  --bg-card: #FFFFFF;
+  --bg-panel: #F0EBE3;
+  --bg-input: #FAF7F4;
+  --border: #E2D9CE;
+  --border-light: #EDE5DC;
+  --text-primary: #2C2420;
+  --text-secondary: #7A6A60;
+  --text-muted: #A89990;
+  --accent: #C4735A;
+  --accent-soft: #F0E0D8;
+  --accent2: #7D9E8C;
+  --accent2-soft: #DCE9E3;
+  --highlight: #D4956B;
+  --stage-ideas: #E8DDD5;
+  --stage-ideas-text: #7A5C4E;
+  --stage-planning: #DDE3E8;
+  --stage-planning-text: #4E6272;
+  --stage-designing: #E8E0EE;
+  --stage-designing-text: #6A5280;
+  --stage-creating: #E8EEE0;
+  --stage-creating-text: #526840;
+  --stage-preparing: #EEE8E0;
+  --stage-preparing-text: #806840;
+  --stage-listing: #E0E8EE;
+  --stage-listing-text: #406070;
+  --stage-listed: #E0EEE4;
+  --stage-listed-text: #3A6E4A;
+  --shadow: 0 2px 12px rgba(44,36,32,0.08);
+  --shadow-card: 0 1px 4px rgba(44,36,32,0.06);
+  --progress-bg: #E8DFD7;
+}
+
+/* LIGHT 2: Blush Studio — soft pink, dusty rose, ivory */
+[data-theme="blush"] {
+  --bg: #FBF5F5;
+  --bg-card: #FFFFFF;
+  --bg-panel: #F5EDEE;
+  --bg-input: #FDF8F8;
+  --border: #E8D5D7;
+  --border-light: #F0E4E5;
+  --text-primary: #2E2022;
+  --text-secondary: #7A5C60;
+  --text-muted: #A88A8E;
+  --accent: #C4687A;
+  --accent-soft: #F5DDE1;
+  --accent2: #9E7EA8;
+  --accent2-soft: #EDE0F2;
+  --highlight: #D4849A;
+  --stage-ideas: #FAEAEA;
+  --stage-ideas-text: #8A4A50;
+  --stage-planning: #EAE4FA;
+  --stage-planning-text: #5A4A80;
+  --stage-designing: #FAE4F0;
+  --stage-designing-text: #803060;
+  --stage-creating: #E4FAF0;
+  --stage-creating-text: #30705A;
+  --stage-preparing: #FAF0E4;
+  --stage-preparing-text: #806030;
+  --stage-listing: #E4EEFA;
+  --stage-listing-text: #304A80;
+  --stage-listed: #E4FAE8;
+  --stage-listed-text: #2A6840;
+  --shadow: 0 2px 12px rgba(46,32,34,0.08);
+  --shadow-card: 0 1px 4px rgba(46,32,34,0.06);
+  --progress-bg: #EDD8DA;
+}
+
+/* LIGHT 3: Fresh Mint — white, seafoam, soft gold */
+[data-theme="fresh"] {
+  --bg: #F4F8F6;
+  --bg-card: #FFFFFF;
+  --bg-panel: #E8F2EE;
+  --bg-input: #F8FAFA;
+  --border: #C8DDD6;
+  --border-light: #DCF0E8;
+  --text-primary: #1A2E28;
+  --text-secondary: #4A6E62;
+  --text-muted: #7A9E92;
+  --accent: #4A9E82;
+  --accent-soft: #D4EDE4;
+  --accent2: #C4A040;
+  --accent2-soft: #F2E8C0;
+  --highlight: #5AB896;
+  --stage-ideas: #E0F2EC;
+  --stage-ideas-text: #2A6E54;
+  --stage-planning: #E0ECF2;
+  --stage-planning-text: #2A546E;
+  --stage-designing: #ECE0F2;
+  --stage-designing-text: #56306E;
+  --stage-creating: #F2F0E0;
+  --stage-creating-text: #6E6030;
+  --stage-preparing: #F2E8E0;
+  --stage-preparing-text: #6E4830;
+  --stage-listing: #E0EAF2;
+  --stage-listing-text: #30486E;
+  --stage-listed: #E0F2E4;
+  --stage-listed-text: #2A6E36;
+  --shadow: 0 2px 12px rgba(26,46,40,0.08);
+  --shadow-card: 0 1px 4px rgba(26,46,40,0.06);
+  --progress-bg: #C8DDD6;
+}
+
+/* DARK 1: PIP Brand — deep navy, hot pink, cyan */
+[data-theme="pip-dark"] {
+  --bg: #0D1B2A;
+  --bg-card: #152436;
+  --bg-panel: #1A2E42;
+  --bg-input: #1E3448;
+  --border: #2A4060;
+  --border-light: #243650;
+  --text-primary: #E8F0F8;
+  --text-secondary: #90AECA;
+  --text-muted: #5A7A98;
+  --accent: #E8609A;
+  --accent-soft: #3A1828;
+  --accent2: #40C8D8;
+  --accent2-soft: #0E2A30;
+  --highlight: #F080B0;
+  --stage-ideas: #1E2E40;
+  --stage-ideas-text: #90C0E8;
+  --stage-planning: #1E2840;
+  --stage-planning-text: #9090E8;
+  --stage-designing: #28202A;
+  --stage-designing-text: #C890E8;
+  --stage-creating: #1E3028;
+  --stage-creating-text: #70D0A0;
+  --stage-preparing: #302820;
+  --stage-preparing-text: #D0A070;
+  --stage-listing: #1E2838;
+  --stage-listing-text: #70A8D0;
+  --stage-listed: #1E3028;
+  --stage-listed-text: #60D880;
+  --shadow: 0 2px 16px rgba(0,0,0,0.4);
+  --shadow-card: 0 1px 6px rgba(0,0,0,0.3);
+  --progress-bg: #2A4060;
+}
+
+/* DARK 2: Deep Mocha — dark chocolate, warm peach, gold */
+[data-theme="mocha"] {
+  --bg: #1A1210;
+  --bg-card: #251A16;
+  --bg-panel: #2E2018;
+  --bg-input: #342418;
+  --border: #4A3028;
+  --border-light: #3A2820;
+  --text-primary: #F2EAE0;
+  --text-secondary: #C0A090;
+  --text-muted: #806050;
+  --accent: #D4886A;
+  --accent-soft: #3A2018;
+  --accent2: #C8A84A;
+  --accent2-soft: #302808;
+  --highlight: #E8A080;
+  --stage-ideas: #2A1E18;
+  --stage-ideas-text: #D0A080;
+  --stage-planning: #1E2028;
+  --stage-planning-text: #8090C0;
+  --stage-designing: #241820;
+  --stage-designing-text: #C080A0;
+  --stage-creating: #182418;
+  --stage-creating-text: #70B070;
+  --stage-preparing: #281E10;
+  --stage-preparing-text: #C0A050;
+  --stage-listing: #181E28;
+  --stage-listing-text: #6090C0;
+  --stage-listed: #182018;
+  --stage-listed-text: #60C870;
+  --shadow: 0 2px 16px rgba(0,0,0,0.5);
+  --shadow-card: 0 1px 6px rgba(0,0,0,0.35);
+  --progress-bg: #3A2820;
+}
+
+/* DARK 3: Slate — blue-grey, lavender, soft white */
+[data-theme="slate"] {
+  --bg: #141820;
+  --bg-card: #1E2430;
+  --bg-panel: #242C3A;
+  --bg-input: #2A3240;
+  --border: #3A4460;
+  --border-light: #303A50;
+  --text-primary: #E4E8F4;
+  --text-secondary: #90A0C0;
+  --text-muted: #5A6A88;
+  --accent: #8878D8;
+  --accent-soft: #201E38;
+  --accent2: #78C8D8;
+  --accent2-soft: #102028;
+  --highlight: #A090E8;
+  --stage-ideas: #1E2238;
+  --stage-ideas-text: #8898D0;
+  --stage-planning: #1E2830;
+  --stage-planning-text: #70A8B8;
+  --stage-designing: #281E38;
+  --stage-designing-text: #A880C8;
+  --stage-creating: #1E2E28;
+  --stage-creating-text: #68B898;
+  --stage-preparing: #2E281E;
+  --stage-preparing-text: #B89868;
+  --stage-listing: #1E2838;
+  --stage-listing-text: #6898C8;
+  --stage-listed: #1E2E24;
+  --stage-listed-text: #58C878;
+  --shadow: 0 2px 16px rgba(0,0,0,0.45);
+  --shadow-card: 0 1px 6px rgba(0,0,0,0.3);
+  --progress-bg: #2A3448;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 15px; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ============================================================
+   LOGIN SCREEN
+   ============================================================ */
+#login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg);
+}
+
+.login-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.login-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.login-badge {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.login-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.login-card p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.75rem;
+  line-height: 1.6;
+}
+
+.form-group { margin-bottom: 1rem; text-align: left; }
+
+.form-group label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus { border-color: var(--accent); }
+
+.btn-primary {
+  width: 100%;
+  padding: 0.85rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+
+.btn-primary:hover { opacity: 0.9; }
+.btn-primary:active { transform: scale(0.99); }
+
+.login-error {
+  color: #E05555;
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+  display: none;
+}
+
+.login-back {
+  display: inline-block;
+  margin-top: 1.25rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.login-back:hover { color: var(--accent); }
+
+/* ============================================================
+   MAIN APP LAYOUT
+   ============================================================ */
+#app { display: none; min-height: 100vh; }
+
+/* TOP BAR */
+.top-bar {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 1rem;
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.app-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.week-block {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  min-width: 160px;
+}
+
+.week-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.week-count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.week-dates {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.week-progress-wrap {
+  flex: 1;
+  max-width: 400px;
+}
+
+.week-progress-bar {
+  height: 6px;
+  background: var(--progress-bg);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.week-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.week-progress-msg {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+/* GAMIFICATION BUTTONS */
+.gami-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gami-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.gami-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.gami-count {
+  background: var(--accent);
+  color: white;
+  border-radius: 10px;
+  padding: 0.05rem 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  min-width: 18px;
+  text-align: center;
+}
+
+.gami-count.zero { background: var(--border); color: var(--text-muted); }
+
+/* THEME SWITCHER */
+.theme-switcher {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.theme-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.theme-dot:hover { transform: scale(1.2); }
+.theme-dot.active { border-color: var(--text-primary); }
+.theme-dot[data-t="warm"] { background: linear-gradient(135deg, #F7F3EE 50%, #C4735A 50%); }
+.theme-dot[data-t="blush"] { background: linear-gradient(135deg, #FBF5F5 50%, #C4687A 50%); }
+.theme-dot[data-t="fresh"] { background: linear-gradient(135deg, #F4F8F6 50%, #4A9E82 50%); }
+.theme-dot[data-t="pip-dark"] { background: linear-gradient(135deg, #0D1B2A 50%, #E8609A 50%); }
+.theme-dot[data-t="mocha"] { background: linear-gradient(135deg, #1A1210 50%, #D4886A 50%); }
+.theme-dot[data-t="slate"] { background: linear-gradient(135deg, #141820 50%, #8878D8 50%); }
+
+/* LOGOUT */
+.btn-logout {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-logout:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ============================================================
+   TAB NAVIGATION
+   ============================================================ */
+.tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem 1.5rem 0;
+  background: var(--bg);
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 24px;
+  border: 1px solid transparent;
+  background: none;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover { background: var(--bg-panel); color: var(--text-primary); }
+
+.tab-btn.active {
+  background: var(--bg-card);
+  border-color: var(--border);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-card);
+}
+
+.tab-badge {
+  background: var(--accent);
+  color: white;
+  border-radius: 10px;
+  padding: 0.05rem 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+.view { display: none; padding: 1.25rem 1.5rem; }
+.view.active { display: block; }
+
+/* ============================================================
+   IDEAS VIEW
+   ============================================================ */
+.ideas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.ideas-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+}
+
+.ideas-header p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.btn-add-idea {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-add-idea:hover { opacity: 0.88; }
+
+.ideas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.idea-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+}
+
+.idea-empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.idea-empty h3 { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 0.4rem; }
+.idea-empty p { font-size: 0.85rem; }
+
+.idea-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s;
+  box-shadow: var(--shadow-card);
+}
+
+.idea-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+
+.idea-card-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.idea-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.category-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.idea-card-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 1rem;
+  padding: 0.1rem;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.star-btn:hover, .star-btn.starred { color: #F0C040; }
+
+/* ============================================================
+   WORKFLOW KANBAN
+   ============================================================ */
+.kanban-wrap {
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.kanban-board {
+  display: flex;
+  gap: 1rem;
+  min-width: max-content;
+  align-items: flex-start;
+}
+
+.kanban-col {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+  min-height: 500px;
+}
+
+.col-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.875rem;
+}
+
+.col-title-wrap { display: flex; align-items: center; gap: 0.6rem; }
+
+.col-icon { font-size: 1.2rem; }
+
+.col-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.col-subtitle {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+.col-count {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.col-count.zero { background: var(--border); color: var(--text-muted); }
+
+.col-add-btn {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1.5px dashed var(--border);
+  border-radius: 10px;
+  background: none;
+  color: var(--accent);
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 0.75rem;
+}
+.col-add-btn:hover { background: var(--accent-soft); border-color: var(--accent); }
+
+.col-empty-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 2rem 0.5rem;
+  line-height: 1.6;
+}
+
+.kanban-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.kanban-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+
+.kanban-card.stale::after {
+  content: '⏰';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.kanban-card-title {
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-primary);
+  padding-right: 1.2rem;
+}
+
+.kanban-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.kanban-card-date {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.progress-mini {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+}
+
+.progress-mini-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--progress-bg);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-mini-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+.progress-mini-pct {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* ============================================================
+   CARD DETAIL PANEL (SIDE DRAWER)
+   ============================================================ */
+.panel-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 200;
+}
+
+.panel-overlay.open { display: block; }
+
+.card-panel {
+  position: fixed;
+  top: 0;
+  right: -520px;
+  width: 500px;
+  max-width: 95vw;
+  height: 100vh;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease;
+  overflow: hidden;
+}
+
+.card-panel.open { right: 0; }
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 0.75rem;
+}
+
+.panel-stage-pill {
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.panel-progress-circle {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.panel-progress-circle svg { transform: rotate(-90deg); }
+
+.panel-progress-circle .pct-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.panel-close {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.panel-close:hover { color: var(--accent); border-color: var(--accent); }
+
+.panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem;
+}
+
+.panel-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.panel-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+/* Panel sections */
+.panel-section { margin-bottom: 1.5rem; }
+
+.panel-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+/* Tools section */
+.tools-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.tool-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.tool-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+/* Product type selector */
+.product-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+}
+
+.product-type-btn {
+  padding: 0.5rem 0.4rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.product-type-btn:hover { border-color: var(--accent); color: var(--accent); }
+.product-type-btn.selected { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+/* Checklist */
+.checklist-wrap {
+  background: var(--bg-panel);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.4rem 0;
+  cursor: pointer;
+}
+
+.checklist-item + .checklist-item {
+  border-top: 1px solid var(--border-light);
+}
+
+.checklist-check {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  background: var(--bg-card);
+}
+
+.checklist-check.checked {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.checklist-check.checked::after { content: '✓'; font-size: 0.72rem; font-weight: 700; }
+
+.checklist-label {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  transition: all 0.15s;
+}
+
+.checklist-label.checked {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Notes */
+.panel-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.panel-textarea:focus { border-color: var(--accent); }
+
+.panel-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.panel-input:focus { border-color: var(--accent); }
+
+.char-count {
+  text-align: right;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Panel footer */
+.panel-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  background: var(--bg-card);
+}
+
+.btn-delete {
+  padding: 0.55rem 1rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.85rem;
+  color: #E05555;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-delete:hover { background: #FEE; border-color: #E05555; }
+
+.btn-advance {
+  padding: 0.6rem 1.25rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: none;
+}
+.btn-advance:hover { opacity: 0.88; }
+.btn-advance.visible { display: block; }
+
+.btn-save {
+  padding: 0.6rem 1.25rem;
+  background: var(--accent2, var(--accent));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-save:hover { opacity: 0.88; }
+
+/* Stale nudge banner */
+.stale-nudge {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 0.65rem 0.875rem;
+  font-size: 0.82rem;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.nudge-dismiss {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* ============================================================
+   ADD IDEA MODAL
+   ============================================================ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow);
+  animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  margin-bottom: 1.25rem;
+}
+
+.modal-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+.modal-input:focus { border-color: var(--accent); }
+
+.modal-select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  margin-bottom: 1.25rem;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.btn-cancel {
+  padding: 0.6rem 1.2rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-cancel:hover { border-color: var(--text-primary); color: var(--text-primary); }
+
+.btn-create {
+  padding: 0.6rem 1.4rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-create:hover { opacity: 0.88; }
+
+/* ============================================================
+   BADGES MODAL
+   ============================================================ */
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.875rem;
+}
+
+.badge-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  transition: box-shadow 0.2s;
+}
+
+.badge-card.earned {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.badge-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+.badge-name {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.badge-req {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.badge-earned-date {
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.badge-locked { opacity: 0.45; }
+
+/* ============================================================
+   JOURNEY MODAL
+   ============================================================ */
+.journey-dots {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+  margin: 1.25rem 0;
+}
+
+.journey-dot-wrap { text-align: center; }
+
+.journey-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--bg-panel);
+  margin: 0 auto 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.journey-dot.completed {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.journey-dot.milestone {
+  border-color: var(--accent2, #40C8D8);
+}
+
+.journey-dot-num {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.streak-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
+  margin-bottom: 1.25rem;
+}
+
+.streak-stat {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.875rem;
+  text-align: center;
+}
+
+.streak-stat-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.streak-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--text-primary);
+}
+
+.next-badge-box {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.next-badge-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+
+.next-badge-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.next-badge-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   GOAL MODAL
+   ============================================================ */
+.goal-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.goal-option {
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  background: none;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.goal-option:hover { border-color: var(--accent); color: var(--accent); }
+.goal-option.selected { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+.goal-custom-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.goal-custom-input {
+  width: 80px;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  text-align: center;
+  outline: none;
+}
+
+/* ============================================================
+   COLLECTIONS VIEW
+   ============================================================ */
+.collections-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.collections-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  padding: 0.5rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+}
+
+.view-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.view-toggle-btn {
+  padding: 0.45rem 0.75rem;
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Barlow', sans-serif;
+}
+.view-toggle-btn.active { background: var(--accent); color: white; }
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.collections-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.collection-card-grid {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s;
+  box-shadow: var(--shadow-card);
+}
+.collection-card-grid:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+
+.collection-thumb {
+  background: var(--bg-panel);
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.collection-card-grid-body { padding: 0.75rem; }
+.collection-card-grid-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.35rem; }
+.collection-card-grid-meta { font-size: 0.75rem; color: var(--text-muted); }
+
+.collection-card-list {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.875rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  box-shadow: var(--shadow-card);
+}
+.collection-card-list:hover { box-shadow: var(--shadow); }
+
+.collection-list-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: var(--bg-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.collection-list-info { flex: 1; }
+.collection-list-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem; }
+.collection-list-meta { font-size: 0.78rem; color: var(--text-muted); }
+
+.collections-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   CALENDAR VIEW
+   ============================================================ */
+.calendar-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.calendar-year-select {
+  padding: 0.5rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.this-month-banner {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.this-month-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.this-month-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.this-month-tag {
+  padding: 0.2rem 0.65rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.cal-month-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.cal-month-card.current-month { border-color: var(--accent); }
+
+.cal-month-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cal-month-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.current-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: white;
+  padding: 0.15rem 0.55rem;
+  border-radius: 10px;
+}
+
+.cal-month-body { padding: 0.875rem 1rem; }
+
+.cal-section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.cal-section-label:first-child { margin-top: 0; }
+
+.cal-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.2rem 0;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.cal-item.checked { opacity: 0.45; }
+
+.cal-item-text {
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  flex: 1;
+  line-height: 1.4;
+}
+
+.cal-item.checked .cal-item-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.cal-item-check {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 3px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  background: var(--bg-card);
+}
+
+.cal-item.checked .cal-item-check {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  font-size: 0.6rem;
+}
+
+.cal-star { color: #F0C040; font-size: 0.75rem; flex-shrink: 0; }
+
+/* ============================================================
+   STATS DASHBOARD
+   ============================================================ */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-tile {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.stat-tile-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.stat-tile-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   WEEKLY SUMMARY MODAL
+   ============================================================ */
+.weekly-chart-wrap {
+  background: var(--bg-panel);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.weekly-chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  height: 100px;
+  margin-bottom: 0.4rem;
+}
+
+.chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+
+.chart-bar {
+  width: 100%;
+  background: var(--accent);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.5s ease;
+  min-height: 4px;
+  position: relative;
+}
+
+.chart-bar.current-week { background: var(--accent2, var(--accent)); opacity: 0.7; }
+
+.chart-bar-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.chart-bar-val {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* ============================================================
+   CONFETTI + TROPHY MODAL
+   ============================================================ */
+.trophy-modal {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.trophy-icon { font-size: 4rem; margin-bottom: 0.75rem; animation: bounce 0.6s ease; }
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.trophy-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.trophy-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+/* Confetti canvas */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ============================================================
+   TOAST NOTIFICATION
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--text-primary);
+  color: var(--bg);
+  padding: 0.65rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  z-index: 500;
+  transition: transform 0.3s ease;
+  white-space: nowrap;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ============================================================
+   MODAL GENERIC WRAPPER
+   ============================================================ */
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+}
+
+.modal-header-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+.modal-header-sub { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+.modal-close {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.modal-close:hover { color: var(--accent); border-color: var(--accent); }
+
+.modal-scroll { max-height: 60vh; overflow-y: auto; }
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+@media (max-width: 900px) {
+  .calendar-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .badges-grid { grid-template-columns: repeat(2, 1fr); }
+  .top-bar { flex-wrap: wrap; }
+  .week-progress-wrap { display: none; }
+}
+
+@media (max-width: 600px) {
+  .calendar-grid { grid-template-columns: 1fr; }
+  .gami-bar { flex-wrap: wrap; }
+  .top-bar { padding: 0.6rem 1rem; }
+}
+</style>
+</head>
+<body data-theme="warm">
+
+<canvas id="confetti-canvas"></canvas>
+<div id="toast" class="toast"></div>
+
+<!-- ============================================================
+     LOGIN SCREEN
+     ============================================================ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">PIP Creative Suite</div>
+    <div class="login-badge">✦ Members Only</div>
+    <h2>Flow Board</h2>
+    <p>Enter your member email to access your personal board.</p>
+    <div class="form-group">
+      <label>Your member email</label>
+      <input type="email" id="login-email" placeholder="you@email.com" autocomplete="email">
+    </div>
+    <button class="btn-primary" onclick="handleLogin()">🔐 Access My Flow Board →</button>
+    <div id="login-error" class="login-error">That email isn't approved. Contact Donna!</div>
+    <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)">
+      <a href="https://pip-member-hub.vercel.app" style="font-size:0.82rem;color:var(--text-muted);text-decoration:none">← Back to Member Hub</a>
+      <span style="font-size:0.82rem;color:var(--border);margin:0 0.5rem">·</span>
+      <a href="https://www.skool.com/pixels-into-profit-2137/about" target="_blank" style="font-size:0.82rem;color:var(--text-muted);text-decoration:none">Not a member? Join →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MAIN APP
+     ============================================================ -->
+<div id="app">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <div class="app-logo">PIP Flow Board</div>
+      <div class="week-block">
+        <div class="week-label">This Week</div>
+        <div class="week-count" id="week-count-display">0 / 4 listed</div>
+        <div class="week-dates" id="week-dates-display">--</div>
+      </div>
+      <div class="week-progress-wrap">
+        <div class="week-progress-bar">
+          <div class="week-progress-fill" id="week-progress-fill" style="width:0%"></div>
+        </div>
+        <div class="week-progress-msg" id="week-progress-msg">Set your weekly goal to get started.</div>
+      </div>
+    </div>
+
+    <div class="gami-bar">
+      <button class="gami-btn" onclick="openModal('badges-modal')">
+        🏅 Badges <span class="gami-count zero" id="badges-count">0</span>
+      </button>
+      <button class="gami-btn" onclick="openModal('journey-modal')">
+        ✨ Journey <span class="gami-count zero" id="journey-count">0</span>
+      </button>
+      <button class="gami-btn" onclick="switchTab('ideas'); filterFocus()">
+        ⭐ Focus <span class="gami-count zero" id="focus-count">0</span>
+      </button>
+      <button class="gami-btn" onclick="openModal('goal-modal')">⚙ Goal</button>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <div class="theme-switcher" title="Change theme">
+        <div class="theme-dot active" data-t="warm" onclick="setTheme('warm')"></div>
+        <div class="theme-dot" data-t="blush" onclick="setTheme('blush')"></div>
+        <div class="theme-dot" data-t="fresh" onclick="setTheme('fresh')"></div>
+        <div class="theme-dot" data-t="pip-dark" onclick="setTheme('pip-dark')"></div>
+        <div class="theme-dot" data-t="mocha" onclick="setTheme('mocha')"></div>
+        <div class="theme-dot" data-t="slate" onclick="setTheme('slate')"></div>
+      </div>
+      <button class="btn-logout" onclick="handleLogout()">Sign out</button>
+    </div>
+  </div>
+
+  <!-- TAB NAVIGATION -->
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="workflow" onclick="switchTab('workflow')">
+      ⚙ Workflow
+    </button>
+    <button class="tab-btn" data-tab="ideas" onclick="switchTab('ideas')">
+      💡 Ideas
+    </button>
+    <button class="tab-btn" data-tab="collections" onclick="switchTab('collections')">
+      📦 Collections <span class="tab-badge" id="collections-tab-count" style="display:none">0</span>
+    </button>
+    <button class="tab-btn" data-tab="calendar" onclick="switchTab('calendar')">
+      📅 Calendar
+    </button>
+    <button class="tab-btn" data-tab="stats" onclick="switchTab('stats')">
+      📊 Stats
+    </button>
+  </div>
+
+  <!-- ======================== WORKFLOW TAB ======================== -->
+  <div id="tab-workflow" class="view active">
+    <div class="kanban-wrap">
+      <div class="kanban-board" id="kanban-board">
+        <!-- Columns rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== IDEAS TAB ======================== -->
+  <div id="tab-ideas" class="view">
+    <div class="ideas-header">
+      <div>
+        <h2>Idea Vault</h2>
+        <p>Capture product ideas before they slip away.</p>
+      </div>
+      <button class="btn-add-idea" onclick="openAddIdeaModal()">+ Add Idea</button>
+    </div>
+    <div class="ideas-grid" id="ideas-grid">
+      <div class="idea-empty">
+        <div class="idea-empty-icon">💡</div>
+        <h3>Your Idea Vault is empty.</h3>
+        <p>Add product ideas here so you never lose them. Start with whatever's on your mind!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== COLLECTIONS TAB ======================== -->
+  <div id="tab-collections" class="view">
+    <div class="collections-toolbar">
+      <div class="collections-filters">
+        <select class="filter-select" id="collection-cat-filter" onchange="renderCollections()">
+          <option value="">All categories</option>
+          <option>Clipart</option><option>Patterns</option><option>Alpha PNGs</option>
+          <option>Procreate Brushes</option><option>Procreate Stamps</option>
+          <option>Journals</option><option>Sublimation Designs</option>
+          <option>Sticker Sheets</option><option>Digital Paper</option><option>SVG Files</option>
+        </select>
+        <select class="filter-select" id="collection-sort-filter" onchange="renderCollections()">
+          <option value="newest">Date listed (newest)</option>
+          <option value="oldest">Date listed (oldest)</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" id="grid-view-btn" onclick="setCollectionView('grid')">Grid</button>
+        <button class="view-toggle-btn" id="list-view-btn" onclick="setCollectionView('list')">List</button>
+      </div>
+    </div>
+    <div id="collections-container">
+      <div class="collections-empty">
+        <div style="font-size:2.5rem;margin-bottom:0.75rem">📦</div>
+        <h3 style="font-size:1.1rem;color:var(--text-secondary);margin-bottom:0.4rem">No completed collections yet.</h3>
+        <p style="font-size:0.85rem;color:var(--text-muted)">Your finished listings will appear here.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== CALENDAR TAB ======================== -->
+  <div id="tab-calendar" class="view">
+    <div class="calendar-header">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem">Content Calendar</h2>
+      <select class="calendar-year-select" id="calendar-year" onchange="renderCalendar()">
+        <option>2026</option><option>2027</option><option>2028</option>
+      </select>
+      <p style="font-size:0.82rem;color:var(--text-muted);margin-left:auto">Check off holidays as you complete them. ★ = major — start 2–3 months early!</p>
+    </div>
+    <div id="this-month-banner"></div>
+    <div class="calendar-grid" id="calendar-grid"></div>
+  </div>
+
+  <!-- ======================== STATS TAB ======================== -->
+  <div id="tab-stats" class="view">
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:1.25rem">Your Stats</h2>
+    <div class="stats-bar" id="stats-bar"></div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:1.25rem;box-shadow:var(--shadow-card)">
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem">Weekly Progress — Last 8 Weeks</div>
+      <div class="weekly-chart-bars" id="weekly-chart"></div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ============================================================
+     CARD DETAIL PANEL
+     ============================================================ -->
+<div class="panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
+<div class="card-panel" id="card-panel">
+  <div class="panel-header">
+    <div class="panel-stage-pill" id="panel-stage-pill">Ideas</div>
+    <div style="flex:1"></div>
+    <div class="panel-progress-circle" id="panel-progress-circle">
+      <svg width="44" height="44" viewBox="0 0 44 44">
+        <circle cx="22" cy="22" r="18" fill="none" stroke="var(--progress-bg)" stroke-width="4"/>
+        <circle cx="22" cy="22" r="18" fill="none" stroke="var(--accent)" stroke-width="4"
+          stroke-dasharray="113" stroke-dashoffset="113" id="panel-progress-arc" stroke-linecap="round"/>
+      </svg>
+      <div class="pct-text" id="panel-pct-text">0%</div>
+    </div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panel-body">
+    <!-- Rendered by JS -->
+  </div>
+  <div class="panel-footer">
+    <button class="btn-delete" onclick="deleteCurrentCard()">Delete card</button>
+    <div style="display:flex;gap:0.5rem;align-items:center">
+      <button class="btn-save" onclick="saveCurrentCard()">Save</button>
+      <button class="btn-advance visible" id="btn-advance" onclick="advanceCurrentCard()">Continue to Planning →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ADD IDEA MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="add-idea-modal">
+  <div class="modal-box">
+    <div class="modal-title">Add new idea</div>
+    <label class="modal-label">Product name</label>
+    <input class="modal-input" id="new-idea-name" placeholder="e.g. Boho Sunflower Clipart Set" maxlength="80">
+    <label class="modal-label">Category</label>
+    <select class="modal-select" id="new-idea-category">
+      <option value="">— choose a category —</option>
+      <option>Clipart</option><option>Patterns</option><option>Alpha PNGs</option>
+      <option>Procreate Brushes</option><option>Procreate Stamps</option>
+      <option>Journals</option><option>Sublimation Designs</option>
+      <option>Sticker Sheets</option><option>Digital Paper</option><option>SVG Files</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('add-idea-modal')">Cancel</button>
+      <button class="btn-create" onclick="createIdea()">Create card</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     BADGES MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="badges-modal">
+  <div class="modal-box" style="max-width:560px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-header-title">My Badges</div>
+        <div class="modal-header-sub" id="badges-sub">0 of 8 earned · 8 still to unlock</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('badges-modal')">✕</button>
+    </div>
+    <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.875rem">Listing milestones</div>
+    <div class="modal-scroll">
+      <div class="badges-grid" id="badges-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JOURNEY MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="journey-modal">
+  <div class="modal-box" style="max-width:500px">
+    <div class="modal-header">
+      <div>
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted)">Creator Rhythm</div>
+        <div class="modal-header-title">Consistency Journey</div>
+        <div class="modal-header-sub">Hit your weekly listing goal to move forward.</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('journey-modal')">✕</button>
+    </div>
+    <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.75rem;text-align:center" id="journey-weeks-label">0 / 12 weeks completed</div>
+    <div class="journey-dots" id="journey-dots"></div>
+    <div class="streak-stats" id="streak-stats"></div>
+    <div class="next-badge-box" id="next-journey-badge"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GOAL MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="goal-modal">
+  <div class="modal-box" style="max-width:400px">
+    <div class="modal-header">
+      <div class="modal-header-title">Weekly listing goal</div>
+      <button class="modal-close" onclick="closeModal('goal-modal')">✕</button>
+    </div>
+    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1.25rem">Set how many products you aim to list this week (Mon–Sun). Once saved, it locks until next Monday.</p>
+    <div class="goal-options">
+      <button class="goal-option" onclick="selectGoal(2)">2 / week</button>
+      <button class="goal-option" onclick="selectGoal(4)">4 / week</button>
+      <button class="goal-option" onclick="selectGoal(10)">10 / week</button>
+      <button class="goal-option" onclick="selectGoal(20)">20 / week</button>
+    </div>
+    <div class="goal-custom-wrap">
+      <input class="goal-custom-input" type="number" id="goal-custom" min="1" max="100" placeholder="—" oninput="selectGoal(parseInt(this.value)||0)">
+      <span style="font-size:0.88rem;color:var(--text-secondary)">collections / week</span>
+    </div>
+    <div id="goal-locked-msg" style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;display:none">
+      🔒 Goal is locked for this week. Unlocks next Monday.
+    </div>
+    <button class="btn-primary" onclick="saveGoal()" id="lock-goal-btn">Lock goal for this week</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     TROPHY MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="trophy-modal">
+  <div class="modal-box" style="max-width:400px">
+    <button class="modal-close" style="float:right" onclick="closeModal('trophy-modal')">✕</button>
+    <div class="trophy-modal" id="trophy-content"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     WEEKLY SUMMARY MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="weekly-modal">
+  <div class="modal-box" style="max-width:460px">
+    <div class="modal-header">
+      <div class="modal-header-title">Weekly Summary</div>
+      <button class="modal-close" onclick="closeModal('weekly-modal')">✕</button>
+    </div>
+    <div id="weekly-summary-content"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONSTANTS & CONFIG
+// ============================================================
+const SUPABASE_URL = 'https://bvbuojlwrfhyeumlzffu.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2YnVvamx3cmZoeWV1bWx6ZmZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3OTU3OTAsImV4cCI6MjA5NjM3MTc5MH0.J4cpGcXQikdrr9tULjKA7Ez2vtNxduZdPldNMXqv9rA';
+
+const STAGES = [
+  { key: 'ideas',     label: 'Ideas',     sub: 'Research it',       icon: '💡', color: '--stage-ideas',     textColor: '--stage-ideas-text' },
+  { key: 'planning',  label: 'Planning',  sub: 'Plan the product',   icon: '📋', color: '--stage-planning',  textColor: '--stage-planning-text' },
+  { key: 'designing', label: 'Designing', sub: 'Design the product', icon: '🎨', color: '--stage-designing', textColor: '--stage-designing-text' },
+  { key: 'creating',  label: 'Creating',  sub: 'Create the product', icon: '✨', color: '--stage-creating',  textColor: '--stage-creating-text' },
+  { key: 'preparing', label: 'Preparing', sub: 'Polish the files',   icon: '🛠', color: '--stage-preparing', textColor: '--stage-preparing-text' },
+  { key: 'listing',   label: 'Listing',   sub: 'Build the listing',  icon: '🏷', color: '--stage-listing',   textColor: '--stage-listing-text' },
+  { key: 'listed',    label: 'Listed',    sub: 'Live on Etsy',       icon: '🎉', color: '--stage-listed',    textColor: '--stage-listed-text' },
+];
+
+const STAGE_CHECKLISTS = {
+  ideas: [
+    'Research competition on Etsy',
+    'Note sales numbers & competition count',
+    'Confirm demand is strong enough',
+    'Idea added to collection plan',
+  ],
+  planning: [
+    'Style / aesthetic chosen',
+    'Collection elements brainstormed',
+    'Number of pieces decided',
+    'Color palette planned',
+    'Reference images gathered',
+  ],
+  designing: [
+    'Sketches or rough layouts done',
+    'AI prompts written and saved',
+    'Design tool selected',
+    'Design session scheduled',
+  ],
+  creating: [
+    'Images generated / created',
+    'Best images selected & culled',
+    'Prompt saved for future use',
+    'Raw files organized in named folder',
+  ],
+  preparing: [
+    'Images upscaled to 4000px or 2x',
+    'Backgrounds removed',
+    'Edges cleaned up',
+    'Images checked at 300 DPI',
+    'Files renamed (SEO-friendly)',
+    'Delivery PDF or ZIP created',
+    'Final check complete',
+  ],
+  listing: [
+    'Images uploaded to Drive or Dropbox',
+    'Delivery link tested',
+    'Thumbnail created',
+    'Listing images ready (all 10)',
+    'Listing video ready (optional)',
+    'Etsy title written',
+    '13 tags added',
+    'Description written',
+    'Price set',
+    'Listed on Etsy',
+  ],
+  listed: [
+    'Etsy listing URL saved',
+    'Listing shared on social media',
+    'Added to relevant collections / bundles',
+  ],
+};
+
+const STAGE_TOOLS = {
+  ideas: [],
+  planning: [],
+  designing: {
+    'Clipart':            ['Q4 Prompt Studio', 'Tile Me Pretty'],
+    'Patterns':           ['Tile Me Pretty', 'Q4 Prompt Studio'],
+    'Alpha PNGs':         ['Letter Lab Luxe', 'Alpha Forge Studio'],
+    'Procreate Brushes':  [],
+    'Procreate Stamps':   [],
+    'Journals':           ['Planner Prompt Studio', 'Word Slay'],
+    'Sublimation Designs':['Q4 Prompt Studio', 'Tile Me Pretty'],
+    'Sticker Sheets':     ['Q4 Prompt Studio'],
+    'Digital Paper':      ['Tile Me Pretty'],
+    'SVG Files':          [],
+    'default':            ['Q4 Prompt Studio', 'Tile Me Pretty', 'Word Slay', 'Letter Lab Luxe', 'Planner Prompt Studio'],
+  },
+  creating: {
+    'default': ['Chroma Snap', 'Glow & Go'],
+  },
+  preparing: {
+    'default': ['SheetCraft Studio', 'FileFlip', 'Mockup Studio'],
+  },
+  listing: {
+    'default': ['Word Slay', 'Chroma Snap'],
+  },
+  listed: [],
+};
+
+const TOOL_URLS = {
+  'Q4 Prompt Studio':    'https://pip-member-hub.vercel.app',
+  'Tile Me Pretty':      'https://tile-me-pretty-pip.vercel.app',
+  'Word Slay':           'https://word-slay-pip.vercel.app',
+  'Letter Lab Luxe':     'https://letter-luxe-studio-pip.vercel.app',
+  'Alpha Forge Studio':  'https://alpha-forge-studio.vercel.app',
+  'Planner Prompt Studio':'https://pip-member-hub.vercel.app',
+  'Chroma Snap':         'https://chroma-snap-pip.vercel.app',
+  'Glow & Go':           'https://glow-go-pip.vercel.app',
+  'SheetCraft Studio':   'https://pip-sheetcraft-studio.vercel.app',
+  'FileFlip':            'https://fileflip-pip.vercel.app',
+  'Mockup Studio':       'https://pip-member-hub.vercel.app',
+};
+
+const PRODUCT_TYPES = [
+  'Clipart','Patterns','Alpha PNGs','Procreate Brushes',
+  'Procreate Stamps','Journals','Sublimation Designs',
+  'Sticker Sheets','Digital Paper','SVG Files',
+];
+
+const BADGES = [
+  { key:'first',     name:'First Listing',      icon:'🥇', req:1,   label:'1 listing' },
+  { key:'getting',   name:'Getting Started',     icon:'🌱', req:5,   label:'5 listings' },
+  { key:'momentum',  name:'Momentum Builder',    icon:'🚀', req:10,  label:'10 listings' },
+  { key:'creator',   name:'Collection Creator',  icon:'🎨', req:25,  label:'25 listings' },
+  { key:'builder',   name:'Etsy Builder',        icon:'🏗',  req:50,  label:'50 listings' },
+  { key:'legend',    name:'Catalog Legend',      icon:'📚', req:100, label:'100 listings' },
+  { key:'bundle',    name:'Bundle Boss',         icon:'💼', req:200, label:'200 listings' },
+  { key:'shop',      name:'Full Shop Creator',   icon:'👑', req:500, label:'500 listings' },
+];
+
+const CALENDAR_DATA = {
+  1:  { name:'January',   color:'#4A6FA5', createFor:['St Patrick\'s Day (Mar 17)','Spring & Easter themes','Super Bowl (Feb)'], happeningMajor:['New Year\'s Day (1/1)','Valentine\'s Day prep','Black History Month'], happeningMinor:['MLK Day','Winter Olympics','Hot Cocoa Day (1/31)'] },
+  2:  { name:'February',  color:'#D4687A', createFor:['Spring & Easter themes','Mother\'s Day (May)','St Patrick\'s Day (Mar)'], happeningMajor:['Valentine\'s Day (2/14)','Black History Month','Groundhog Day (2/1)'], happeningMinor:['Chinese New Year','Super Bowl','Presidents Day','National Pizza Day (2/9)'] },
+  3:  { name:'March',     color:'#5A9E6A', createFor:['Mother\'s Day (May)','Cinco de Mayo (5/5)','Teacher Appreciation Week','Mental Health Month (May)'], happeningMajor:['Spring (3/19–21)','Women\'s Day (3/8)','Easter','St Patrick\'s Day (3/17)'], happeningMinor:[] },
+  4:  { name:'April',     color:'#C4A040', createFor:['Father\'s Day (Jun)','Summer & beach collections','4th of July (Jul)','Pride Month (Jun)'], happeningMajor:['April Fools (4/1)','Easter','National Pet Day (4/11)'], happeningMinor:['Autism Awareness Month','Earth Day (4/22)','World Book Day (4/23)','Superhero Day (4/28)'] },
+  5:  { name:'May',       color:'#8A6EA8', createFor:['4th of July','Summer collections','Father\'s Day (Jun)'], happeningMajor:['Mother\'s Day','Memorial Day','Cinco de Mayo (5/5)'], happeningMinor:['Star Wars Day (5/4)','Teacher Appreciation Week','Mental Health Month'] },
+  6:  { name:'June',      color:'#D4885A', createFor:['Back to School season','4th of July (last push)','Summer watercolor sets'], happeningMajor:['Father\'s Day','Juneteenth (6/19)','First Day of Summer (6/20)'], happeningMinor:['Donut Day (6/7)','Pride Month'] },
+  7:  { name:'July',      color:'#5A8AC4', createFor:['Halloween','Back to School','Fall & Autumn collections'], happeningMajor:['Independence Day (7/4)','Back to School prep'], happeningMinor:['National Hot Dog Day (7/17)','Ice Cream Day (7/21)','Summer Olympics (when applicable)'] },
+  8:  { name:'August',    color:'#6AA870', createFor:['Christmas','Halloween','Thanksgiving & Fall themes'], happeningMajor:['Back to School'], happeningMinor:['Friendship Day (8/4)','Cat Day (8/8)','Book Lover\'s Day (8/9)','National Dog Day (8/26)'] },
+  9:  { name:'September', color:'#A86A50', createFor:['Christmas','Winter & Holiday collections','Thanksgiving clipart'], happeningMajor:['First Day of Fall (9/22)','Labor Day','Grandparents Day (9/8)'], happeningMinor:['Hispanic Heritage Month','Oktoberfest'] },
+  10: { name:'October',   color:'#C87A30', createFor:['Christmas','Valentine\'s Day','Winter & New Year themes'], happeningMajor:['Halloween (10/31)','World Coffee Day (10/1)'], happeningMinor:['Indigenous Peoples Day (10/14)','Breast Cancer Awareness Month','NBA & NHL Season Starts'] },
+  11: { name:'November',  color:'#7A5EA8', createFor:['Valentine\'s Day','Chinese New Year','Winter & New Year sets'], happeningMajor:['Thanksgiving','Black Friday','Veterans Day (11/11)'], happeningMinor:['World Kindness Day (11/13)','International Men\'s Day (11/19)'] },
+  12: { name:'December',  color:'#C84848', createFor:['Valentine\'s Day','Chinese New Year','Spring & Easter collections','Black History Month (Feb)'], happeningMajor:['Christmas (12/25)','Kwanzaa (12/26)','New Year\'s Eve (12/31)'], happeningMinor:['Cyber Monday (early Dec)'] },
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let currentUser = null;
+let cards = [];
+let badges = [];
+let journey = [];
+let goal = { weekly_goal: 4, week_start: null, locked: false };
+let stats = { total_listed:0, best_week:0, current_streak:0, best_streak:0 };
+let calendarChecks = {};
+let currentCardId = null;
+let currentTheme = localStorage.getItem('pip-flow-theme') || 'warm';
+let collectionView = 'grid';
+let focusFilterActive = false;
+let pendingGoal = 4;
+let weeklyHistory = [];
+
+// ============================================================
+// SUPABASE HELPER (XMLHttpRequest — matches hub pattern)
+// ============================================================
+function sbFetch(method, path, body, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open(method, SUPABASE_URL + path);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.setRequestHeader('apikey', SUPABASE_KEY);
+  xhr.setRequestHeader('Authorization', 'Bearer ' + SUPABASE_KEY);
+  if (method === 'GET' || method === 'DELETE') {
+    xhr.setRequestHeader('Prefer', 'return=representation');
+  } else {
+    xhr.setRequestHeader('Prefer', 'return=representation');
+  }
+  xhr.onload = function() {
+    try {
+      const data = JSON.parse(xhr.responseText);
+      callback(null, data);
+    } catch(e) { callback(e, null); }
+  };
+  xhr.onerror = function() { callback(new Error('Network error'), null); };
+  xhr.send(body ? JSON.stringify(body) : null);
+}
+
+// ============================================================
+// THEME
+// ============================================================
+function setTheme(t) {
+  currentTheme = t;
+  document.body.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-dot').forEach(d => {
+    d.classList.toggle('active', d.dataset.t === t);
+  });
+  localStorage.setItem('pip-flow-theme', t);
+}
+
+// ============================================================
+// LOGIN
+// ============================================================
+function handleLogin() {
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  if (!email) return;
+
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+
+  sbFetch('GET', `/rest/v1/pip_members?email=eq.${encodeURIComponent(email)}&select=email`, null, function(err, data) {
+    if (err || !data || data.length === 0) {
+      errEl.style.display = 'block';
+      return;
+    }
+    currentUser = email;
+    localStorage.setItem('pip-flow-user', email);
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    setTheme(currentTheme);
+    loadAllData();
+  });
+}
+
+function handleLogout() {
+  currentUser = null;
+  localStorage.removeItem('pip-flow-user');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-email').value = '';
+}
+
+// Auto-login — checks URL param first, then localStorage
+window.addEventListener('DOMContentLoaded', function() {
+  setTheme(currentTheme);
+
+  // Check if email was passed in URL ?e=email@example.com
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlEmail = urlParams.get('e') || urlParams.get('email');
+
+  // Check localStorage for previously saved session
+  const saved = urlEmail
+    || localStorage.getItem('pip-flow-user')
+    || localStorage.getItem('pip-member')
+    || localStorage.getItem('pip_member')
+    || localStorage.getItem('pipMember')
+    || localStorage.getItem('memberEmail');
+
+  if (saved) {
+    sbFetch('GET', `/rest/v1/pip_members?email=eq.${encodeURIComponent(saved)}&select=email`, null, function(err, data) {
+      if (!err && data && data.length > 0) {
+        currentUser = saved;
+        localStorage.setItem('pip-flow-user', saved);
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        loadAllData();
+      }
+    });
+  }
+
+  document.getElementById('login-email').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleLogin();
+  });
+});
+
+// ============================================================
+// LOAD ALL DATA
+// ============================================================
+function loadAllData() {
+  loadCards();
+  loadBadges();
+  loadJourney();
+  loadGoal();
+  loadStats();
+  loadCalendarChecks();
+  renderCalendar();
+}
+
+function loadCards() {
+  sbFetch('GET', `/rest/v1/pip_flowboard_cards?member_email=eq.${encodeURIComponent(currentUser)}&order=created_at.asc`, null, function(err, data) {
+    if (!err && Array.isArray(data)) {
+      cards = data.map(c => ({
+        ...c,
+        checklist: typeof c.checklist === 'string' ? JSON.parse(c.checklist) : (c.checklist || {}),
+        competition_links: typeof c.competition_links === 'string' ? JSON.parse(c.competition_links) : (c.competition_links || []),
+      }));
+    } else { cards = []; }
+    renderAll();
+  });
+}
+
+function loadBadges() {
+  sbFetch('GET', `/rest/v1/pip_flowboard_badges?member_email=eq.${encodeURIComponent(currentUser)}`, null, function(err, data) {
+    badges = (!err && Array.isArray(data)) ? data : [];
+    renderBadgesCount();
+  });
+}
+
+function loadJourney() {
+  sbFetch('GET', `/rest/v1/pip_flowboard_journey?member_email=eq.${encodeURIComponent(currentUser)}&order=week_start.asc`, null, function(err, data) {
+    journey = (!err && Array.isArray(data)) ? data : [];
+    renderJourneyCount();
+  });
+}
+
+function loadGoal() {
+  const ws = getWeekStart();
+  sbFetch('GET', `/rest/v1/pip_flowboard_goals?member_email=eq.${encodeURIComponent(currentUser)}&week_start=eq.${ws}`, null, function(err, data) {
+    if (!err && Array.isArray(data) && data.length > 0) {
+      goal = { weekly_goal: data[0].weekly_goal, week_start: data[0].week_start, locked: true };
+      pendingGoal = goal.weekly_goal;
+    } else {
+      goal = { weekly_goal: 4, week_start: ws, locked: false };
+    }
+    updateWeekBar();
+  });
+}
+
+function loadStats() {
+  sbFetch('GET', `/rest/v1/pip_flowboard_stats?member_email=eq.${encodeURIComponent(currentUser)}`, null, function(err, data) {
+    if (!err && Array.isArray(data) && data.length > 0) {
+      stats = data[0];
+    }
+    renderStats();
+    loadWeeklyHistory();
+  });
+}
+
+function loadWeeklyHistory() {
+  sbFetch('GET', `/rest/v1/pip_flowboard_journey?member_email=eq.${encodeURIComponent(currentUser)}&order=week_start.desc&limit=8`, null, function(err, data) {
+    weeklyHistory = (!err && Array.isArray(data)) ? data.reverse() : [];
+    renderWeeklyChart();
+  });
+}
+
+function loadCalendarChecks() {
+  const yr = parseInt(document.getElementById('calendar-year').value) || 2026;
+  sbFetch('GET', `/rest/v1/pip_flowboard_calendar_checks?member_email=eq.${encodeURIComponent(currentUser)}&calendar_year=eq.${yr}`, null, function(err, data) {
+    calendarChecks = {};
+    if (!err && Array.isArray(data)) {
+      data.forEach(r => { calendarChecks[r.item_key] = true; });
+    }
+    renderCalendar();
+  });
+}
+
+// ============================================================
+// WEEK HELPERS
+// ============================================================
+function getWeekStart(date) {
+  const d = date ? new Date(date) : new Date();
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const mon = new Date(d.setDate(diff));
+  return mon.toISOString().slice(0,10);
+}
+
+function getWeekEnd(weekStart) {
+  const d = new Date(weekStart);
+  d.setDate(d.getDate() + 6);
+  return d.toISOString().slice(0,10);
+}
+
+function formatDateRange(start, end) {
+  const s = new Date(start + 'T12:00:00');
+  const e = new Date(end + 'T12:00:00');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if (s.getMonth() === e.getMonth()) {
+    return `${s.getDate()}–${e.getDate()} ${months[s.getMonth()]}`;
+  }
+  return `${s.getDate()} ${months[s.getMonth()]}–${e.getDate()} ${months[e.getMonth()]}`;
+}
+
+function getThisWeekListings() {
+  const ws = getWeekStart();
+  const we = getWeekEnd(ws);
+  return cards.filter(c => c.stage === 'listed' && c.listed_date && c.listed_date >= ws && c.listed_date <= we + 'T23:59:59').length;
+}
+
+function updateWeekBar() {
+  const ws = getWeekStart();
+  const we = getWeekEnd(ws);
+  const listed = getThisWeekListings();
+  const g = goal.weekly_goal || 4;
+  const pct = Math.min(100, Math.round((listed / g) * 100));
+
+  document.getElementById('week-count-display').textContent = `${listed} / ${g} listed`;
+  document.getElementById('week-dates-display').textContent = formatDateRange(ws, we);
+  document.getElementById('week-progress-fill').style.width = pct + '%';
+
+  const msgs = ['Set your goal and start listing!','Good start — keep the momentum!','Lovely progress. Keep going.','Almost there!','Goal smashed! Amazing week! 🎉'];
+  const msgIdx = pct === 0 ? 0 : pct < 25 ? 1 : pct < 75 ? 2 : pct < 100 ? 3 : 4;
+  document.getElementById('week-progress-msg').textContent = msgs[msgIdx];
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll() {
+  renderKanban();
+  renderIdeas();
+  renderCollections();
+  updateWeekBar();
+  renderStats();
+  renderFocusCount();
+  updateCollectionsTabCount();
+}
+
+// ============================================================
+// KANBAN BOARD
+// ============================================================
+function renderKanban() {
+  const board = document.getElementById('kanban-board');
+  board.innerHTML = '';
+
+  STAGES.forEach(stage => {
+    const stageCards = cards.filter(c => c.stage === stage.key);
+    const col = document.createElement('div');
+    col.className = 'kanban-col';
+
+    const countClass = stageCards.length === 0 ? 'col-count zero' : 'col-count';
+
+    col.innerHTML = `
+      <div class="col-header">
+        <div class="col-title-wrap">
+          <span class="col-icon">${stage.icon}</span>
+          <div>
+            <div class="col-title" style="color:var(${stage.textColor})">${stage.label}</div>
+            <div class="col-subtitle">${stage.sub}</div>
+          </div>
+        </div>
+        <span class="${countClass}">${stageCards.length}</span>
+      </div>
+      ${stage.key === 'ideas' ? `<button class="col-add-btn" onclick="openAddIdeaModal()">+ Add idea</button>` : ''}
+    `;
+
+    if (stageCards.length === 0) {
+      const hint = document.createElement('div');
+      hint.className = 'col-empty-hint';
+      const hints = {
+        ideas: 'Add a quick idea you have, or one you\'ve spotted while researching trends.',
+        planning: 'Move a card here when you\'re ready to plan the collection.',
+        designing: 'Move a card here when you\'re ready to design.',
+        creating: 'Move a card here when you start creating your images or files.',
+        preparing: 'Move cards here when you\'re removing backgrounds, upscaling, renaming.',
+        listing: 'Move cards here when you\'re creating listing images, SEO, and Etsy drafts.',
+        listed: 'Cards land here once your product is live on Etsy. 🎉',
+      };
+      hint.textContent = hints[stage.key] || '';
+      col.appendChild(hint);
+    } else {
+      const now = new Date();
+      stageCards.forEach(card => {
+        const pct = getCardPct(card);
+        const daysSince = Math.floor((now - new Date(card.updated_at)) / 86400000);
+        const isStale = daysSince >= 7 && card.stage !== 'listed' && !card.stale_nudge_dismissed;
+
+        const cardEl = document.createElement('div');
+        cardEl.className = 'kanban-card' + (isStale ? ' stale' : '');
+        cardEl.onclick = () => openPanel(card.id);
+        cardEl.innerHTML = `
+          <div class="kanban-card-title">${esc(card.title)}</div>
+          <div class="kanban-card-meta">
+            <span class="category-pill">${esc(card.category || card.product_type || '')}</span>
+            <button class="star-btn ${card.is_starred ? 'starred' : ''}" onclick="event.stopPropagation();toggleStar('${card.id}')">${card.is_starred ? '★' : '☆'}</button>
+          </div>
+          <div class="progress-mini">
+            <div class="progress-mini-bar"><div class="progress-mini-fill" style="width:${pct}%"></div></div>
+            <span class="progress-mini-pct">${pct}%</span>
+          </div>
+          <div class="kanban-card-date">Added ${formatDate(card.created_at)}</div>
+        `;
+        col.appendChild(cardEl);
+      });
+    }
+
+    board.appendChild(col);
+  });
+}
+
+// ============================================================
+// IDEAS VIEW
+// ============================================================
+function renderIdeas() {
+  const grid = document.getElementById('ideas-grid');
+  let displayCards = cards.filter(c => c.stage === 'ideas');
+  if (focusFilterActive) displayCards = displayCards.filter(c => c.is_starred);
+
+  if (displayCards.length === 0) {
+    grid.innerHTML = `<div class="idea-empty">
+      <div class="idea-empty-icon">💡</div>
+      <h3>${focusFilterActive ? 'No starred ideas.' : 'Your Idea Vault is empty.'}</h3>
+      <p>${focusFilterActive ? 'Star ideas on cards to pin them here.' : 'Add product ideas here so you never lose them.'}</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = displayCards.map(c => `
+    <div class="idea-card" onclick="openPanel('${c.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
+        <div class="idea-card-title">${esc(c.title)}</div>
+        <button class="star-btn ${c.is_starred ? 'starred' : ''}" onclick="event.stopPropagation();toggleStar('${c.id}')">${c.is_starred ? '★' : '☆'}</button>
+      </div>
+      <div class="idea-card-meta">
+        <span class="category-pill">${esc(c.category || c.product_type || '')}</span>
+        <span class="idea-card-date">${formatDate(c.created_at)}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterFocus() {
+  focusFilterActive = !focusFilterActive;
+  renderIdeas();
+}
+
+// ============================================================
+// COLLECTIONS VIEW
+// ============================================================
+function renderCollections() {
+  const catFilter = document.getElementById('collection-cat-filter').value;
+  const sort = document.getElementById('collection-sort-filter').value;
+  let listed = cards.filter(c => c.stage === 'listed');
+
+  if (catFilter) listed = listed.filter(c => (c.category || c.product_type) === catFilter);
+  if (sort === 'oldest') listed.sort((a,b) => new Date(a.listed_date||a.created_at) - new Date(b.listed_date||b.created_at));
+  else if (sort === 'name') listed.sort((a,b) => a.title.localeCompare(b.title));
+  else listed.sort((a,b) => new Date(b.listed_date||b.created_at) - new Date(a.listed_date||a.created_at));
+
+  const container = document.getElementById('collections-container');
+
+  if (listed.length === 0) {
+    container.innerHTML = `<div class="collections-empty">
+      <div style="font-size:2.5rem;margin-bottom:0.75rem">📦</div>
+      <h3 style="font-size:1.1rem;color:var(--text-secondary);margin-bottom:0.4rem">No completed collections yet.</h3>
+      <p style="font-size:0.85rem;color:var(--text-muted)">Your finished listings will appear here once you move a card to Listed.</p>
+    </div>`;
+    return;
+  }
+
+  if (collectionView === 'grid') {
+    container.innerHTML = `<div class="collections-grid">${listed.map(c => `
+      <div class="collection-card-grid" onclick="openPanel('${c.id}')">
+        <div class="collection-thumb">📦</div>
+        <div class="collection-card-grid-body">
+          <div class="collection-card-grid-title">${esc(c.title)}</div>
+          <div class="category-pill" style="margin-bottom:0.4rem">${esc(c.category || c.product_type || '')}</div>
+          <div class="collection-card-grid-meta">Listed ${formatDate(c.listed_date || c.created_at)}</div>
+        </div>
+      </div>
+    `).join('')}</div>`;
+  } else {
+    container.innerHTML = `<div class="collections-list">${listed.map(c => `
+      <div class="collection-card-list" onclick="openPanel('${c.id}')">
+        <div class="collection-list-thumb">📦</div>
+        <div class="collection-list-info">
+          <div class="collection-list-title">${esc(c.title)}</div>
+          <span class="category-pill">${esc(c.category || c.product_type || '')}</span>
+          <div class="collection-list-meta" style="margin-top:0.25rem">Listed ${formatDate(c.listed_date || c.created_at)} · Workflow: 5/5 stages complete</div>
+        </div>
+      </div>
+    `).join('')}</div>`;
+  }
+}
+
+function setCollectionView(v) {
+  collectionView = v;
+  document.getElementById('grid-view-btn').classList.toggle('active', v === 'grid');
+  document.getElementById('list-view-btn').classList.toggle('active', v === 'list');
+  renderCollections();
+}
+
+function updateCollectionsTabCount() {
+  const n = cards.filter(c => c.stage === 'listed').length;
+  const el = document.getElementById('collections-tab-count');
+  el.textContent = n;
+  el.style.display = n > 0 ? 'inline-block' : 'none';
+}
+
+// ============================================================
+// CALENDAR
+// ============================================================
+function renderCalendar() {
+  const yr = parseInt(document.getElementById('calendar-year').value) || 2026;
+  const now = new Date();
+  const thisMonth = now.getMonth() + 1;
+  const grid = document.getElementById('calendar-grid');
+
+  // This month banner
+  const thisMonthData = CALENDAR_DATA[thisMonth];
+  const banner = document.getElementById('this-month-banner');
+  if (thisMonthData) {
+    banner.innerHTML = `
+      <div>
+        <div class="this-month-label">${thisMonthData.name} — Start creating for:</div>
+      </div>
+      <div class="this-month-items">
+        ${thisMonthData.createFor.map(i => `<span class="this-month-tag">${i}</span>`).join('')}
+      </div>
+    `;
+  }
+
+  grid.innerHTML = Object.entries(CALENDAR_DATA).map(([m, data]) => {
+    const isCurrent = parseInt(m) === thisMonth && yr === now.getFullYear();
+    return `
+      <div class="cal-month-card ${isCurrent ? 'current-month' : ''}">
+        <div class="cal-month-header" style="border-left:4px solid ${data.color}">
+          <span class="cal-month-name">${data.name}</span>
+          ${isCurrent ? '<span class="current-badge">THIS MONTH</span>' : ''}
+        </div>
+        <div class="cal-month-body">
+          <div class="cal-section-label">Start creating for</div>
+          ${data.createFor.map(item => renderCalItem(yr, m, 'create', item, false)).join('')}
+          <div class="cal-section-label">Happening this month</div>
+          ${data.happeningMajor.map(item => renderCalItem(yr, m, 'major', item, true)).join('')}
+          ${data.happeningMinor.map(item => renderCalItem(yr, m, 'minor', item, false)).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderCalItem(yr, month, type, text, isMajor) {
+  const key = `${yr}-${month}-${type}-${text.replace(/[^a-z0-9]/gi,'_')}`;
+  const checked = calendarChecks[key] ? true : false;
+  return `
+    <div class="cal-item ${checked ? 'checked' : ''}" onclick="toggleCalItem('${key}', this)">
+      <div class="cal-item-check">${checked ? '✓' : ''}</div>
+      ${isMajor ? '<span class="cal-star">★</span>' : '<span style="width:14px;display:inline-block"></span>'}
+      <span class="cal-item-text">${text}</span>
+    </div>
+  `;
+}
+
+function toggleCalItem(key, el) {
+  const yr = parseInt(document.getElementById('calendar-year').value) || 2026;
+  const isChecked = calendarChecks[key];
+
+  if (isChecked) {
+    delete calendarChecks[key];
+    el.classList.remove('checked');
+    el.querySelector('.cal-item-check').textContent = '';
+    sbFetch('DELETE', `/rest/v1/pip_flowboard_calendar_checks?member_email=eq.${encodeURIComponent(currentUser)}&item_key=eq.${encodeURIComponent(key)}`, null, () => {});
+  } else {
+    calendarChecks[key] = true;
+    el.classList.add('checked');
+    el.querySelector('.cal-item-check').textContent = '✓';
+    sbFetch('POST', '/rest/v1/pip_flowboard_calendar_checks', {
+      member_email: currentUser, calendar_year: yr, item_key: key
+    }, () => {});
+  }
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function renderStats() {
+  const thisWeek = getThisWeekListings();
+  const thisMonth = cards.filter(c => {
+    if (c.stage !== 'listed') return false;
+    const d = c.listed_date || c.created_at;
+    const now = new Date();
+    const listed = new Date(d);
+    return listed.getMonth() === now.getMonth() && listed.getFullYear() === now.getFullYear();
+  }).length;
+
+  const statsData = [
+    { value: stats.total_listed || cards.filter(c => c.stage === 'listed').length, label: 'Total Listed' },
+    { value: thisMonth, label: 'This Month' },
+    { value: thisWeek, label: 'This Week' },
+    { value: stats.best_week || 0, label: 'Best Week Ever' },
+  ];
+
+  document.getElementById('stats-bar').innerHTML = statsData.map(s => `
+    <div class="stat-tile">
+      <div class="stat-tile-value">${s.value}</div>
+      <div class="stat-tile-label">${s.label}</div>
+    </div>
+  `).join('');
+}
+
+function renderWeeklyChart() {
+  const container = document.getElementById('weekly-chart');
+  if (!container) return;
+
+  const data = weeklyHistory.length > 0 ? weeklyHistory : [];
+  const maxVal = Math.max(...data.map(w => w.listings_that_week || 0), goal.weekly_goal || 4, 1);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  const currentWS = getWeekStart();
+
+  container.innerHTML = data.length === 0
+    ? '<div style="color:var(--text-muted);font-size:0.85rem;padding:2rem;text-align:center">No data yet — keep listing!</div>'
+    : data.map((w, i) => {
+        const d = new Date(w.week_start + 'T12:00:00');
+        const h = Math.round((w.listings_that_week / maxVal) * 90);
+        const isCurrent = w.week_start === currentWS;
+        return `
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">${w.listings_that_week}</div>
+            <div class="chart-bar ${isCurrent ? 'current-week' : ''}" style="height:${h}px"></div>
+            <div class="chart-bar-label">${months[d.getMonth()]} ${d.getDate()}</div>
+          </div>
+        `;
+      }).join('');
+}
+
+// ============================================================
+// BADGES
+// ============================================================
+function renderBadgesCount() {
+  const n = badges.length;
+  const el = document.getElementById('badges-count');
+  el.textContent = n;
+  el.className = n > 0 ? 'gami-count' : 'gami-count zero';
+}
+
+function renderBadgesGrid() {
+  const totalListed = cards.filter(c => c.stage === 'listed').length;
+  document.getElementById('badges-sub').textContent =
+    `${badges.length} of ${BADGES.length} earned · ${BADGES.length - badges.length} still to unlock`;
+
+  document.getElementById('badges-grid').innerHTML = BADGES.map(b => {
+    const earned = badges.find(x => x.badge_key === b.key);
+    return `
+      <div class="badge-card ${earned ? 'earned' : 'badge-locked'}">
+        <div class="badge-icon">${b.icon}</div>
+        <div class="badge-name">${b.name}</div>
+        <div class="badge-req">${b.label}</div>
+        ${earned ? `<div class="badge-earned-date">Unlocked ${formatDate(earned.earned_at)}</div>` : '<div class="badge-req" style="margin-top:0.2rem">NOT YET EARNED</div>'}
+      </div>
+    `;
+  }).join('');
+}
+
+async function checkBadges() {
+  const totalListed = cards.filter(c => c.stage === 'listed').length;
+  for (const b of BADGES) {
+    if (totalListed >= b.req && !badges.find(x => x.badge_key === b.key)) {
+      sbFetch('POST', '/rest/v1/pip_flowboard_badges', {
+        member_email: currentUser, badge_name: b.name, badge_key: b.key
+      }, function(err, data) {
+        if (!err) {
+          badges.push({ badge_key: b.key, badge_name: b.name, earned_at: new Date().toISOString() });
+          renderBadgesCount();
+          showToast(`🏅 New badge unlocked: ${b.name}!`);
+        }
+      });
+    }
+  }
+}
+
+// ============================================================
+// JOURNEY
+// ============================================================
+function renderJourneyCount() {
+  const completed = journey.filter(w => w.goal_met).length;
+  const el = document.getElementById('journey-count');
+  el.textContent = completed;
+  el.className = completed > 0 ? 'gami-count' : 'gami-count zero';
+}
+
+function renderJourneyModal() {
+  const completed = journey.filter(w => w.goal_met).length;
+  document.getElementById('journey-weeks-label').textContent = `${completed} / 12 weeks completed`;
+
+  const dots = document.getElementById('journey-dots');
+  const milestones = { 2:'🔥', 6:'🎯', 12:'👑' };
+  dots.innerHTML = Array.from({length:12}, (_,i) => {
+    const w = journey[i];
+    const done = w && w.goal_met;
+    const ms = milestones[i+1];
+    return `
+      <div class="journey-dot-wrap">
+        <div class="journey-dot ${done ? 'completed' : ''} ${ms ? 'milestone' : ''}">${done ? '✓' : (ms || (i+1))}</div>
+        <div class="journey-dot-num">${i+1}</div>
+      </div>
+    `;
+  }).join('');
+
+  const currentStreak = calcCurrentStreak();
+  const bestStreak = journey.filter(w=>w.goal_met).length; // simplified
+
+  document.getElementById('streak-stats').innerHTML = `
+    <div class="streak-stat"><div class="streak-stat-label">Current Streak</div><div class="streak-stat-value">${currentStreak} wks</div></div>
+    <div class="streak-stat"><div class="streak-stat-label">Best Streak</div><div class="streak-stat-value">${stats.best_streak || 0} wks</div></div>
+  `;
+
+  const nextMs = [2,6,12].find(n => completed < n);
+  document.getElementById('next-journey-badge').innerHTML = nextMs ? `
+    <div class="next-badge-label">Next Badge</div>
+    <div class="next-badge-name">${milestones[nextMs]} ${nextMs === 2 ? 'On Fire' : nextMs === 6 ? 'On a Roll' : 'Consistency Queen'}</div>
+    <div class="next-badge-desc">${nextMs - completed} more completed week${nextMs - completed !== 1 ? 's' : ''} to unlock</div>
+  ` : `<div class="next-badge-name">👑 All journey badges earned!</div>`;
+}
+
+function calcCurrentStreak() {
+  let streak = 0;
+  const sorted = [...journey].sort((a,b) => new Date(b.week_start) - new Date(a.week_start));
+  for (const w of sorted) {
+    if (w.goal_met) streak++;
+    else break;
+  }
+  return streak;
+}
+
+// ============================================================
+// GOAL
+// ============================================================
+function selectGoal(n) {
+  pendingGoal = n;
+  document.querySelectorAll('.goal-option').forEach(b => {
+    b.classList.toggle('selected', parseInt(b.textContent) === n);
+  });
+  if (document.getElementById('goal-custom').value != n) {
+    document.getElementById('goal-custom').value = n || '';
+  }
+}
+
+function saveGoal() {
+  if (goal.locked) return;
+  const ws = getWeekStart();
+  const we = getWeekEnd(ws);
+  const g = pendingGoal || 4;
+
+  sbFetch('POST', '/rest/v1/pip_flowboard_goals', {
+    member_email: currentUser, weekly_goal: g,
+    week_start: ws, week_end: we,
+  }, function(err, data) {
+    if (!err) {
+      goal = { weekly_goal: g, week_start: ws, locked: true };
+      updateWeekBar();
+      closeModal('goal-modal');
+      showToast(`Goal set: ${g} listings this week. You've got this!`);
+      document.getElementById('goal-locked-msg').style.display = 'block';
+      document.getElementById('lock-goal-btn').disabled = true;
+    }
+  });
+}
+
+function openGoalModal() {
+  selectGoal(goal.weekly_goal || 4);
+  const locked = goal.locked;
+  document.getElementById('goal-locked-msg').style.display = locked ? 'block' : 'none';
+  document.getElementById('lock-goal-btn').disabled = locked;
+  openModal('goal-modal');
+}
+
+// ============================================================
+// FOCUS COUNT
+// ============================================================
+function renderFocusCount() {
+  const n = cards.filter(c => c.is_starred).length;
+  const el = document.getElementById('focus-count');
+  el.textContent = n;
+  el.className = n > 0 ? 'gami-count' : 'gami-count zero';
+}
+
+// ============================================================
+// CARD PANEL
+// ============================================================
+function openPanel(cardId) {
+  currentCardId = cardId;
+  const card = cards.find(c => c.id === cardId);
+  if (!card) return;
+
+  renderPanelContent(card);
+  document.getElementById('panel-overlay').classList.add('open');
+  document.getElementById('card-panel').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('panel-overlay').classList.remove('open');
+  document.getElementById('card-panel').classList.remove('open');
+  currentCardId = null;
+}
+
+function renderPanelContent(card) {
+  const stage = STAGES.find(s => s.key === card.stage);
+  const checklist = card.checklist || {};
+  const checklistItems = STAGE_CHECKLISTS[card.stage] || [];
+  const checked = checklistItems.filter((_,i) => checklist[i]).length;
+  const pct = checklistItems.length > 0 ? Math.round((checked / checklistItems.length) * 100) : 0;
+
+  // Stage pill
+  const pill = document.getElementById('panel-stage-pill');
+  pill.textContent = stage ? stage.label : card.stage;
+  pill.style.background = `var(${stage?.color})`;
+  pill.style.color = `var(${stage?.textColor})`;
+
+  // Progress circle
+  const arc = document.getElementById('panel-progress-arc');
+  const circumference = 113;
+  arc.style.strokeDashoffset = circumference - (pct / 100) * circumference;
+  document.getElementById('panel-pct-text').textContent = pct + '%';
+
+  // Advance button
+  const advBtn = document.getElementById('btn-advance');
+  const nextStage = STAGES[STAGES.findIndex(s => s.key === card.stage) + 1];
+  if (nextStage && pct === 100) {
+    advBtn.textContent = `Continue to ${nextStage.label} →`;
+    advBtn.classList.add('visible');
+  } else {
+    advBtn.classList.remove('visible');
+  }
+
+  // Panel body
+  const body = document.getElementById('panel-body');
+
+  // Stale nudge
+  const daysSince = Math.floor((new Date() - new Date(card.updated_at)) / 86400000);
+  const showNudge = daysSince >= 7 && card.stage !== 'listed' && !card.stale_nudge_dismissed;
+
+  // Tools
+  const tools = getToolsForCard(card);
+  const toolsHtml = tools.length > 0 ? `
+    <div class="panel-section">
+      <div class="panel-section-title">Tools to use</div>
+      <div class="tools-grid">
+        ${tools.map(t => `<a class="tool-chip" href="${TOOL_URLS[t] || '#'}" target="_blank">🔧 ${t}</a>`).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  // Product type selector (show in designing stage or always for planning)
+  const showTypeSelector = ['planning','designing','creating'].includes(card.stage);
+
+  body.innerHTML = `
+    ${showNudge ? `<div class="stale-nudge">⏰ Still working on this one? It's been ${daysSince} days — you've got this! <button class="nudge-dismiss" onclick="dismissNudge('${card.id}')">✕</button></div>` : ''}
+    
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;margin-bottom:0.25rem">
+      <div class="panel-title">${esc(card.title)}</div>
+      <button class="star-btn ${card.is_starred ? 'starred' : ''}" onclick="toggleStar('${card.id}')">${card.is_starred ? '★' : '☆'}</button>
+    </div>
+    <div class="panel-date">📅 Added ${formatDate(card.created_at)}</div>
+
+    ${showTypeSelector ? `
+    <div class="panel-section">
+      <div class="panel-section-title">Product type</div>
+      <div class="product-type-grid" id="product-type-grid">
+        ${PRODUCT_TYPES.map(t => `
+          <button class="product-type-btn ${card.product_type === t ? 'selected' : ''}" onclick="updateProductType('${card.id}','${t}')">${t}</button>
+        `).join('')}
+      </div>
+    </div>
+    ` : ''}
+
+    ${toolsHtml}
+
+    <div class="panel-section">
+      <div class="panel-section-title">Checklist</div>
+      <div class="checklist-wrap" id="panel-checklist">
+        ${checklistItems.map((item, i) => `
+          <div class="checklist-item" onclick="toggleCheck('${card.id}', ${i})">
+            <div class="checklist-check ${checklist[i] ? 'checked' : ''}"></div>
+            <span class="checklist-label ${checklist[i] ? 'checked' : ''}">${item}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    ${card.stage === 'listed' ? `
+    <div class="panel-section">
+      <div class="panel-section-title">Etsy listing URL</div>
+      <input class="panel-input" id="etsy-url-input" placeholder="https://www.etsy.com/listing/..." 
+        value="${esc(card.etsy_url || '')}" onchange="updateEtsyUrl('${card.id}', this.value)">
+    </div>
+    ` : ''}
+
+    <div class="panel-section">
+      <div class="panel-section-title">Notes</div>
+      <textarea class="panel-textarea" id="panel-notes" maxlength="2000" 
+        oninput="this.nextElementSibling.textContent=this.value.length+'/2000'"
+        onchange="updateNotes('${card.id}', this.value)">${esc(card.notes || '')}</textarea>
+      <div class="char-count">${(card.notes||'').length}/2000</div>
+    </div>
+  `;
+}
+
+function getToolsForCard(card) {
+  const stageTools = STAGE_TOOLS[card.stage];
+  if (!stageTools || stageTools.length === 0) return [];
+  if (Array.isArray(stageTools)) return stageTools;
+  return stageTools[card.product_type] || stageTools['default'] || [];
+}
+
+function getCardPct(card) {
+  const items = STAGE_CHECKLISTS[card.stage] || [];
+  if (items.length === 0) return 0;
+  const checklist = card.checklist || {};
+  const checked = items.filter((_, i) => checklist[i]).length;
+  return Math.round((checked / items.length) * 100);
+}
+
+// ============================================================
+// CARD OPERATIONS
+// ============================================================
+function toggleCheck(cardId, idx) {
+  const card = cards.find(c => c.id === cardId);
+  if (!card) return;
+  if (!card.checklist) card.checklist = {};
+  card.checklist[idx] = !card.checklist[idx];
+  card.updated_at = new Date().toISOString();
+
+  sbFetch('PATCH', `/rest/v1/pip_flowboard_cards?id=eq.${cardId}&member_email=eq.${encodeURIComponent(currentUser)}`,
+    { checklist: card.checklist, updated_at: card.updated_at }, function() {
+      renderPanelContent(card);
+      renderAll();
+    });
+}
+
+function toggleStar(cardId) {
+  const card = cards.find(c => c.id === cardId);
+  if (!card) return;
+  card.is_starred = !card.is_starred;
+
+  sbFetch('PATCH', `/rest/v1/pip_flowboard_cards?id=eq.${cardId}&member_email=eq.${encodeURIComponent(currentUser)}`,
+    { is_starred: card.is_starred }, function() {
+      renderAll();
+      if (currentCardId === cardId) renderPanelContent(card);
+    });
+}
+
+function updateProductType(cardId, type) {
+  const card = cards.find(c => c.id === cardId);
+  if (!card) return;
+  card.product_type = type;
+
+  sbFetch('PATCH', `/rest/v1/pip_flowboard_cards?id=eq.${cardId}&member_email=eq.${encodeURIComponent(currentUser)}`,
+    { product_type: type }, function() {
+      renderPanelContent(card);
+    });
+}
+
+function updateNotes(cardId, notes) {
+  const card = cards.find(c => c.id === cardId);
+  if (!card) return;
+  card.notes = notes;
+  sbFetch('PATCH', `/rest/v1/pip_flowboard_cards?id=eq.${cardId}&member_email=eq.${encodeURIComponent(currentUser)}`,
+    { notes: notes, updated_at: new Date().toISOString() }, () => {});
+}
+
+function updateEtsyUrl(cardId, url) {
+  const card = cards.find(c => c.id === cardId);
+  if (!card) return;
+  card.etsy_url = url;
+  sbFetch('PATCH', `/rest/v1/pip_flowboard_cards?id=eq.${cardId}&member_email=eq.${encodeURIComponent(currentUser)}`,
+    { etsy_url: url }, () => {});
+}
+
+function dismissNudge(cardId) {
+  const card = cards.find(c => c.id === cardId);
+  if (!card) return;
+  card.stale_nudge_dismissed = true;
+  sbFetch('PATCH', `/rest/v1/pip_flowboard_cards?id=eq.${cardId}&member_email=eq.${encodeURIComponent(currentUser)}`,
+    { stale_nudge_dismissed: true }, function() {
+      renderPanelContent(card);
+    });
+}
+
+function saveCurrentCard() {
+  showToast('Saved!');
+}
+
+function advanceCurrentCard() {
+  const card = cards.find(c => c.id === currentCardId);
+  if (!card) return;
+  const idx = STAGES.findIndex(s => s.key === card.stage);
+  if (idx < 0 || idx >= STAGES.length - 1) return;
+
+  const nextStage = STAGES[idx + 1];
+  card.stage = nextStage.key;
+  card.updated_at = new Date().toISOString();
+  card.checklist = {};
+
+  if (nextStage.key === 'listed') {
+    card.listed_date = new Date().toISOString();
+    sbFetch('PATCH', `/rest/v1/pip_flowboard_cards?id=eq.${card.id}&member_email=eq.${encodeURIComponent(currentUser)}`,
+      { stage: 'listed', checklist: {}, listed_date: card.listed_date, updated_at: card.updated_at },
+      function() {
+        closePanel();
+        renderAll();
+        checkBadges();
+        updateStatsOnListed();
+        showConfettiAndTrophy(card);
+      });
+  } else {
+    sbFetch('PATCH', `/rest/v1/pip_flowboard_cards?id=eq.${card.id}&member_email=eq.${encodeURIComponent(currentUser)}`,
+      { stage: card.stage, checklist: {}, updated_at: card.updated_at },
+      function() {
+        renderPanelContent(card);
+        renderAll();
+        showToast(`Moved to ${nextStage.label}!`);
+      });
+  }
+}
+
+function deleteCurrentCard() {
+  if (!currentCardId) return;
+  if (!confirm('Delete this card? This cannot be undone.')) return;
+
+  sbFetch('DELETE', `/rest/v1/pip_flowboard_cards?id=eq.${currentCardId}&member_email=eq.${encodeURIComponent(currentUser)}`,
+    null, function() {
+      cards = cards.filter(c => c.id !== currentCardId);
+      closePanel();
+      renderAll();
+      showToast('Card deleted.');
+    });
+}
+
+function updateStatsOnListed() {
+  const total = cards.filter(c => c.stage === 'listed').length;
+  const thisWeek = getThisWeekListings();
+
+  sbFetch('POST', '/rest/v1/pip_flowboard_stats',
+    { member_email: currentUser, total_listed: total, updated_at: new Date().toISOString() },
+    function(err) {
+      if (err) {
+        sbFetch('PATCH', `/rest/v1/pip_flowboard_stats?member_email=eq.${encodeURIComponent(currentUser)}`,
+          { total_listed: total, updated_at: new Date().toISOString() }, () => {});
+      }
+    });
+}
+
+// ============================================================
+// ADD IDEA MODAL
+// ============================================================
+function openAddIdeaModal() {
+  document.getElementById('new-idea-name').value = '';
+  document.getElementById('new-idea-category').value = '';
+  openModal('add-idea-modal');
+  setTimeout(() => document.getElementById('new-idea-name').focus(), 100);
+}
+
+function createIdea() {
+  const name = document.getElementById('new-idea-name').value.trim();
+  const category = document.getElementById('new-idea-category').value;
+  if (!name) { showToast('Please enter a product name.'); return; }
+
+  const newCard = {
+    member_email: currentUser,
+    title: name,
+    product_type: category || 'Clipart',
+    category: category,
+    stage: 'ideas',
+    checklist: {},
+    notes: '',
+    etsy_url: '',
+    is_starred: false,
+    stale_nudge_dismissed: false,
+  };
+
+  sbFetch('POST', '/rest/v1/pip_flowboard_cards', newCard, function(err, data) {
+    if (!err && Array.isArray(data) && data.length > 0) {
+      cards.push({
+        ...data[0],
+        checklist: {},
+        competition_links: [],
+      });
+      closeModal('add-idea-modal');
+      renderAll();
+      showToast(`"${name}" added to your Ideas!`);
+    } else {
+      showToast('Something went wrong. Please try again.');
+    }
+  });
+}
+
+// ============================================================
+// CONFETTI + TROPHY
+// ============================================================
+function showConfettiAndTrophy(card) {
+  // Confetti
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = Array.from({length:120}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    w: Math.random() * 10 + 5,
+    h: Math.random() * 5 + 3,
+    color: ['#E8609A','#40C8D8','#F0C040','#60D880','#C4735A','#8878D8'][Math.floor(Math.random()*6)],
+    speed: Math.random() * 3 + 1,
+    angle: Math.random() * 360,
+    spin: (Math.random()-0.5) * 6,
+  }));
+
+  let frame = 0;
+  function animConfetti() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p => {
+      p.y += p.speed;
+      p.angle += p.spin;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle * Math.PI/180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+    frame++;
+    if (frame < 180) requestAnimationFrame(animConfetti);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  animConfetti();
+
+  // Trophy modal
+  const totalListed = cards.filter(c => c.stage === 'listed').length;
+  const newBadge = BADGES.find(b => b.req === totalListed);
+
+  document.getElementById('trophy-content').innerHTML = `
+    <div class="trophy-icon">🏆</div>
+    <div class="trophy-title">Congratulations!</div>
+    <div class="trophy-subtitle">"${esc(card.title)}" is live on Etsy!<br>That's ${totalListed} listing${totalListed !== 1 ? 's' : ''} total — keep going!</div>
+    ${newBadge ? `<div style="background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;padding:0.875rem;margin-top:1rem"><div style="font-size:1.5rem">${newBadge.icon}</div><div style="font-weight:700;color:var(--accent)">New Badge: ${newBadge.name}</div></div>` : ''}
+    <button class="btn-primary" style="margin-top:1.25rem" onclick="closeModal('trophy-modal')">Keep creating! 🚀</button>
+  `;
+  openModal('trophy-modal');
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'tab-' + tab));
+  if (tab === 'collections') renderCollections();
+  if (tab === 'calendar') renderCalendar();
+  if (tab === 'stats') { renderStats(); renderWeeklyChart(); }
+  if (tab === 'badges') { renderBadgesGrid(); openModal('badges-modal'); }
+}
+
+// ============================================================
+// MODALS
+// ============================================================
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  if (id === 'badges-modal') renderBadgesGrid();
+  if (id === 'journey-modal') renderJourneyModal();
+  if (id === 'goal-modal') openGoalModal();
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+});
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function esc(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+// Keyboard: close panel with Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closePanel();
+    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+  }
+});
+</script>
+</body>
+</html>
