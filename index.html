@@ -1024,6 +1024,36 @@ function renderPanel(card){
   checklistHtml+='</div></div>';
   var etsyHtml=card.stage==='listed'?'<div class="p-section"><div class="p-lbl">// Etsy listing URL</div><input class="p-input" id="etsy-inp" placeholder="https://www.etsy.com/listing/..." value="'+esc(card.etsy_url||'')+'" onchange="updateEtsy(\''+card.id+'\',this.value)"></div>':'';
   var staleHtml=stale?'<div class="stale-banner">\u23f0 This card has not moved in a while<button class="nudge-x" onclick="dismissNudge(\''+card.id+'\')">✕</button></div>':'';
+  var planningHtml='';
+  if(card.stage==='planning'){
+    var prodTypes=parseJ(card.product_types,[]);
+    var ptHtml='<div class="p-section"><div class="p-lbl">// Product Types for This Theme</div><div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.65rem;">';
+    ['Alpha PNGs','Clipart','Digital Paper','Journals','Patterns','Procreate Brushes','Procreate Stamps','Sticker Sheets','Sublimation Designs','SVG Files'].forEach(function(t){
+      var isSel=prodTypes.indexOf(t)>=0;
+      ptHtml+='<button class="type-multi-btn'+(isSel?' selected':'')+'" data-cid="'+card.id+'" onclick="toggleProductType(this.dataset.cid,this.textContent)">'+t+'</button>';
+    });
+    ptHtml+='</div></div>';
+    planningHtml=ptHtml+
+      '<div class="p-section"><div class="p-lbl">// Style and Aesthetic</div><textarea class="p-textarea" style="min-height:90px;" placeholder="e.g. Soft watercolor boho florals..." data-id="'+card.id+'" data-f="style_notes" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)">'+esc(card.style_notes||'')+'</textarea></div>'+
+      '<div class="p-section"><div class="p-lbl">// Color Palette</div><textarea class="p-textarea" style="min-height:75px;" placeholder="e.g. Dusty Rose #C9A0A0, Sage Green #8FAF8F..." data-id="'+card.id+'" data-f="color_palette" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)">'+esc(card.color_palette||'')+'</textarea></div>'+
+      '<div class="p-section"><div class="p-lbl">// Style Keywords</div><input class="p-input" placeholder="e.g. boho, cottagecore, minimalist..." value="'+esc(card.style_keywords||'')+'" data-id="'+card.id+'" data-f="style_keywords" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>';
+  }
+  var researchHtml='';
+  if(card.stage==='ideas'){
+    var lnks=parseJ(card.research_links,['','','','']);
+    researchHtml='<div class="p-section"><div class="p-lbl">// Competitor Links</div><div style="display:flex;flex-direction:column;gap:0.4rem;">'+
+      '<input class="p-input" placeholder="Competitor listing 1..." value="'+esc(lnks[0]||'')+'" data-id="'+card.id+'" data-i="0" onchange="updateResearchLink(this.dataset.id,0,this.value)">'+
+      '<input class="p-input" placeholder="Competitor listing 2..." value="'+esc(lnks[1]||'')+'" data-id="'+card.id+'" data-i="1" onchange="updateResearchLink(this.dataset.id,1,this.value)">'+
+      '<input class="p-input" placeholder="Competitor listing 3..." value="'+esc(lnks[2]||'')+'" data-id="'+card.id+'" data-i="2" onchange="updateResearchLink(this.dataset.id,2,this.value)">'+
+      '<input class="p-input" placeholder="eRank or EverBee URL..." value="'+esc(lnks[3]||'')+'" data-id="'+card.id+'" data-i="3" onchange="updateResearchLink(this.dataset.id,3,this.value)">'+
+      '</div></div>'+
+      '<div class="p-section"><div class="p-lbl">// Research Numbers</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Avg price range</div><input class="p-input" placeholder="e.g. $3-$8" value="'+esc(card.research_price||'')+'" data-id="'+card.id+'" data-f="research_price" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Monthly sales est.</div><input class="p-input" placeholder="e.g. 50-200/mo" value="'+esc(card.research_sales||'')+'" data-id="'+card.id+'" data-f="research_sales" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Competition count</div><input class="p-input" placeholder="e.g. 1,200 listings" value="'+esc(card.research_competition||'')+'" data-id="'+card.id+'" data-f="research_competition" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Demand level</div><input class="p-input" placeholder="High / Medium / Low" value="'+esc(card.research_demand||'')+'" data-id="'+card.id+'" data-f="research_demand" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '</div></div>';
+  }
 
   document.getElementById('panel-scroll').innerHTML=staleHtml+
     '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem"><div class="panel-title">'+esc(card.title)+'</div></div>'+
