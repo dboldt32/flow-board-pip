@@ -975,6 +975,7 @@ function openPanel(id){
   var card=cards.filter(function(c){return c.id===id;})[0];
   if(!card)return;
   renderPanel(card);
+  document.getElementById('side-panel').dataset.cid=id;
   document.getElementById('overlay').classList.add('open');
   document.getElementById('side-panel').classList.add('open');
 }
@@ -1059,13 +1060,15 @@ function updateNotes(id,notes){
 }
 
 function toggleProductType(id,type){
+  if(!id)return;
   var card=cards.filter(function(c){return c.id===id;})[0];
   if(!card)return;
-  if(!card.product_types)card.product_types=[];
-  var idx=card.product_types.indexOf(type);
-  if(idx>=0)card.product_types.splice(idx,1);
-  else card.product_types.push(type);
-  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{product_types:JSON.stringify(card.product_types)},function(){
+  var types=parseJ(card.product_types,[]);
+  var idx=types.indexOf(type);
+  if(idx>=0)types.splice(idx,1);
+  else types.push(type);
+  card.product_types=types;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{product_types:JSON.stringify(types)},function(){
     renderPanel(card);
   });
 }
