@@ -1028,7 +1028,7 @@ function renderPanel(card){
     '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem"><div class="panel-title">'+esc(card.title)+'</div></div>'+
     '<div class="panel-added">// Added '+fmtDate(card.created_at)+'</div>'+
     typePickerHtml+toolsHtml+checklistHtml+planningHtml+researchHtml+etsyHtml+
-    '<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(\''+card.id+'\',this.value)" oninput="this.nextElementSibling.textContent=this.value.length+\'/2000\'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';
+    '<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(this.dataset.id,this.value)" data-id="'+card.id+'" oninput="this.nextElementSibling.textContent=this.value.length+\'/2000\'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';
 }
 
 function getCardPct(card){var items=CHECKLISTS[card.stage]||[];if(!items.length)return 0;var cl=card.checklist||{};return Math.round((items.filter(function(_,i){return cl[i];}).length/items.length)*100);}
