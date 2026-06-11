@@ -445,85 +445,547 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
     <div class="trophy-wrap" id="trophy-content"></div>
   </div>
 </div>
+
 <script>
 const SB_URL='https://bvbuojlwrfhyeumlzffu.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2YnVvamx3cmZoeWV1bWx6ZmZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3OTU3OTAsImV4cCI6MjA5NjM3MTc5MH0.J4cpGcXQikdrr9tULjKA7Ez2vtNxduZdPldNMXqv9rA';
 const STAGES=[{key:'ideas',label:'Ideas',sub:'Research it',icon:'💡',n:1,sc:'--s1'},{key:'planning',label:'Planning',sub:'Plan the product',icon:'📋',n:2,sc:'--s2'},{key:'designing',label:'Designing',sub:'Design it',icon:'🎨',n:3,sc:'--s3'},{key:'creating',label:'Creating',sub:'Create it',icon:'✨',n:4,sc:'--s4'},{key:'preparing',label:'Preparing',sub:'Polish the files',icon:'🛠',n:5,sc:'--s5'},{key:'listing',label:'Listing',sub:'Build the listing',icon:'🏷',n:6,sc:'--s6'},{key:'listed',label:'Listed',sub:'Live on Etsy!',icon:'🚀',n:7,sc:'--s7'}];
 const ROW1=['ideas','planning','designing','creating'];
 const ROW2=['preparing','listing','listed'];
-const CHECKLISTS={ideas:['Research Etsy competition','Note sales and competition numbers','Confirm demand is strong enough','Ready to move forward'],planning:['Style and aesthetic decided','Collection elements brainstormed','Piece count chosen','Color palette planned','Reference images gathered'],designing:['Rough layouts or sketches done','AI prompts written and saved','Design tool chosen','Design session scheduled'],creating:['Images or files created','Best work selected and culled','Prompt saved for future use','Raw files organized in named folder'],preparing:['Images upscaled to 4000px or 2x','Backgrounds removed','Edges cleaned up in Photopea','Files checked at 300 DPI','Files renamed with SEO names','Delivery ZIP or PDF built','Final check complete'],listing:['Files uploaded to Drive or Dropbox','Delivery link tested','Thumbnail image created','All listing images ready','Listing video ready optional','Etsy title written','13 tags added','Description written','Price set','Published on Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable']};
+const CHECKLISTS={ideas:['Research Etsy competition','Note sales and competition numbers','Confirm demand is strong enough','Ready to move forward'],planning:['Style and aesthetic decided','Collection elements brainstormed','Piece count chosen','Color palette planned','Reference images gathered'],designing:['Rough layouts or sketches done','AI prompts written and saved','Design tool chosen','Design session scheduled'],creating:['Images or files created','Best work selected and culled','Prompt saved for future use','Raw files organized in named folder'],preparing:['Images upscaled to 4000px or 2x','Backgrounds removed','Edges cleaned up in Photopea','Files checked at 300 DPI','Files renamed with SEO names','Delivery ZIP or PDF built','Final check complete'],listing:['Files uploaded to Drive or Dropbox','Delivery link tested','Thumbnail image created','All listing images ready','Listing video optional','Etsy title written','13 tags added','Description written','Price set','Published on Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable']};
 const STAGE_TOOLS={designing:{Clipart:['Q4 Prompt Studio','Tile Me Pretty'],Patterns:['Tile Me Pretty','Q4 Prompt Studio'],'Alpha PNGs':['Letter Lab Luxe','Alpha Forge Studio'],'Procreate Brushes':[],'Procreate Stamps':[],Journals:['Planner Prompt Studio','Word Slay'],'Sublimation Designs':['Q4 Prompt Studio','Tile Me Pretty'],'Sticker Sheets':['Q4 Prompt Studio'],'Digital Paper':['Tile Me Pretty'],'SVG Files':[],default:['Q4 Prompt Studio','Tile Me Pretty','Word Slay','Letter Lab Luxe','Planner Prompt Studio']},creating:{default:['Chroma Snap','Glow & Go']},preparing:{default:['SheetCraft Studio','FileFlip','Mockup Studio']},listing:{default:['Word Slay','Chroma Snap']}};
 const TOOL_URLS={'Q4 Prompt Studio':'https://pip-member-hub.vercel.app','Tile Me Pretty':'https://tile-me-pretty-pip.vercel.app','Word Slay':'https://word-slay-studio-pip.vercel.app','Letter Lab Luxe':'https://letter-luxe-studio-pip.vercel.app','Alpha Forge Studio':'https://alpha-forge-studio-pip.vercel.app','Planner Prompt Studio':'https://planner-prompt-architect.vercel.app','Chroma Snap':'https://chroma-snap-pip.vercel.app','Glow & Go':'https://glow-go-pip.vercel.app','SheetCraft Studio':'https://pip-sheetcraft-studio.vercel.app','FileFlip':'https://fileflip-pip.vercel.app','Mockup Studio':'https://mockery-reloaded-pip.vercel.app'};
 const PRODUCT_TYPES=['Clipart','Patterns','Alpha PNGs','Procreate Brushes','Procreate Stamps','Journals','Sublimation Designs','Sticker Sheets','Digital Paper','SVG Files'];
 const BADGES=[{key:'first',name:'First Blood',icon:'🥇',req:1},{key:'five',name:'Five and Thriving',icon:'🌱',req:5},{key:'ten',name:'Double Digits',icon:'🚀',req:10},{key:'twenty5',name:'Quarter Century',icon:'🎨',req:25},{key:'fifty',name:'Fifty Strong',icon:'💪',req:50},{key:'hundred',name:'The Century',icon:'💯',req:100},{key:'two00',name:'Bundle Boss',icon:'💼',req:200},{key:'fivehun',name:'Shop Legend',icon:'👑',req:500}];
-const CAL={1:{name:'January',color:'#4A6FA5',create:["St Patrick's Day","Spring and Easter","Super Bowl prep"],major:["New Year's Day","Valentine's Day prep","Black History Month"],minor:["MLK Day","Winter Olympics","Hot Cocoa Day"]},2:{name:'February',color:'#C84870',create:["Spring and Easter","Mother's Day","St Patrick's Day"],major:["Valentine's Day","Black History Month","Groundhog Day"],minor:["Chinese New Year","Super Bowl","Presidents Day","National Pizza Day"]},3:{name:'March',color:'#5A9E6A',create:["Mother's Day","Cinco de Mayo","Teacher Appreciation","Mental Health Month"],major:["Spring equinox","Women's Day","Easter","St Patrick's Day"],minor:[]},4:{name:'April',color:'#C4A040',create:["Father's Day","Summer and Beach","4th of July","Pride Month"],major:["April Fools","Easter","National Pet Day"],minor:["Autism Awareness","Earth Day","World Book Day","Superhero Day"]},5:{name:'May',color:'#8A6EA8',create:["4th of July","Summer collections","Father's Day"],major:["Mother's Day","Memorial Day","Cinco de Mayo"],minor:["Star Wars Day","Teacher Appreciation","Mental Health Month"]},6:{name:'June',color:'#D4885A',create:["Back to School","4th of July last push","Summer watercolor"],major:["Father's Day","Juneteenth","First Day of Summer"],minor:["Donut Day","Pride Month"]},7:{name:'July',color:'#5A8AC4',create:["Halloween","Back to School","Fall and Autumn"],major:["Independence Day"],minor:["Hot Dog Day","Ice Cream Day"]},8:{name:'August',color:'#6AA870',create:["Christmas","Halloween","Thanksgiving and Fall"],major:["Back to School season"],minor:["Friendship Day","Cat Day","Book Lover's Day","National Dog Day"]},9:{name:'September',color:'#A86A50',create:["Christmas","Winter and Holiday","Thanksgiving"],major:["First Day of Fall","Labor Day","Grandparents Day"],minor:["Hispanic Heritage Month","Oktoberfest"]},10:{name:'October',color:'#C87A30',create:["Christmas","Valentine's Day","Winter and New Year"],major:["Halloween","World Coffee Day"],minor:["Indigenous Peoples Day","Breast Cancer Awareness","NBA and NHL start"]},11:{name:'November',color:'#7A5EA8',create:["Valentine's Day","Chinese New Year","Winter and New Year sets"],major:["Thanksgiving","Black Friday","Veterans Day"],minor:["World Kindness Day","International Men's Day"]},12:{name:'December',color:'#C84848',create:["Valentine's Day","Chinese New Year","Spring and Easter","Black History Month"],major:["Christmas","Kwanzaa","New Year's Eve"],minor:["Cyber Monday"]}};
+const CAL={1:{name:'January',color:'#4A6FA5',create:["St Patrick's Day","Spring and Easter","Super Bowl prep"],major:["New Year's Day","Valentine's Day prep","Black History Month"],minor:["MLK Day","Winter Olympics","Hot Cocoa Day"]},2:{name:'February',color:'#C84870',create:["Spring and Easter","Mother's Day","St Patrick's Day"],major:["Valentine's Day","Black History Month","Groundhog Day"],minor:["Chinese New Year","Super Bowl","Presidents Day","National Pizza Day"]},3:{name:'March',color:'#5A9E6A',create:["Mother's Day","Cinco de Mayo","Teacher Appreciation","Mental Health Month"],major:["Spring equinox","Women's Day","Easter","St Patrick's Day"],minor:[]},4:{name:'April',color:'#C4A040',create:["Father's Day","Summer and Beach","4th of July","Pride Month"],major:["April Fools","Easter","National Pet Day"],minor:["Autism Awareness","Earth Day","World Book Day","Superhero Day"]},5:{name:'May',color:'#8A6EA8',create:["4th of July","Summer collections","Father's Day"],major:["Mother's Day","Memorial Day","Cinco de Mayo"],minor:["Star Wars Day","Teacher Appreciation","Mental Health Month"]},6:{name:'June',color:'#D4885A',create:["Back to School","4th of July last push","Summer watercolor"],major:["Father's Day","Juneteenth","First Day of Summer"],minor:["Donut Day","Pride Month"]},7:{name:'July',color:'#5A8AC4',create:["Halloween","Back to School","Fall and Autumn"],major:["Independence Day"],minor:["Hot Dog Day","Ice Cream Day"]},8:{name:'August',color:'#6AA870',create:["Christmas","Halloween","Thanksgiving and Fall"],major:["Back to School season"],minor:["Friendship Day","Cat Day","Book Lover's Day","National Dog Day"]},9:{name:'September',color:'#A86A50',create:["Christmas","Winter and Holiday","Thanksgiving"],major:["First Day of Fall","Labor Day","Grandparents Day"],minor:["Hispanic Heritage Month","Oktoberfest"]},10:{name:'October',color:'#C87A30',create:["Christmas","Valentine's Day","Winter and New Year"],major:["Halloween","World Coffee Day"],minor:["Indigenous Peoples Day","Breast Cancer Awareness","NBA and NHL start"]},11:{name:'November',color:'#7A5EA8',create:["Valentine's Day","Chinese New Year","Winter and New Year sets"],major:["Thanksgiving","Black Friday","Veterans Day"],minor:["World Kindness Day","International Mens Day"]},12:{name:'December',color:'#C84848',create:["Valentine's Day","Chinese New Year","Spring and Easter","Black History Month"],major:["Christmas","Kwanzaa","New Year's Eve"],minor:["Cyber Monday"]}};
+
 let user=null,cards=[],badges=[],journey=[],weeklyHistory=[],goal={weekly_goal:4,locked:false},stats={total_listed:0,best_week:0,best_streak:0},calChecks={},currentCard=null,collView='grid',starFilter=false,pendingGoal=4,currentTheme=localStorage.getItem('pip-flow-theme')||'pip';
-function sb(method,path,body,cb){const xhr=new XMLHttpRequest();xhr.open(method,SB_URL+path);xhr.setRequestHeader('apikey',SB_KEY);xhr.setRequestHeader('Authorization','Bearer '+SB_KEY);xhr.setRequestHeader('Content-Type','application/json');if(method!=='GET'&&method!=='DELETE')xhr.setRequestHeader('Prefer','return=representation');xhr.onload=()=>{try{cb(null,JSON.parse(xhr.responseText));}catch(e){cb(e,null);}};xhr.onerror=()=>cb(new Error('Network error'),null);xhr.send(body?JSON.stringify(body):null);}
-function setTheme(t){currentTheme=t;document.body.setAttribute('data-theme',t);document.querySelectorAll('.t-dot').forEach(d=>d.classList.toggle('active',d.dataset.t===t));localStorage.setItem('pip-flow-theme',t);}
-function handleLogin(){const email=document.getElementById('login-email').value.trim().toLowerCase();if(!email)return;document.getElementById('login-error').style.display='none';sb('GET','/rest/v1/pip_members?Email=eq.'+enc(email)+'&select=Email',null,(err,data)=>{if(err||!data||!data.length){document.getElementById('login-error').style.display='block';return;}user=email;localStorage.setItem('pip-flow-user',email);sessionStorage.setItem('pip_member',email);document.getElementById('login-screen').style.display='none';document.getElementById('app').style.display='block';loadAll();});}
-function handleLogout(){user=null;localStorage.removeItem('pip-flow-user');document.getElementById('app').style.display='none';document.getElementById('login-screen').style.display='flex';document.getElementById('login-email').value='';}
-window.addEventListener('DOMContentLoaded',()=>{setTheme(currentTheme);const p=new URLSearchParams(window.location.search);const saved=p.get('e')||p.get('email')||sessionStorage.getItem('pip_member')||localStorage.getItem('pip-flow-user')||localStorage.getItem('pip-member')||localStorage.getItem('memberEmail');if(saved){sb('GET','/rest/v1/pip_members?Email=eq.'+enc(saved)+'&select=Email',null,(err,data)=>{if(!err&&data&&data.length){user=saved;localStorage.setItem('pip-flow-user',saved);sessionStorage.setItem('pip_member',saved);document.getElementById('login-screen').style.display='none';document.getElementById('app').style.display='block';loadAll();}});}document.getElementById('login-email').addEventListener('keydown',e=>{if(e.key==='Enter')handleLogin();});});
+
+function sb(method,path,body,cb){
+  const xhr=new XMLHttpRequest();
+  xhr.open(method,SB_URL+path);
+  xhr.setRequestHeader('apikey',SB_KEY);
+  xhr.setRequestHeader('Authorization','Bearer '+SB_KEY);
+  xhr.setRequestHeader('Content-Type','application/json');
+  if(method!=='GET'&&method!=='DELETE')xhr.setRequestHeader('Prefer','return=representation');
+  xhr.onload=function(){try{cb(null,JSON.parse(xhr.responseText));}catch(e){cb(e,null);}};
+  xhr.onerror=function(){cb(new Error('Network error'),null);};
+  xhr.send(body?JSON.stringify(body):null);
+}
+
+function setTheme(t){currentTheme=t;document.body.setAttribute('data-theme',t);document.querySelectorAll('.t-dot').forEach(function(d){d.classList.toggle('active',d.dataset.t===t);});localStorage.setItem('pip-flow-theme',t);}
+
+function handleLogin(){
+  const email=document.getElementById('login-email').value.trim().toLowerCase();
+  if(!email)return;
+  document.getElementById('login-error').style.display='none';
+  sb('GET','/rest/v1/pip_members?Email=eq.'+encodeURIComponent(email)+'&select=Email',null,function(err,data){
+    if(err||!data||!data.length){document.getElementById('login-error').style.display='block';return;}
+    user=email;
+    localStorage.setItem('pip-flow-user',email);
+    sessionStorage.setItem('pip_member',email);
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    loadAll();
+  });
+}
+
+function handleLogout(){
+  user=null;
+  localStorage.removeItem('pip-flow-user');
+  sessionStorage.removeItem('pip_member');
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-email').value='';
+}
+
+window.addEventListener('DOMContentLoaded',function(){
+  setTheme(currentTheme);
+  const p=new URLSearchParams(window.location.search);
+  const saved=p.get('e')||p.get('email')||sessionStorage.getItem('pip_member')||localStorage.getItem('pip-flow-user')||localStorage.getItem('pip-member')||localStorage.getItem('memberEmail');
+  if(saved){
+    sb('GET','/rest/v1/pip_members?Email=eq.'+encodeURIComponent(saved)+'&select=Email',null,function(err,data){
+      if(!err&&data&&data.length){
+        user=saved;
+        localStorage.setItem('pip-flow-user',saved);
+        sessionStorage.setItem('pip_member',saved);
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('app').style.display='block';
+        loadAll();
+      }
+    });
+  }
+  document.getElementById('login-email').addEventListener('keydown',function(e){if(e.key==='Enter')handleLogin();});
+});
+
 function loadAll(){loadCards();loadBadges();loadJourney();loadGoal();loadStats();loadCalChecks();}
-function loadCards(){sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&order=created_at.asc',null,(err,data)=>{cards=(!err&&Array.isArray(data))?data.map(c=>({...c,checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[])})):[];renderAll();});}
-function loadBadges(){sb('GET','/rest/v1/pip_flowboard_badges?member_email=eq.'+enc(user),null,(err,data)=>{badges=(!err&&Array.isArray(data))?data:[];updatePowerBar();});}
-function loadJourney(){sb('GET','/rest/v1/pip_flowboard_journey?member_email=eq.'+enc(user)+'&order=week_start.asc',null,(err,data)=>{journey=(!err&&Array.isArray(data))?data:[];updatePowerBar();});}
-function loadGoal(){const ws=weekStart();sb('GET','/rest/v1/pip_flowboard_goals?member_email=eq.'+enc(user)+'&week_start=eq.'+ws,null,(err,data)=>{if(!err&&Array.isArray(data)&&data.length){goal={weekly_goal:data[0].weekly_goal,locked:true};pendingGoal=goal.weekly_goal;}updateWeekChip();});}
-function loadStats(){sb('GET','/rest/v1/pip_flowboard_stats?member_email=eq.'+enc(user),null,(err,data)=>{if(!err&&Array.isArray(data)&&data.length)stats=data[0];renderStats();sb('GET','/rest/v1/pip_flowboard_journey?member_email=eq.'+enc(user)+'&order=week_start.desc&limit=8',null,(e2,d2)=>{weeklyHistory=(!e2&&Array.isArray(d2))?d2.reverse():[];renderChart();});});}
-function loadCalChecks(){const yr=parseInt(document.getElementById('cal-year').value)||2026;sb('GET','/rest/v1/pip_flowboard_calendar_checks?member_email=eq.'+enc(user)+'&calendar_year=eq.'+yr,null,(err,data)=>{calChecks={};if(!err&&Array.isArray(data))data.forEach(r=>{calChecks[r.item_key]=true;});renderCalendar();});}
+
+function loadCards(){
+  sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&order=created_at.asc',null,function(err,data){
+    cards=(!err&&Array.isArray(data))?data.map(function(c){return Object.assign({},c,{checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[])});}):[];
+    renderAll();
+  });
+}
+
+function loadBadges(){sb('GET','/rest/v1/pip_flowboard_badges?member_email=eq.'+enc(user),null,function(err,data){badges=(!err&&Array.isArray(data))?data:[];updatePowerBar();});}
+function loadJourney(){sb('GET','/rest/v1/pip_flowboard_journey?member_email=eq.'+enc(user)+'&order=week_start.asc',null,function(err,data){journey=(!err&&Array.isArray(data))?data:[];updatePowerBar();});}
+
+function loadGoal(){
+  var ws=weekStart();
+  sb('GET','/rest/v1/pip_flowboard_goals?member_email=eq.'+enc(user)+'&week_start=eq.'+ws,null,function(err,data){
+    if(!err&&Array.isArray(data)&&data.length){goal={weekly_goal:data[0].weekly_goal,locked:true};pendingGoal=goal.weekly_goal;}
+    updateWeekChip();
+  });
+}
+
+function loadStats(){
+  sb('GET','/rest/v1/pip_flowboard_stats?member_email=eq.'+enc(user),null,function(err,data){
+    if(!err&&Array.isArray(data)&&data.length)stats=data[0];
+    renderStats();
+    sb('GET','/rest/v1/pip_flowboard_journey?member_email=eq.'+enc(user)+'&order=week_start.desc&limit=8',null,function(e2,d2){
+      weeklyHistory=(!e2&&Array.isArray(d2))?d2.reverse():[];
+      renderChart();
+    });
+  });
+}
+
+function loadCalChecks(){
+  var yr=parseInt(document.getElementById('cal-year').value)||2026;
+  sb('GET','/rest/v1/pip_flowboard_calendar_checks?member_email=eq.'+enc(user)+'&calendar_year=eq.'+yr,null,function(err,data){
+    calChecks={};
+    if(!err&&Array.isArray(data))data.forEach(function(r){calChecks[r.item_key]=true;});
+    renderCalendar();
+  });
+}
+
 function renderAll(){renderPipeline();renderIdeas();renderCollections();updateWeekChip();updatePowerBar();updateListedCount();}
-function renderPipeline(){const r1=document.getElementById('row1'),r2=document.getElementById('row2');r1.innerHTML='';r2.innerHTML='';STAGES.forEach(st=>{const sc=cards.filter(c=>c.stage===st.key),col=document.createElement('div');col.className='stage-col';const stC='var('+st.sc+')';col.innerHTML='<div class="stage-col-header" style="border-top:3px solid '+stC+'"><div class="stage-col-left"><span class="stage-num">'+String(st.n).padStart(2,'0')+'</span><div><div class="stage-name" style="color:'+stC+'">'+st.icon+' '+st.label+'</div><div class="stage-sub">'+st.sub+'</div></div></div><span class="stage-count '+(sc.length?'has-cards':'')+'" style="'+(sc.length?'background:'+stC:'')+'">'+sc.length+'</span></div><div class="stage-col-body" id="col-'+st.key+'">'+(st.key==='ideas'?'<button class="stage-add-btn" onclick="openAddModal()" style="border-color:'+stC+';color:'+stC+'">+ Add idea</button>':'')+'</div>';const body=col.querySelector('.stage-col-body');if(!sc.length){const e=document.createElement('div');e.className='stage-empty';e.textContent=getHint(st.key);body.appendChild(e);}else{const now=new Date();sc.forEach(card=>{const pct=getCardPct(card),days=Math.floor((now-new Date(card.updated_at))/86400000),stale=days>=7&&card.stage!=='listed'&&!card.stale_nudge_dismissed,el=document.createElement('div');el.className='product-card'+(stale?' stale':'');el.onclick=()=>openPanel(card.id);el.innerHTML='<button class="card-star '+(card.is_starred?'on':'')+'" onclick="event.stopPropagation();toggleStar(''+card.id+'')">'+(card.is_starred?'★':'☆')+'</button><div class="card-title">'+esc(card.title)+'</div><div style="display:flex;align-items:center;gap:0.35rem;margin-bottom:0.35rem"><span class="type-tag" style="background:var('+st.sc+'-bg,rgba(255,255,255,0.08));color:'+stC+'">'+esc(card.category||card.product_type||'')+'</span></div><div class="card-progress"><div class="card-bar"><div class="card-bar-fill" style="width:'+pct+'%;background:'+stC+'"></div></div><span class="card-pct">'+pct+'%</span></div>';body.appendChild(el);});}(ROW1.includes(st.key)?r1:r2).appendChild(col);});}
-function getHint(k){return{ideas:'Capture a product idea to start your pipeline.',planning:'Move here when ready to plan it out.',designing:'Move here when ready to design.',creating:'Move here when you start creating files.',preparing:'Move here to upscale, clean up, and rename.',listing:'Move here to build your Etsy listing.',listed:'Products land here once live on Etsy. 🚀'}[k]||'';}
-function renderIdeas(){let show=cards.filter(c=>c.stage==='ideas');if(starFilter)show=show.filter(c=>c.is_starred);const g=document.getElementById('ideas-grid');if(!show.length){g.innerHTML='<div class="empty-state"><div class="empty-state-icon">💡</div><h3>'+(starFilter?'No pinned ideas.':'Idea Vault is empty.')+'</h3><p>'+(starFilter?'Star cards to pin them.':'Add your first product idea!')+'</p></div>';return;}g.innerHTML=show.map(c=>'<div class="idea-tile" onclick="openPanel(''+c.id+'')"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.4rem"><div class="idea-tile-title">'+esc(c.title)+'</div><button class="card-star '+(c.is_starred?'on':'')+'" onclick="event.stopPropagation();toggleStar(''+c.id+'')" style="position:static">'+(c.is_starred?'★':'☆')+'</button></div><div class="idea-tile-foot"><span class="type-tag" style="background:var(--s1-bg);color:var(--s1)">'+esc(c.category||c.product_type||'')+'</span><span class="idea-date">'+fmtDate(c.created_at)+'</span></div></div>').join('');}
+
+function renderPipeline(){
+  var r1=document.getElementById('row1'),r2=document.getElementById('row2');
+  r1.innerHTML='';r2.innerHTML='';
+  STAGES.forEach(function(st){
+    var sc=cards.filter(function(c){return c.stage===st.key;}),col=document.createElement('div');
+    col.className='stage-col';
+    var stC='var('+st.sc+')';
+    var hdr=document.createElement('div');
+    hdr.className='stage-col-header';
+    hdr.style.borderTop='3px solid '+stC;
+    hdr.innerHTML='<div class="stage-col-left"><span class="stage-num">'+String(st.n).padStart(2,'0')+'</span><div><div class="stage-name" style="color:'+stC+'">'+st.icon+' '+st.label+'</div><div class="stage-sub">'+st.sub+'</div></div></div><span class="stage-count'+(sc.length?' has-cards':'')+'" style="'+(sc.length?'background:'+stC:'')+'">'+ sc.length+'</span>';
+    col.appendChild(hdr);
+    var body=document.createElement('div');
+    body.className='stage-col-body';
+    body.id='col-'+st.key;
+    if(st.key==='ideas'){
+      var addBtn=document.createElement('button');
+      addBtn.className='stage-add-btn';
+      addBtn.style.borderColor=stC;addBtn.style.color=stC;
+      addBtn.textContent='+ Add idea';
+      addBtn.onclick=function(){openAddModal();};
+      body.appendChild(addBtn);
+    }
+    if(!sc.length){
+      var hint=document.createElement('div');
+      hint.className='stage-empty';
+      hint.textContent=getHint(st.key);
+      body.appendChild(hint);
+    } else {
+      var now=new Date();
+      sc.forEach(function(card){
+        var pct=getCardPct(card);
+        var days=Math.floor((now-new Date(card.updated_at))/86400000);
+        var stale=days>=7&&card.stage!=='listed'&&!card.stale_nudge_dismissed;
+        var el=document.createElement('div');
+        el.className='product-card'+(stale?' stale':'');
+        el.onclick=function(){openPanel(card.id);};
+        var starBtn=document.createElement('button');
+        starBtn.className='card-star'+(card.is_starred?' on':'');
+        starBtn.textContent=card.is_starred?'★':'☆';
+        starBtn.onclick=function(e){e.stopPropagation();toggleStar(card.id);};
+        el.appendChild(starBtn);
+        var titleDiv=document.createElement('div');
+        titleDiv.className='card-title';
+        titleDiv.textContent=card.title;
+        el.appendChild(titleDiv);
+        var metaDiv=document.createElement('div');
+        metaDiv.style.cssText='display:flex;align-items:center;gap:0.35rem;margin-bottom:0.35rem';
+        var tag=document.createElement('span');
+        tag.className='type-tag';
+        tag.style.background='var('+st.sc+'-bg,rgba(255,255,255,0.08))';
+        tag.style.color=stC;
+        tag.textContent=card.category||card.product_type||'';
+        metaDiv.appendChild(tag);
+        el.appendChild(metaDiv);
+        var progDiv=document.createElement('div');
+        progDiv.className='card-progress';
+        progDiv.innerHTML='<div class="card-bar"><div class="card-bar-fill" style="width:'+pct+'%;background:'+stC+'"></div></div><span class="card-pct">'+pct+'%</span>';
+        el.appendChild(progDiv);
+        body.appendChild(el);
+      });
+    }
+    col.appendChild(body);
+    (ROW1.indexOf(st.key)>=0?r1:r2).appendChild(col);
+  });
+}
+
+function getHint(k){var h={ideas:'Capture a product idea to start your pipeline.',planning:'Move here when ready to plan it out.',designing:'Move here when ready to design.',creating:'Move here when you start creating files.',preparing:'Move here to upscale, clean up, and rename.',listing:'Move here to build your Etsy listing.',listed:'Products land here once live on Etsy.'};return h[k]||'';}
+
+function renderIdeas(){
+  var show=cards.filter(function(c){return c.stage==='ideas';});
+  if(starFilter)show=show.filter(function(c){return c.is_starred;});
+  var g=document.getElementById('ideas-grid');
+  if(!show.length){
+    g.innerHTML='<div class="empty-state"><div class="empty-state-icon">💡</div><h3>'+(starFilter?'No pinned ideas.':'Idea Vault is empty.')+'</h3><p>'+(starFilter?'Star cards to pin them.':'Add your first product idea!')+'</p></div>';
+    return;
+  }
+  g.innerHTML='';
+  show.forEach(function(c){
+    var tile=document.createElement('div');
+    tile.className='idea-tile';
+    tile.onclick=function(){openPanel(c.id);};
+    var top=document.createElement('div');
+    top.style.cssText='display:flex;justify-content:space-between;align-items:flex-start;gap:0.4rem';
+    var tit=document.createElement('div');
+    tit.className='idea-tile-title';
+    tit.textContent=c.title;
+    var star=document.createElement('button');
+    star.className='card-star'+(c.is_starred?' on':'');
+    star.style.position='static';
+    star.textContent=c.is_starred?'★':'☆';
+    star.onclick=function(e){e.stopPropagation();toggleStar(c.id);};
+    top.appendChild(tit);top.appendChild(star);
+    var foot=document.createElement('div');
+    foot.className='idea-tile-foot';
+    var tag=document.createElement('span');
+    tag.className='type-tag';
+    tag.style.cssText='background:var(--s1-bg);color:var(--s1)';
+    tag.textContent=c.category||c.product_type||'';
+    var dt=document.createElement('span');
+    dt.className='idea-date';
+    dt.textContent=fmtDate(c.created_at);
+    foot.appendChild(tag);foot.appendChild(dt);
+    tile.appendChild(top);tile.appendChild(foot);
+    g.appendChild(tile);
+  });
+}
+
 function toggleStarFilter(){starFilter=!starFilter;renderIdeas();}
-function renderCollections(){const cat=document.getElementById('coll-cat').value,sort=document.getElementById('coll-sort').value;let list=cards.filter(c=>c.stage==='listed');if(cat)list=list.filter(c=>(c.category||c.product_type)===cat);if(sort==='oldest')list.sort((a,b)=>new Date(a.listed_date||a.created_at)-new Date(b.listed_date||b.created_at));else if(sort==='az')list.sort((a,b)=>a.title.localeCompare(b.title));else list.sort((a,b)=>new Date(b.listed_date||b.created_at)-new Date(a.listed_date||a.created_at));const c=document.getElementById('coll-container');if(!list.length){c.innerHTML='<div class="empty-state" style="padding:3.5rem 2rem"><div class="empty-state-icon">📦</div><h3>Nothing listed yet.</h3><p>Move a card all the way to Listed and it shows up here.</p></div>';return;}if(collView==='grid'){c.innerHTML='<div class="coll-grid">'+list.map(x=>'<div class="coll-card-g" onclick="openPanel(''+x.id+'')"><div class="coll-thumb">📦</div><div class="coll-body"><div class="coll-title">'+esc(x.title)+'</div><div class="type-tag" style="background:var(--s6-bg);color:var(--s6);margin-bottom:0.25rem">'+esc(x.category||x.product_type||'')+'</div><div class="coll-meta">Listed '+fmtDate(x.listed_date||x.created_at)+'</div></div></div>').join('')+'</div>';}else{c.innerHTML='<div class="coll-list">'+list.map(x=>'<div class="coll-card-l" onclick="openPanel(''+x.id+'')"><div class="coll-l-thumb">📦</div><div><div class="coll-l-title">'+esc(x.title)+'</div><span class="type-tag" style="background:var(--s6-bg);color:var(--s6)">'+esc(x.category||x.product_type||'')+'</span><div class="coll-l-meta" style="margin-top:0.15rem">Listed '+fmtDate(x.listed_date||x.created_at)+'</div></div></div>').join('')+'</div>';}}
+
+function renderCollections(){
+  var cat=document.getElementById('coll-cat').value,sort=document.getElementById('coll-sort').value;
+  var list=cards.filter(function(c){return c.stage==='listed';});
+  if(cat)list=list.filter(function(c){return (c.category||c.product_type)===cat;});
+  if(sort==='oldest')list.sort(function(a,b){return new Date(a.listed_date||a.created_at)-new Date(b.listed_date||b.created_at);});
+  else if(sort==='az')list.sort(function(a,b){return a.title.localeCompare(b.title);});
+  else list.sort(function(a,b){return new Date(b.listed_date||b.created_at)-new Date(a.listed_date||a.created_at);});
+  var c=document.getElementById('coll-container');
+  if(!list.length){c.innerHTML='<div class="empty-state" style="padding:3.5rem 2rem"><div class="empty-state-icon">📦</div><h3>Nothing listed yet.</h3><p>Move a card all the way to Listed and it shows up here.</p></div>';return;}
+  if(collView==='grid'){
+    c.innerHTML='';
+    var grid=document.createElement('div');grid.className='coll-grid';
+    list.forEach(function(x){
+      var card=document.createElement('div');card.className='coll-card-g';card.onclick=function(){openPanel(x.id);};
+      card.innerHTML='<div class="coll-thumb">📦</div><div class="coll-body"><div class="coll-title">'+esc(x.title)+'</div><div class="type-tag" style="background:var(--s6-bg);color:var(--s6);margin-bottom:0.25rem">'+esc(x.category||x.product_type||'')+'</div><div class="coll-meta">Listed '+fmtDate(x.listed_date||x.created_at)+'</div></div>';
+      grid.appendChild(card);
+    });
+    c.appendChild(grid);
+  } else {
+    c.innerHTML='';
+    var lst=document.createElement('div');lst.className='coll-list';
+    list.forEach(function(x){
+      var card=document.createElement('div');card.className='coll-card-l';card.onclick=function(){openPanel(x.id);};
+      card.innerHTML='<div class="coll-l-thumb">📦</div><div><div class="coll-l-title">'+esc(x.title)+'</div><span class="type-tag" style="background:var(--s6-bg);color:var(--s6)">'+esc(x.category||x.product_type||'')+'</span><div class="coll-l-meta" style="margin-top:0.15rem">Listed '+fmtDate(x.listed_date||x.created_at)+'</div></div>';
+      lst.appendChild(card);
+    });
+    c.appendChild(lst);
+  }
+}
+
 function setCollView(v){collView=v;document.getElementById('vt-grid').classList.toggle('on',v==='grid');document.getElementById('vt-list').classList.toggle('on',v==='list');renderCollections();}
-function updateListedCount(){const n=cards.filter(c=>c.stage==='listed').length,el=document.getElementById('listed-count');el.textContent=n;el.style.display=n?'inline-block':'none';}
-function renderCalendar(){const yr=parseInt(document.getElementById('cal-year').value)||2026,now=new Date(),thisM=now.getMonth()+1;const strip=document.getElementById('this-month-strip'),td=CAL[thisM];strip.innerHTML=td?'<div class="this-month-label">NOW — Start creating for:</div><div class="this-month-tags">'+td.create.map(i=>'<span class="m-tag">'+i+'</span>').join('')+'</div>':'';document.getElementById('cal-grid').innerHTML=Object.entries(CAL).map(([m,d])=>{const isCur=parseInt(m)===thisM&&yr===now.getFullYear();return'<div class="cal-card '+(isCur?'now':'')+'"><div class="cal-card-head" style="border-left:4px solid '+d.color+'"><span class="cal-month-name">'+d.name+'</span>'+(isCur?'<span class="now-tag">NOW</span>':'')+'</div><div class="cal-card-body"><div class="cal-sec-label">// Create for</div>'+d.create.map(t=>calItem(yr,m,'c',t,false)).join('')+'<div class="cal-sec-label">// This month</div>'+d.major.map(t=>calItem(yr,m,'m',t,true)).join('')+d.minor.map(t=>calItem(yr,m,'n',t,false)).join('')+'</div></div>';}).join('');}
-function calItem(yr,month,type,text,isMajor){const key=yr+'-'+month+'-'+type+'-'+text.replace(/[^a-z0-9]/gi,'_'),checked=!!calChecks[key];return'<div class="cal-item '+(checked?'done':'')+'" onclick="toggleCal(''+key+'',this)"><div class="cal-check">'+(checked?'✓':'')+'</div>'+(isMajor?'<span class="cal-star-icon">★</span>':'<span class="cal-dot"></span>')+'<span class="cal-item-text">'+text+'</span></div>';}
-function toggleCal(key,el){const yr=parseInt(document.getElementById('cal-year').value)||2026;if(calChecks[key]){delete calChecks[key];el.classList.remove('done');el.querySelector('.cal-check').textContent='';sb('DELETE','/rest/v1/pip_flowboard_calendar_checks?member_email=eq.'+enc(user)+'&item_key=eq.'+encodeURIComponent(key),null,()=>{});}else{calChecks[key]=true;el.classList.add('done');el.querySelector('.cal-check').textContent='✓';sb('POST','/rest/v1/pip_flowboard_calendar_checks',{member_email:user,calendar_year:yr,item_key:key},()=>{});}}
-function renderStats(){const tw=getThisWeekCount(),now=new Date(),tm=cards.filter(c=>{if(c.stage!=='listed')return false;const d=new Date(c.listed_date||c.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).length;document.getElementById('stats-grid').innerHTML=[{v:cards.filter(c=>c.stage==='listed').length,l:'Total Listed'},{v:tm,l:'This Month'},{v:tw,l:'This Week'},{v:stats.best_week||0,l:'Best Week'}].map(s=>'<div class="stat-card"><div class="stat-val">'+s.v+'</div><div class="stat-lbl">'+s.l+'</div></div>').join('');}
-function renderChart(){const el=document.getElementById('chart-bars');if(!el)return;if(!weeklyHistory.length){el.innerHTML='<div style="color:var(--text-muted);font-size:0.75rem;padding:2rem;text-align:center;font-family:Space Mono,monospace">// no data yet — keep listing!</div>';return;}const mx=Math.max(...weeklyHistory.map(w=>w.listings_that_week||0),goal.weekly_goal||4,1),curWS=weekStart(),months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];el.innerHTML=weeklyHistory.map(w=>{const d=new Date(w.week_start+'T12:00:00'),h=Math.max(4,Math.round(((w.listings_that_week||0)/mx)*100)),isCur=w.week_start===curWS;return'<div class="bar-wrap"><div class="bar-val">'+(w.listings_that_week||0)+'</div><div class="bar '+(isCur?'cur':'')+'" style="height:'+h+'px"></div><div class="bar-lbl">'+months[d.getMonth()]+' '+d.getDate()+'</div></div>';}).join('');}
-function updateWeekChip(){const ws=weekStart(),we=weekEnd(ws),listed=getThisWeekCount(),g=goal.weekly_goal||4,pct=Math.min(100,Math.round((listed/g)*100));document.getElementById('hdr-dates').textContent=fmtRange(ws,we);document.getElementById('hdr-count').textContent=listed+'/'+g;document.getElementById('hdr-bar').style.width=pct+'%';}
-function updatePowerBar(){const bn=badges.length,streak=calcStreak(),pinned=cards.filter(c=>c.is_starred).length;[['pip-badges',bn],['pip-streak',streak],['pip-pinned',pinned]].forEach(([id,v])=>{const el=document.getElementById(id);el.textContent=v;el.className=v?'power-pip':'power-pip off';});}
-function calcStreak(){let s=0;const sorted=[...journey].sort((a,b)=>new Date(b.week_start)-new Date(a.week_start));for(const w of sorted){if(w.goal_met)s++;else break;}return s;}
-function openPanel(id){currentCard=id;const card=cards.find(c=>c.id===id);if(!card)return;renderPanel(card);document.getElementById('overlay').classList.add('open');document.getElementById('side-panel').classList.add('open');}
+function updateListedCount(){var n=cards.filter(function(c){return c.stage==='listed';}).length,el=document.getElementById('listed-count');el.textContent=n;el.style.display=n?'inline-block':'none';}
+
+function renderCalendar(){
+  var yr=parseInt(document.getElementById('cal-year').value)||2026,now=new Date(),thisM=now.getMonth()+1;
+  var strip=document.getElementById('this-month-strip'),td=CAL[thisM];
+  strip.innerHTML=td?'<div class="this-month-label">NOW — Start creating for:</div><div class="this-month-tags">'+td.create.map(function(i){return'<span class="m-tag">'+i+'</span>';}).join('')+'</div>':'';
+  var grid=document.getElementById('cal-grid');grid.innerHTML='';
+  Object.keys(CAL).forEach(function(m){
+    var d=CAL[m],isCur=parseInt(m)===thisM&&yr===now.getFullYear();
+    var card=document.createElement('div');card.className='cal-card'+(isCur?' now':'');
+    var head=document.createElement('div');head.className='cal-card-head';head.style.borderLeft='4px solid '+d.color;
+    head.innerHTML='<span class="cal-month-name">'+d.name+'</span>'+(isCur?'<span class="now-tag">NOW</span>':'');
+    var body=document.createElement('div');body.className='cal-card-body';
+    var html='<div class="cal-sec-label">// Create for</div>';
+    d.create.forEach(function(t){html+=calItem(yr,m,'c',t,false);});
+    html+='<div class="cal-sec-label">// This month</div>';
+    d.major.forEach(function(t){html+=calItem(yr,m,'m',t,true);});
+    d.minor.forEach(function(t){html+=calItem(yr,m,'n',t,false);});
+    body.innerHTML=html;
+    card.appendChild(head);card.appendChild(body);
+    grid.appendChild(card);
+  });
+}
+
+function calItem(yr,month,type,text,isMajor){
+  var key=yr+'-'+month+'-'+type+'-'+text.replace(/[^a-z0-9]/gi,'_');
+  var checked=!!calChecks[key];
+  return'<div class="cal-item'+(checked?' done':'')+'" onclick="toggleCal(\''+key+'\',this)"><div class="cal-check">'+(checked?'✓':'')+'</div>'+(isMajor?'<span class="cal-star-icon">★</span>':'<span class="cal-dot"></span>')+'<span class="cal-item-text">'+text+'</span></div>';
+}
+
+function toggleCal(key,el){
+  var yr=parseInt(document.getElementById('cal-year').value)||2026;
+  if(calChecks[key]){delete calChecks[key];el.classList.remove('done');el.querySelector('.cal-check').textContent='';sb('DELETE','/rest/v1/pip_flowboard_calendar_checks?member_email=eq.'+enc(user)+'&item_key=eq.'+encodeURIComponent(key),null,function(){});}
+  else{calChecks[key]=true;el.classList.add('done');el.querySelector('.cal-check').textContent='✓';sb('POST','/rest/v1/pip_flowboard_calendar_checks',{member_email:user,calendar_year:yr,item_key:key},function(){});}
+}
+
+function renderStats(){
+  var tw=getThisWeekCount(),now=new Date();
+  var tm=cards.filter(function(c){if(c.stage!=='listed')return false;var d=new Date(c.listed_date||c.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).length;
+  document.getElementById('stats-grid').innerHTML=[{v:cards.filter(function(c){return c.stage==='listed';}).length,l:'Total Listed'},{v:tm,l:'This Month'},{v:tw,l:'This Week'},{v:stats.best_week||0,l:'Best Week'}].map(function(s){return'<div class="stat-card"><div class="stat-val">'+s.v+'</div><div class="stat-lbl">'+s.l+'</div></div>';}).join('');
+}
+
+function renderChart(){
+  var el=document.getElementById('chart-bars');if(!el)return;
+  if(!weeklyHistory.length){el.innerHTML='<div style="color:var(--text-muted);font-size:0.75rem;padding:2rem;text-align:center">// no data yet</div>';return;}
+  var mx=Math.max.apply(null,weeklyHistory.map(function(w){return w.listings_that_week||0;}).concat([goal.weekly_goal||4,1]));
+  var curWS=weekStart(),months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  el.innerHTML=weeklyHistory.map(function(w){var d=new Date(w.week_start+'T12:00:00'),h=Math.max(4,Math.round(((w.listings_that_week||0)/mx)*100)),isCur=w.week_start===curWS;return'<div class="bar-wrap"><div class="bar-val">'+(w.listings_that_week||0)+'</div><div class="bar'+(isCur?' cur':'')+'" style="height:'+h+'px"></div><div class="bar-lbl">'+months[d.getMonth()]+' '+d.getDate()+'</div></div>';}).join('');
+}
+
+function updateWeekChip(){
+  var ws=weekStart(),we=weekEnd(ws),listed=getThisWeekCount(),g=goal.weekly_goal||4,pct=Math.min(100,Math.round((listed/g)*100));
+  document.getElementById('hdr-dates').textContent=fmtRange(ws,we);
+  document.getElementById('hdr-count').textContent=listed+'/'+g;
+  document.getElementById('hdr-bar').style.width=pct+'%';
+}
+
+function updatePowerBar(){
+  var bn=badges.length,streak=calcStreak(),pinned=cards.filter(function(c){return c.is_starred;}).length;
+  [['pip-badges',bn],['pip-streak',streak],['pip-pinned',pinned]].forEach(function(pair){var el=document.getElementById(pair[0]);el.textContent=pair[1];el.className=pair[1]?'power-pip':'power-pip off';});
+}
+
+function calcStreak(){var s=0;var sorted=journey.slice().sort(function(a,b){return new Date(b.week_start)-new Date(a.week_start);});for(var i=0;i<sorted.length;i++){if(sorted[i].goal_met)s++;else break;}return s;}
+
+function openPanel(id){
+  currentCard=id;
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  renderPanel(card);
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('side-panel').classList.add('open');
+}
+
 function closePanel(){document.getElementById('overlay').classList.remove('open');document.getElementById('side-panel').classList.remove('open');currentCard=null;}
-function renderPanel(card){const st=STAGES.find(s=>s.key===card.stage),items=CHECKLISTS[card.stage]||[],cl=card.checklist||{},checked=items.filter((_,i)=>cl[i]).length,pct=items.length?Math.round((checked/items.length)*100):0,stC='var('+st?.sc+')';document.getElementById('ptag').textContent=(st?.icon||'')+' '+(st?.label||'');document.getElementById('ptag').style.cssText='background:var('+(st?.sc)+'-bg,rgba(255,255,255,0.08));color:'+stC+';font-family:Space Mono,monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:5px;';const arc=document.getElementById('ring-arc');arc.style.strokeDashoffset=101-(pct/100)*101;arc.style.stroke=stC;document.getElementById('ring-pct').textContent=pct+'%';const nextSt=STAGES[STAGES.findIndex(s=>s.key===card.stage)+1],btn=document.getElementById('btn-next');if(nextSt&&pct===100){btn.textContent='Next: '+nextSt.label+' →';btn.classList.add('show');}else btn.classList.remove('show');const toolMap=STAGE_TOOLS[card.stage];let tools=[];if(toolMap)tools=toolMap[card.product_type]||toolMap.default||[];const toolsHtml=tools.length?'<div class="p-section"><div class="p-lbl">// PIP tools for this stage</div><div class="tools-wrap">'+tools.map(t=>'<a class="tool-link" href="'+(TOOL_URLS[t]||'#')+'" target="_blank">⚡ '+t+'</a>').join('')+'</div></div>':'';const showTypePicker=['planning','designing','creating'].includes(card.stage),stale=Math.floor((new Date()-new Date(card.updated_at))/86400000)>=7&&card.stage!=='listed'&&!card.stale_nudge_dismissed;document.getElementById('panel-scroll').innerHTML=(stale?'<div class="stale-banner">⏰ This card has not moved in a while — you have got this!<button class="nudge-x" onclick="dismissNudge(''+card.id+'')">✕</button></div>':'')+'<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem"><div class="panel-title">'+esc(card.title)+'</div><button class="card-star '+(card.is_starred?'on':'')+'" onclick="toggleStar(''+card.id+'')" style="position:static;font-size:1rem">'+(card.is_starred?'★':'☆')+'</button></div><div class="panel-added">// Added '+fmtDate(card.created_at)+'</div>'+(showTypePicker?'<div class="p-section"><div class="p-lbl">// Product type</div><div class="type-grid">'+PRODUCT_TYPES.map(t=>'<button class="type-btn '+(card.product_type===t?'picked':'')+'" onclick="updateType(''+card.id+'',''+t+'')">'+t+'</button>').join('')+'</div></div>':'')+toolsHtml+'<div class="p-section"><div class="p-lbl">// Stage checklist</div><div class="checklist-box">'+items.map((item,i)=>'<div class="check-row" onclick="toggleCheck(''+card.id+'','+i+')"><div class="check-box '+(cl[i]?'ticked':'')+'"></div><span class="check-label '+(cl[i]?'done':'')+'">'+item+'</span></div>').join('')+'</div></div>'+(card.stage==='listed'?'<div class="p-section"><div class="p-lbl">// Etsy listing URL</div><input class="p-input" id="etsy-inp" placeholder="https://www.etsy.com/listing/..." value="'+esc(card.etsy_url||'')+'" onchange="updateEtsy(''+card.id+'',this.value)"></div>':'')+'<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(''+card.id+'',this.value)" oninput="this.nextElementSibling.textContent=this.value.length+'/2000'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';}
-function getCardPct(card){const items=CHECKLISTS[card.stage]||[];if(!items.length)return 0;const cl=card.checklist||{};return Math.round((items.filter((_,i)=>cl[i]).length/items.length)*100);}
-function toggleCheck(id,idx){const card=cards.find(c=>c.id===id);if(!card)return;if(!card.checklist)card.checklist={};card.checklist[idx]=!card.checklist[idx];card.updated_at=new Date().toISOString();sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{checklist:card.checklist,updated_at:card.updated_at},()=>{renderPanel(card);renderAll();});}
-function toggleStar(id){const card=cards.find(c=>c.id===id);if(!card)return;card.is_starred=!card.is_starred;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{is_starred:card.is_starred},()=>{renderAll();if(currentCard===id)renderPanel(card);});}
-function updateType(id,type){const card=cards.find(c=>c.id===id);if(!card)return;card.product_type=type;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{product_type:type},()=>renderPanel(card));}
-function updateNotes(id,notes){const card=cards.find(c=>c.id===id);if(card){card.notes=notes;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{notes:notes,updated_at:new Date().toISOString()},()=>{});}}
-function updateEtsy(id,url){const card=cards.find(c=>c.id===id);if(card){card.etsy_url=url;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{etsy_url:url},()=>{});}}
-function dismissNudge(id){const card=cards.find(c=>c.id===id);if(!card)return;card.stale_nudge_dismissed=true;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{stale_nudge_dismissed:true},()=>renderPanel(card));}
+
+function renderPanel(card){
+  var st=STAGES.filter(function(s){return s.key===card.stage;})[0];
+  var items=CHECKLISTS[card.stage]||[];
+  var cl=card.checklist||{};
+  var checked=items.filter(function(_,i){return cl[i];}).length;
+  var pct=items.length?Math.round((checked/items.length)*100):0;
+  var stC='var('+(st?st.sc:'--s1')+')';
+  var ptag=document.getElementById('ptag');
+  ptag.textContent=(st?st.icon:'')+' '+(st?st.label:'');
+  ptag.style.cssText='background:var('+(st?st.sc:'--s1')+'-bg,rgba(255,255,255,0.08));color:'+stC+';font-family:monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:5px;';
+  var arc=document.getElementById('ring-arc');
+  arc.style.strokeDashoffset=101-(pct/100)*101;
+  arc.style.stroke=stC;
+  document.getElementById('ring-pct').textContent=pct+'%';
+  var nextIdx=STAGES.indexOf(st)+1;
+  var nextSt=nextIdx<STAGES.length?STAGES[nextIdx]:null;
+  var btn=document.getElementById('btn-next');
+  if(nextSt&&pct===100){btn.textContent='Next: '+nextSt.label+' \u2192';btn.classList.add('show');}
+  else btn.classList.remove('show');
+
+  var toolMap=STAGE_TOOLS[card.stage];
+  var tools=toolMap?(toolMap[card.product_type]||toolMap.default||[]):[];
+  var toolsHtml='';
+  if(tools.length){
+    toolsHtml='<div class="p-section"><div class="p-lbl">// PIP tools for this stage</div><div class="tools-wrap">';
+    tools.forEach(function(t){toolsHtml+='<a class="tool-link" href="'+(TOOL_URLS[t]||'#')+'" target="_blank">\u26a1 '+t+'</a>';});
+    toolsHtml+='</div></div>';
+  }
+
+  var showTypePicker=['planning','designing','creating'].indexOf(card.stage)>=0;
+  var stale=Math.floor((new Date()-new Date(card.updated_at))/86400000)>=7&&card.stage!=='listed'&&!card.stale_nudge_dismissed;
+  var typePickerHtml='';
+  if(showTypePicker){
+    typePickerHtml='<div class="p-section"><div class="p-lbl">// Product type</div><div class="type-grid">';
+    PRODUCT_TYPES.forEach(function(t){typePickerHtml+='<button class="type-btn'+(card.product_type===t?' picked':'')+'" onclick="updateType(\''+card.id+'\',\''+t+'\')">'+t+'</button>';});
+    typePickerHtml+='</div></div>';
+  }
+  var checklistHtml='<div class="p-section"><div class="p-lbl">// Stage checklist</div><div class="checklist-box">';
+  items.forEach(function(item,i){checklistHtml+='<div class="check-row" onclick="toggleCheck(\''+card.id+'\','+i+')"><div class="check-box'+(cl[i]?' ticked':'')+'"></div><span class="check-label'+(cl[i]?' done':'')+'">'+item+'</span></div>';});
+  checklistHtml+='</div></div>';
+  var etsyHtml=card.stage==='listed'?'<div class="p-section"><div class="p-lbl">// Etsy listing URL</div><input class="p-input" id="etsy-inp" placeholder="https://www.etsy.com/listing/..." value="'+esc(card.etsy_url||'')+'" onchange="updateEtsy(\''+card.id+'\',this.value)"></div>':'';
+  var staleHtml=stale?'<div class="stale-banner">\u23f0 This card has not moved in a while<button class="nudge-x" onclick="dismissNudge(\''+card.id+'\')">✕</button></div>':'';
+
+  document.getElementById('panel-scroll').innerHTML=staleHtml+
+    '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem"><div class="panel-title">'+esc(card.title)+'</div></div>'+
+    '<div class="panel-added">// Added '+fmtDate(card.created_at)+'</div>'+
+    typePickerHtml+toolsHtml+checklistHtml+etsyHtml+
+    '<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(\''+card.id+'\',this.value)" oninput="this.nextElementSibling.textContent=this.value.length+\'/2000\'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';
+}
+
+function getCardPct(card){var items=CHECKLISTS[card.stage]||[];if(!items.length)return 0;var cl=card.checklist||{};return Math.round((items.filter(function(_,i){return cl[i];}).length/items.length)*100);}
+
+function toggleCheck(id,idx){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  if(!card.checklist)card.checklist={};
+  card.checklist[idx]=!card.checklist[idx];
+  card.updated_at=new Date().toISOString();
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{checklist:card.checklist,updated_at:card.updated_at},function(){renderPanel(card);renderAll();});
+}
+
+function toggleStar(id){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  card.is_starred=!card.is_starred;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{is_starred:card.is_starred},function(){renderAll();if(currentCard===id)renderPanel(card);});
+}
+
+function updateType(id,type){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  card.product_type=type;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{product_type:type},function(){renderPanel(card);});
+}
+
+function updateNotes(id,notes){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(card){card.notes=notes;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{notes:notes,updated_at:new Date().toISOString()},function(){});}
+}
+
+function updateEtsy(id,url){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(card){card.etsy_url=url;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{etsy_url:url},function(){});}
+}
+
+function dismissNudge(id){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  card.stale_nudge_dismissed=true;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{stale_nudge_dismissed:true},function(){renderPanel(card);});
+}
+
 function saveCard(){showToast('// saved');}
-function advanceCard(){const card=cards.find(c=>c.id===currentCard);if(!card)return;const idx=STAGES.findIndex(s=>s.key===card.stage);if(idx<0||idx>=STAGES.length-1)return;const next=STAGES[idx+1];card.stage=next.key;card.checklist={};card.updated_at=new Date().toISOString();const patch={stage:next.key,checklist:{},updated_at:card.updated_at};if(next.key==='listed'){card.listed_date=new Date().toISOString();patch.listed_date=card.listed_date;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+card.id+'&member_email=eq.'+enc(user),patch,()=>{closePanel();renderAll();checkBadges();updateStatsDB();showTrophy(card);});}else{sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+card.id+'&member_email=eq.'+enc(user),patch,()=>{renderPanel(card);renderAll();showToast('// moved to '+next.label);});}}
-function deleteCard(){if(!currentCard||!confirm('Delete this card? Cannot be undone.'))return;sb('DELETE','/rest/v1/pip_flowboard_cards?id=eq.'+currentCard+'&member_email=eq.'+enc(user),null,()=>{cards=cards.filter(c=>c.id!==currentCard);closePanel();renderAll();showToast('// card deleted');});}
-function openAddModal(){document.getElementById('new-name').value='';document.getElementById('new-cat').value='';openModal('modal-add');setTimeout(()=>document.getElementById('new-name').focus(),100);}
-function createCard(){const name=document.getElementById('new-name').value.trim(),cat=document.getElementById('new-cat').value;if(!name){showToast('// enter a product name first');return;}sb('POST','/rest/v1/pip_flowboard_cards',{member_email:user,title:name,product_type:cat||'Clipart',category:cat,stage:'ideas',checklist:{},notes:'',etsy_url:'',is_starred:false,stale_nudge_dismissed:false},(err,data)=>{if(!err&&Array.isArray(data)&&data.length){cards.push({...data[0],checklist:{},competition_links:[]});closeModal('modal-add');renderAll();showToast('// "'+name+'" added!');}else showToast('// something went wrong, try again');});}
-function checkBadges(){const total=cards.filter(c=>c.stage==='listed').length;BADGES.forEach(b=>{if(total>=b.req&&!badges.find(x=>x.badge_key===b.key)){sb('POST','/rest/v1/pip_flowboard_badges',{member_email:user,badge_name:b.name,badge_key:b.key},(err)=>{if(!err){badges.push({badge_key:b.key,badge_name:b.name,earned_at:new Date().toISOString()});updatePowerBar();showToast('// milestone unlocked: '+b.name+'!');}});}});}
-function renderMilestones(){const total=cards.filter(c=>c.stage==='listed').length;document.getElementById('milestones-sub').textContent='// '+badges.length+' of '+BADGES.length+' unlocked · '+total+' total listed';document.getElementById('badges-grid').innerHTML=BADGES.map(b=>{const got=badges.find(x=>x.badge_key===b.key);return'<div class="badge-tile '+(got?'got':'locked')+'"><div class="badge-icon-big">'+b.icon+'</div><div class="badge-name">'+b.name+'</div><div class="badge-req">'+b.req+' listings</div>'+(got?'<div class="badge-date">'+fmtDate(got.earned_at)+'</div>':'<div class="badge-req" style="margin-top:0.12rem">NOT YET</div>')+'</div>';}).join('');}
-function renderStreakModal(){const done=journey.filter(w=>w.goal_met).length;document.getElementById('streak-weeks-label').textContent=done+' / 12 weeks completed';const ms={2:'🔥',6:'🎯',12:'👑'};document.getElementById('j-grid').innerHTML=Array.from({length:12},(_,i)=>{const w=journey[i],isDone=w&&w.goal_met,m=ms[i+1];return'<div class="j-dot-wrap"><div class="j-dot '+(isDone?'done':'')+' '+(m?'milestone':'')+'">'+( isDone?'✓':(m||i+1))+'</div><div class="j-num">'+(i+1)+'</div></div>';}).join('');const streak=calcStreak();document.getElementById('streak-row').innerHTML='<div class="streak-box"><div class="streak-val">'+streak+'</div><div class="streak-lbl">Current Streak</div></div><div class="streak-box"><div class="streak-val">'+(stats.best_streak||0)+'</div><div class="streak-lbl">Best Streak</div></div>';const nextMs=[2,6,12].find(n=>done<n);document.getElementById('next-unlock').innerHTML=nextMs?'<div class="next-unlock-label">Next unlock</div><div class="next-unlock-name">'+ms[nextMs]+' '+(nextMs===2?'On Fire':nextMs===6?'On a Roll':'Consistency Queen')+'</div><div class="next-unlock-sub">'+(nextMs-done)+' more week'+(nextMs-done!==1?'s':'')+' to go</div>':'<div class="next-unlock-name">👑 All streak badges earned!</div>';}
-function pickGoal(n){pendingGoal=n;document.querySelectorAll('.goal-opt').forEach(b=>b.classList.toggle('chosen',parseInt(b.textContent)===n));if(document.getElementById('goal-num').value!=n)document.getElementById('goal-num').value=n||'';}
-function saveGoal(){if(goal.locked)return;const ws=weekStart(),we=weekEnd(ws),g=pendingGoal||4;sb('POST','/rest/v1/pip_flowboard_goals',{member_email:user,weekly_goal:g,week_start:ws,week_end:we},(err)=>{if(!err){goal={weekly_goal:g,locked:true};updateWeekChip();closeModal('modal-goal');showToast('// goal set: '+g+' listings this week!');}});}
+
+function advanceCard(){
+  var card=cards.filter(function(c){return c.id===currentCard;})[0];if(!card)return;
+  var idx=STAGES.indexOf(STAGES.filter(function(s){return s.key===card.stage;})[0]);
+  if(idx<0||idx>=STAGES.length-1)return;
+  var next=STAGES[idx+1];
+  card.stage=next.key;card.checklist={};card.updated_at=new Date().toISOString();
+  var patch={stage:next.key,checklist:{},updated_at:card.updated_at};
+  if(next.key==='listed'){
+    card.listed_date=new Date().toISOString();patch.listed_date=card.listed_date;
+    sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+card.id+'&member_email=eq.'+enc(user),patch,function(){closePanel();renderAll();checkBadges();updateStatsDB();showTrophy(card);});
+  } else {
+    sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+card.id+'&member_email=eq.'+enc(user),patch,function(){renderPanel(card);renderAll();showToast('// moved to '+next.label);});
+  }
+}
+
+function deleteCard(){
+  if(!currentCard||!confirm('Delete this card? Cannot be undone.'))return;
+  sb('DELETE','/rest/v1/pip_flowboard_cards?id=eq.'+currentCard+'&member_email=eq.'+enc(user),null,function(){cards=cards.filter(function(c){return c.id!==currentCard;});closePanel();renderAll();showToast('// card deleted');});
+}
+
+function openAddModal(){document.getElementById('new-name').value='';document.getElementById('new-cat').value='';openModal('modal-add');setTimeout(function(){document.getElementById('new-name').focus();},100);}
+
+function createCard(){
+  var name=document.getElementById('new-name').value.trim(),cat=document.getElementById('new-cat').value;
+  if(!name){showToast('// enter a product name first');return;}
+  sb('POST','/rest/v1/pip_flowboard_cards',{member_email:user,title:name,product_type:cat||'Clipart',category:cat,stage:'ideas',checklist:{},notes:'',etsy_url:'',is_starred:false,stale_nudge_dismissed:false},function(err,data){
+    if(!err&&Array.isArray(data)&&data.length){cards.push(Object.assign({},data[0],{checklist:{},competition_links:[]}));closeModal('modal-add');renderAll();showToast('// "'+name+'" added!');}
+    else showToast('// something went wrong');
+  });
+}
+
+function checkBadges(){
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  BADGES.forEach(function(b){
+    if(total>=b.req&&!badges.filter(function(x){return x.badge_key===b.key;}).length){
+      sb('POST','/rest/v1/pip_flowboard_badges',{member_email:user,badge_name:b.name,badge_key:b.key},function(err){
+        if(!err){badges.push({badge_key:b.key,badge_name:b.name,earned_at:new Date().toISOString()});updatePowerBar();showToast('// milestone unlocked: '+b.name+'!');}
+      });
+    }
+  });
+}
+
+function renderMilestones(){
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  document.getElementById('milestones-sub').textContent='// '+badges.length+' of '+BADGES.length+' unlocked · '+total+' total listed';
+  document.getElementById('badges-grid').innerHTML=BADGES.map(function(b){var got=badges.filter(function(x){return x.badge_key===b.key;})[0];return'<div class="badge-tile'+(got?' got':' locked')+'"><div class="badge-icon-big">'+b.icon+'</div><div class="badge-name">'+b.name+'</div><div class="badge-req">'+b.req+' listings</div>'+(got?'<div class="badge-date">'+fmtDate(got.earned_at)+'</div>':'<div class="badge-req">NOT YET</div>')+'</div>';}).join('');
+}
+
+function renderStreakModal(){
+  var done=journey.filter(function(w){return w.goal_met;}).length;
+  document.getElementById('streak-weeks-label').textContent=done+' / 12 weeks completed';
+  var ms={2:'🔥',6:'🎯',12:'👑'};
+  document.getElementById('j-grid').innerHTML=Array.from({length:12},function(_,i){var w=journey[i],isDone=w&&w.goal_met,m=ms[i+1];return'<div class="j-dot-wrap"><div class="j-dot'+(isDone?' done':'')+(m?' milestone':'')+'">'+( isDone?'✓':(m||i+1))+'</div><div class="j-num">'+(i+1)+'</div></div>';}).join('');
+  var streak=calcStreak();
+  document.getElementById('streak-row').innerHTML='<div class="streak-box"><div class="streak-val">'+streak+'</div><div class="streak-lbl">Current Streak</div></div><div class="streak-box"><div class="streak-val">'+(stats.best_streak||0)+'</div><div class="streak-lbl">Best Streak</div></div>';
+  var nextMs=[2,6,12].filter(function(n){return done<n;})[0];
+  document.getElementById('next-unlock').innerHTML=nextMs?'<div class="next-unlock-label">Next unlock</div><div class="next-unlock-name">'+ms[nextMs]+' '+(nextMs===2?'On Fire':nextMs===6?'On a Roll':'Consistency Queen')+'</div><div class="next-unlock-sub">'+(nextMs-done)+' more week'+(nextMs-done!==1?'s':'')+' to go</div>':'<div class="next-unlock-name">👑 All streak badges earned!</div>';
+}
+
+function pickGoal(n){pendingGoal=n;document.querySelectorAll('.goal-opt').forEach(function(b){b.classList.toggle('chosen',parseInt(b.textContent)===n);});if(document.getElementById('goal-num').value!=n)document.getElementById('goal-num').value=n||'';}
+
+function saveGoal(){
+  if(goal.locked)return;
+  var ws=weekStart(),we=weekEnd(ws),g=pendingGoal||4;
+  sb('POST','/rest/v1/pip_flowboard_goals',{member_email:user,weekly_goal:g,week_start:ws,week_end:we},function(err){
+    if(!err){goal={weekly_goal:g,locked:true};updateWeekChip();closeModal('modal-goal');showToast('// goal set: '+g+' listings this week!');}
+  });
+}
+
 function openGoalModal(){pickGoal(goal.weekly_goal||4);document.getElementById('goal-locked-note').style.display=goal.locked?'block':'none';document.getElementById('lock-goal-btn').disabled=goal.locked;openModal('modal-goal');}
-function showTrophy(card){const total=cards.filter(c=>c.stage==='listed').length,newBadge=BADGES.find(b=>b.req===total);document.getElementById('trophy-content').innerHTML='<div class="trophy-big">🏆</div><div class="trophy-title">IT'S LIVE!</div><div class="trophy-sub">"'+esc(card.title)+'" is on Etsy!<br>'+total+' listing'+(total!==1?'s':'')+' total — you are building something real.</div>'+(newBadge?'<div class="trophy-badge-box"><div style="font-size:1.5rem">'+newBadge.icon+'</div><div style="font-weight:700;color:var(--accent);font-family:Syne,sans-serif">'+newBadge.name+'</div><div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.15rem">Milestone unlocked!</div></div>':'')+'<button class="login-btn" style="margin-top:1rem" onclick="closeModal('modal-trophy')">Keep building 🚀</button>';openModal('modal-trophy');launchConfetti();}
-function launchConfetti(){const canvas=document.getElementById('confetti-canvas'),ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;const pieces=Array.from({length:140},()=>({x:Math.random()*canvas.width,y:Math.random()*-canvas.height,w:Math.random()*10+4,h:Math.random()*5+3,color:['#FF2D78','#00E5FF','#FFD600','#00FF88','#A855F7','#FF7A00'][Math.floor(Math.random()*6)],speed:Math.random()*3+1,angle:Math.random()*360,spin:(Math.random()-.5)*7}));let frame=0;(function anim(){ctx.clearRect(0,0,canvas.width,canvas.height);pieces.forEach(p=>{p.y+=p.speed;p.angle+=p.spin;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle*Math.PI/180);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});if(++frame<200)requestAnimationFrame(anim);else ctx.clearRect(0,0,canvas.width,canvas.height);})();}
-function updateStatsDB(){const total=cards.filter(c=>c.stage==='listed').length;sb('POST','/rest/v1/pip_flowboard_stats',{member_email:user,total_listed:total,updated_at:new Date().toISOString()},err=>{if(err)sb('PATCH','/rest/v1/pip_flowboard_stats?member_email=eq.'+enc(user),{total_listed:total,updated_at:new Date().toISOString()},()=>{});});}
-function switchTab(tab){document.querySelectorAll('.tab-pill').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='tab-'+tab));if(tab==='collections')renderCollections();if(tab==='calendar')renderCalendar();if(tab==='stats'){renderStats();renderChart();}}
-function openModal(id){document.getElementById(id).classList.add('open');if(id==='modal-milestones')renderMilestones();if(id==='modal-streak')renderStreakModal();if(id==='modal-goal')openGoalModal();}
+
+function showTrophy(card){
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  var newBadge=BADGES.filter(function(b){return b.req===total;})[0];
+  document.getElementById('trophy-content').innerHTML='<div class="trophy-big">🏆</div><div class="trophy-title">IT\'S LIVE!</div><div class="trophy-sub">"'+esc(card.title)+'" is on Etsy!<br>'+total+' listing'+(total!==1?'s':'')+' total.</div>'+(newBadge?'<div class="trophy-badge-box"><div style="font-size:1.5rem">'+newBadge.icon+'</div><div style="font-weight:700;color:var(--accent)">'+newBadge.name+'</div></div>':'')+'<button class="login-btn" style="margin-top:1rem" onclick="closeModal(\'modal-trophy\')">Keep building 🚀</button>';
+  openModal('modal-trophy');launchConfetti();
+}
+
+function launchConfetti(){
+  var canvas=document.getElementById('confetti-canvas'),ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  var pieces=Array.from({length:120},function(){return{x:Math.random()*canvas.width,y:Math.random()*-canvas.height,w:Math.random()*10+4,h:Math.random()*5+3,color:['#FF2D78','#00E5FF','#FFD600','#00FF88','#A855F7','#FF7A00'][Math.floor(Math.random()*6)],speed:Math.random()*3+1,angle:Math.random()*360,spin:(Math.random()-.5)*7};});
+  var frame=0;
+  (function anim(){ctx.clearRect(0,0,canvas.width,canvas.height);pieces.forEach(function(p){p.y+=p.speed;p.angle+=p.spin;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle*Math.PI/180);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});if(++frame<200)requestAnimationFrame(anim);else ctx.clearRect(0,0,canvas.width,canvas.height);})();
+}
+
+function updateStatsDB(){
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  sb('POST','/rest/v1/pip_flowboard_stats',{member_email:user,total_listed:total,updated_at:new Date().toISOString()},function(err){if(err)sb('PATCH','/rest/v1/pip_flowboard_stats?member_email=eq.'+enc(user),{total_listed:total,updated_at:new Date().toISOString()},function(){});});
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-pill').forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab);});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('active',v.id==='tab-'+tab);});
+  if(tab==='collections')renderCollections();
+  if(tab==='calendar')renderCalendar();
+  if(tab==='stats'){renderStats();renderChart();}
+}
+
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  if(id==='modal-milestones')renderMilestones();
+  if(id==='modal-streak')renderStreakModal();
+  if(id==='modal-goal')openGoalModal();
+}
+
 function closeModal(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+
+document.querySelectorAll('.modal-bg').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('open');});});
+
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
 function enc(s){return encodeURIComponent(s);}
-function esc(s){return String(s||'').replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function parseJ(v,def){try{return typeof v==='string'?JSON.parse(v):(v||def);}catch(e){return def;}}
-function fmtDate(iso){if(!iso)return'';const d=new Date(iso);return d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getFullYear();}
-function weekStart(date){const d=date?new Date(date):new Date(),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);return new Date(d.setDate(diff)).toISOString().slice(0,10);}
-function weekEnd(ws){const d=new Date(ws);d.setDate(d.getDate()+6);return d.toISOString().slice(0,10);}
-function fmtRange(ws,we){const s=new Date(ws+'T12:00:00'),e=new Date(we+'T12:00:00'),m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return s.getMonth()===e.getMonth()?s.getDate()+'–'+e.getDate()+' '+m[s.getMonth()]:s.getDate()+' '+m[s.getMonth()]+'–'+e.getDate()+' '+m[e.getMonth()];}
-function getThisWeekCount(){const ws=weekStart(),we=weekEnd(ws);return cards.filter(c=>c.stage==='listed'&&c.listed_date&&c.listed_date>=ws&&c.listed_date<=we+'T23:59:59').length;}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePanel();document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));}});
+function fmtDate(iso){if(!iso)return'';var d=new Date(iso);return d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getFullYear();}
+function weekStart(date){var d=date?new Date(date):new Date(),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);return new Date(d.setDate(diff)).toISOString().slice(0,10);}
+function weekEnd(ws){var d=new Date(ws);d.setDate(d.getDate()+6);return d.toISOString().slice(0,10);}
+function fmtRange(ws,we){var s=new Date(ws+'T12:00:00'),e=new Date(we+'T12:00:00'),m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return s.getMonth()===e.getMonth()?s.getDate()+'\u2013'+e.getDate()+' '+m[s.getMonth()]:s.getDate()+' '+m[s.getMonth()]+'\u2013'+e.getDate()+' '+m[e.getMonth()];}
+function getThisWeekCount(){var ws=weekStart(),we=weekEnd(ws);return cards.filter(function(c){return c.stage==='listed'&&c.listed_date&&c.listed_date>=ws&&c.listed_date<=we+'T23:59:59';}).length;}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closePanel();document.querySelectorAll('.modal-bg.open').forEach(function(m){m.classList.remove('open');});}});
 </script>
 </body>
 </html>
