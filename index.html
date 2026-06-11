@@ -1130,7 +1130,7 @@ function openAddModal(){document.getElementById('new-name').value='';document.ge
 function createCard(){
   var name=document.getElementById('new-name').value.trim(),cat=document.getElementById('new-cat').value;
   if(!name){showToast('// enter a product name first');return;}
-  sb('POST','/rest/v1/pip_flowboard_cards',{member_email:user,title:name,product_type:cat||'Clipart',category:cat,stage:'ideas',checklist:{},notes:'',etsy_url:'',is_starred:false,stale_nudge_dismissed:false},function(err,data){
+  sb('POST','/rest/v1/pip_flowboard_cards',{member_email:user,title:name,product_type:cat||'Clipart',category:cat,stage:'ideas',checklist:{},notes:'',etsy_url:'',is_starred:false,stale_nudge_dismissed:false,research_links:[],research_images:[],research_price:'',research_sales:'',research_competition:'',research_demand:'',product_types:[],style_notes:'',color_palette:'',style_keywords:''},function(err,data){
     if(!err&&Array.isArray(data)&&data.length){cards.push(Object.assign({},data[0],{checklist:{},competition_links:[]}));closeModal('modal-add');renderAll();showToast('// "'+name+'" added!');}
     else showToast('// something went wrong');
   });
