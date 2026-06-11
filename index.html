@@ -240,18 +240,32 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .cal-item.done .cal-item-text{text-decoration:line-through;color:var(--text-muted);}
 .cal-star-icon{font-size:0.75rem;color:var(--accent3);flex-shrink:0;font-weight:900;}
 .cal-dot{width:13px;flex-shrink:0;}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-bottom:1.1rem;}
-.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:0.875rem;text-align:center;box-shadow:var(--shadow-card);}
-.stat-val{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;margin-bottom:0.22rem;}
-.stat-lbl{font-family:'Space Mono',monospace;font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);}
-.chart-wrap{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1rem;box-shadow:var(--shadow-card);}
-.chart-title{font-family:'Space Mono',monospace;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.875rem;}
-.chart-bars{display:flex;align-items:flex-end;gap:0.45rem;height:105px;}
-.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;}
-.bar{width:100%;background:var(--accent);border-radius:3px 3px 0 0;min-height:4px;transition:height 0.5s ease;}
-.bar.cur{background:var(--accent2);}
-.bar-val{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--text-secondary);}
-.bar-lbl{font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--text-muted);text-align:center;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.875rem;margin-bottom:1.25rem;}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1rem;text-align:center;box-shadow:var(--shadow-card);position:relative;overflow:hidden;}
+.stat-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent);}
+.stat-card:nth-child(2)::after{background:var(--accent2);}
+.stat-card:nth-child(3)::after{background:var(--accent3);}
+.stat-card:nth-child(4)::after{background:var(--s5);}
+.stat-val{font-family:'Syne',sans-serif;font-weight:800;font-size:2.4rem;color:var(--accent);line-height:1;margin-bottom:0.2rem;}
+.stat-card:nth-child(2) .stat-val{color:var(--accent2);}
+.stat-card:nth-child(3) .stat-val{color:var(--accent3);}
+.stat-card:nth-child(4) .stat-val{color:var(--s5);}
+.stat-lbl{font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.04em;color:var(--text-secondary);}
+.stat-sublbl{font-size:0.68rem;color:var(--text-muted);margin-top:0.15rem;}
+.chart-wrap{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.1rem;box-shadow:var(--shadow-card);}
+.chart-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text-primary);}
+.chart-bars{display:flex;align-items:flex-end;gap:0.5rem;height:140px;}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;}
+.bar{width:100%;background:var(--accent);border-radius:5px 5px 0 0;min-height:4px;transition:height 0.6s cubic-bezier(0.4,0,0.2,1);}
+.bar.cur{background:var(--accent2);box-shadow:0 0 12px var(--accent2-glow);}
+.bar-val{font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;color:var(--text-primary);}
+.bar-lbl{font-family:'Space Grotesk',sans-serif;font-size:0.65rem;color:var(--text-muted);text-align:center;}
+.pipeline-stage-row{display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0;}
+.pipeline-stage-row+.pipeline-stage-row{border-top:1px solid var(--border);}
+.ps-name{font-size:0.82rem;font-weight:600;color:var(--text-primary);width:90px;flex-shrink:0;}
+.ps-bar-wrap{flex:1;height:10px;background:var(--progress-bg);border-radius:5px;overflow:hidden;}
+.ps-bar-fill{height:100%;border-radius:5px;transition:width 0.6s ease;}
+.ps-count{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text-secondary);min-width:30px;text-align:right;flex-shrink:0;}
 .badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.65rem;}
 .badge-tile{background:var(--bg-panel);border:1px solid var(--border);border-radius:11px;padding:0.8rem 0.55rem;text-align:center;}
 .badge-tile.got{border-color:var(--accent);background:var(--accent-glow);}
@@ -429,11 +443,26 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
     <div class="cal-grid" id="cal-grid"></div>
   </div>
   <div id="tab-stats" class="view">
-    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:1rem">My Stats</div>
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:0.35rem">My Creator Stats</div>
+    <div style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:1.5rem">Track your progress from idea to listed</div>
     <div class="stats-grid" id="stats-grid"></div>
+    <div class="chart-wrap" style="margin-bottom:1.25rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem">
+        <div>
+          <div class="chart-title" style="margin-bottom:0.15rem">Weekly Output</div>
+          <div style="font-size:0.8rem;color:var(--text-secondary)">How many products you listed each week</div>
+        </div>
+        <div id="chart-goal-line" style="font-size:0.78rem;color:var(--accent);font-weight:700;font-family:'Space Mono',monospace"></div>
+      </div>
+      <div class="chart-bars" id="chart-bars" style="height:140px;align-items:flex-end;"></div>
+      <div style="display:flex;align-items:center;gap:1rem;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:12px;height:12px;border-radius:3px;background:var(--accent)"></div><div style="font-size:0.75rem;color:var(--text-secondary)">Past weeks</div></div>
+        <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:12px;height:12px;border-radius:3px;background:var(--accent2)"></div><div style="font-size:0.75rem;color:var(--text-secondary)">Current week</div></div>
+      </div>
+    </div>
     <div class="chart-wrap">
-      <div class="chart-title">// WEEKLY OUTPUT — LAST 8 WEEKS</div>
-      <div class="chart-bars" id="chart-bars"></div>
+      <div class="chart-title" style="margin-bottom:1rem">Pipeline Breakdown</div>
+      <div id="pipeline-breakdown"></div>
     </div>
   </div>
 </div>
@@ -490,27 +519,26 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
   </div>
 </div>
 <div class="modal-bg" id="modal-goal">
-  <div class="modal-box" style="max-width:420px;padding:0;overflow:hidden;">
-    <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding:1.5rem 1.75rem;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div>
-          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:white;line-height:1.1;">Set Your<br>Weekly Target</div>
-          <div style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin-top:0.4rem;">How many products will you list this week?</div>
-        </div>
+  <div class="modal-box" style="max-width:400px;padding:0;overflow:hidden;text-align:center;">
+    <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding:2rem 1.75rem 1.5rem;">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:0.5rem;">
         <div class="modal-x" style="background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3);color:white;" onclick="closeModal('modal-goal')">✕</div>
       </div>
-      <div style="margin-top:1.25rem;display:flex;align-items:center;gap:0.75rem;">
-        <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:0.5rem 0.75rem;display:flex;align-items:center;gap:0.5rem;">
-          <button onclick="adjustGoal(-1)" style="background:rgba(255,255,255,0.2);border:none;color:white;width:28px;height:28px;border-radius:6px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">−</button>
-          <input type="number" id="goal-num" min="1" max="200" value="4" style="width:50px;background:none;border:none;color:white;font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;text-align:center;outline:none;" oninput="pickGoal(parseInt(this.value)||1)">
-          <button onclick="adjustGoal(1)" style="background:rgba(255,255,255,0.2);border:none;color:white;width:28px;height:28px;border-radius:6px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+      <div style="font-size:2.5rem;margin-bottom:0.5rem;">🎯</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:white;margin-bottom:0.3rem;">Weekly Target</div>
+      <div style="font-size:0.85rem;color:rgba(255,255,255,0.85);margin-bottom:1.5rem;">How many products will you list this week?</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:1rem;">
+        <button onclick="adjustGoal(-1)" style="background:rgba(255,255,255,0.25);border:none;color:white;width:42px;height:42px;border-radius:50%;font-size:1.4rem;cursor:pointer;font-weight:700;line-height:1;">−</button>
+        <div style="background:rgba(255,255,255,0.15);border-radius:14px;padding:0.5rem 1.25rem;min-width:90px;">
+          <input type="number" id="goal-num" min="1" max="200" value="4" style="width:70px;background:none;border:none;color:white;font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;text-align:center;outline:none;" oninput="pickGoal(parseInt(this.value)||1)">
+          <div style="font-size:0.72rem;color:rgba(255,255,255,0.75);margin-top:0.1rem;">listings / week</div>
         </div>
-        <div style="color:rgba(255,255,255,0.9);font-size:0.88rem;font-weight:600;">listings<br>this week</div>
+        <button onclick="adjustGoal(1)" style="background:rgba(255,255,255,0.25);border:none;color:white;width:42px;height:42px;border-radius:50%;font-size:1.4rem;cursor:pointer;font-weight:700;line-height:1;">+</button>
       </div>
     </div>
     <div style="padding:1.25rem 1.75rem;">
       <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.65rem;">Quick pick</div>
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.1rem;">
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.25rem;">
         <button class="goal-quick" onclick="pickGoal(1)">1</button>
         <button class="goal-quick" onclick="pickGoal(2)">2</button>
         <button class="goal-quick" onclick="pickGoal(3)">3</button>
@@ -521,8 +549,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
         <button class="goal-quick" onclick="pickGoal(15)">15</button>
         <button class="goal-quick" onclick="pickGoal(20)">20</button>
       </div>
-      <div class="goal-locked-note" id="goal-locked-note">Goal is locked for this week. Unlocks next Monday.</div>
-      <button id="lock-goal-btn" onclick="saveGoal()" style="width:100%;padding:0.85rem;background:var(--accent);color:white;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:opacity 0.2s;letter-spacing:0.03em;">Lock In My Goal</button>
+      <button id="lock-goal-btn" onclick="saveGoal()" style="width:100%;padding:0.9rem;background:var(--accent);color:white;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;cursor:pointer;transition:all 0.2s;letter-spacing:0.02em;">Let's Do This! 🚀</button>
     </div>
   </div>
 </div>
@@ -827,7 +854,33 @@ function toggleCal(key,el){
 function renderStats(){
   var tw=getThisWeekCount(),now=new Date();
   var tm=cards.filter(function(c){if(c.stage!=='listed')return false;var d=new Date(c.listed_date||c.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).length;
-  document.getElementById('stats-grid').innerHTML=[{v:cards.filter(function(c){return c.stage==='listed';}).length,l:'Total Listed'},{v:tm,l:'This Month'},{v:tw,l:'This Week'},{v:stats.best_week||0,l:'Best Week'}].map(function(s){return'<div class="stat-card"><div class="stat-val">'+s.v+'</div><div class="stat-lbl">'+s.l+'</div></div>';}).join('');
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  var inProgress=cards.filter(function(c){return c.stage!=='listed';}).length;
+  var statsData=[
+    {v:total,l:'Total Listed',sub:'all time'},
+    {v:tm,l:'This Month',sub:now.toLocaleString('default',{month:'long'})},
+    {v:tw,l:'This Week',sub:'vs goal of '+(goal.weekly_goal||4)},
+    {v:inProgress,l:'In Progress',sub:'across all stages'}
+  ];
+  document.getElementById('stats-grid').innerHTML=statsData.map(function(s){
+    return'<div class="stat-card"><div class="stat-val">'+s.v+'</div><div class="stat-lbl">'+s.l+'</div><div class="stat-sublbl">'+s.sub+'</div></div>';
+  }).join('');
+  // Pipeline breakdown
+  var breakdown=document.getElementById('pipeline-breakdown');
+  if(breakdown){
+    var maxCards=Math.max.apply(null,STAGES.map(function(st){return cards.filter(function(c){return c.stage===st.key;}).length;}));
+    maxCards=Math.max(maxCards,1);
+    var colors=['--s1','--s2','--s3','--s4','--s5','--s6','--s7'];
+    breakdown.innerHTML=STAGES.map(function(st,i){
+      var n=cards.filter(function(c){return c.stage===st.key;}).length;
+      var pct=Math.round((n/maxCards)*100);
+      return'<div class="pipeline-stage-row">'+
+        '<div class="ps-name">'+st.label+'</div>'+
+        '<div class="ps-bar-wrap"><div class="ps-bar-fill" style="width:'+pct+'%;background:var('+colors[i]+')"></div></div>'+
+        '<div class="ps-count">'+n+' card'+(n!==1?'s':'')+'</div>'+
+      '</div>';
+    }).join('');
+  }
 }
 
 function renderChart(){
