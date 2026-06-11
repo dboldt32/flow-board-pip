@@ -1049,7 +1049,7 @@ function renderPanel(card){
     toolsHtml+='</div></div>';
   }
 
-  var showTypePicker=['creating'].indexOf(card.stage)>=0;
+  var showTypePicker=false;
   var stale=Math.floor((new Date()-new Date(card.updated_at))/86400000)>=7&&card.stage!=='listed'&&!card.stale_nudge_dismissed;
   var typePickerHtml='';
   if(showTypePicker){
