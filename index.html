@@ -216,7 +216,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .cal-item.done .cal-check{background:var(--accent);border-color:var(--accent);color:white;}
 .cal-item-text{font-size:0.82rem;color:var(--text-primary);line-height:1.35;}
 .cal-item.done .cal-item-text{text-decoration:line-through;color:var(--text-muted);}
-.cal-star-icon{font-size:0.62rem;color:var(--accent3);flex-shrink:0;}
+.cal-star-icon{font-size:0.75rem;color:var(--accent3);flex-shrink:0;font-weight:900;}
 .cal-dot{width:13px;flex-shrink:0;}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-bottom:1.1rem;}
 .stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:0.875rem;text-align:center;box-shadow:var(--shadow-card);}
@@ -387,7 +387,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
     <div class="cal-header">
       <h2>Season Map</h2>
       <select class="yr-select" id="cal-year" onchange="loadCalChecks()"><option>2026</option><option>2027</option><option>2028</option></select>
-      <div class="cal-tip">★ = major holiday · start 2 to 3 months early</div>
+      <div class="cal-tip" style="font-size:0.75rem;color:var(--text-secondary)"><span style="color:var(--accent3);font-weight:700;">★ = Major holiday</span> — start creating 2-3 months early! &nbsp; No star = smaller holiday</div>
     </div>
     <div id="this-month-strip"></div>
     <div class="cal-grid" id="cal-grid"></div>
@@ -1015,7 +1015,7 @@ function parseJ(v,def){try{return typeof v==='string'?JSON.parse(v):(v||def);}ca
 function fmtDate(iso){if(!iso)return'';var d=new Date(iso);return d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getFullYear();}
 function weekStart(date){var d=date?new Date(date):new Date(),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);return new Date(d.setDate(diff)).toISOString().slice(0,10);}
 function weekEnd(ws){var d=new Date(ws);d.setDate(d.getDate()+6);return d.toISOString().slice(0,10);}
-function fmtRange(ws,we){var s=new Date(ws+'T12:00:00'),e=new Date(we+'T12:00:00'),m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return s.getMonth()===e.getMonth()?s.getDate()+'\u2013'+e.getDate()+' '+m[s.getMonth()]:s.getDate()+' '+m[s.getMonth()]+'\u2013'+e.getDate()+' '+m[e.getMonth()];}
+function fmtRange(ws,we){var s=new Date(ws+'T12:00:00'),e=new Date(we+'T12:00:00'),months=['January','February','March','April','May','June','July','August','September','October','November','December'];var yr=s.getFullYear();return s.getMonth()===e.getMonth()?months[s.getMonth()]+' '+s.getDate()+'-'+e.getDate()+', '+yr:months[s.getMonth()]+' '+s.getDate()+' - '+months[e.getMonth()]+' '+e.getDate()+', '+yr;}
 function getThisWeekCount(){var ws=weekStart(),we=weekEnd(ws);return cards.filter(function(c){return c.stage==='listed'&&c.listed_date&&c.listed_date>=ws&&c.listed_date<=we+'T23:59:59';}).length;}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closePanel();document.querySelectorAll('.modal-bg.open').forEach(function(m){m.classList.remove('open');});}});
 </script>
