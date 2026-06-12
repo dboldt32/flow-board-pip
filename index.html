@@ -844,6 +844,8 @@ function renderVault(){
     var sc=colorMap[v.product_type]||'--s1';
     var card=document.createElement('div');
     card.className='idea-vault-card';
+    card.style.cursor='pointer';
+    (function(vid){card.onclick=function(e){if(e.target.tagName!=='A'&&e.target.tagName!=='BUTTON')openVaultModal(vid);};})(v.id);
     // color bar
     var bar=document.createElement('div');
     bar.style.cssText='height:4px;background:var('+sc+');';
@@ -914,16 +916,35 @@ function renderVault(){
     }
     // price + link
     var infoRow=document.createElement('div');
-    infoRow.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.35rem;';
+    infoRow.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.35rem;flex-wrap:wrap;';
+    var priceWrap=document.createElement('div');
+    priceWrap.style.cssText='display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;';
     if(nd.price){
       var priceEl=document.createElement('span');
-      priceEl.style.cssText='font-family:Syne,sans-serif;font-weight:800;font-size:0.95rem;color:var(--accent2);';
-      priceEl.textContent=nd.price;infoRow.appendChild(priceEl);
+      var priceTxt=nd.price.startsWith('$')?nd.price:'$'+nd.price;
+      priceEl.style.cssText='font-family:Syne,sans-serif;font-weight:700;font-size:0.82rem;color:var(--text-secondary);';
+      priceEl.textContent='Orig: '+priceTxt;
+      priceWrap.appendChild(priceEl);
     }
+    if(nd.sale_price){
+      var saleEl=document.createElement('span');
+      var saleTxt=nd.sale_price.startsWith('$')?nd.sale_price:'$'+nd.sale_price;
+      saleEl.style.cssText='font-family:Syne,sans-serif;font-weight:700;font-size:0.82rem;color:var(--accent2);';
+      saleEl.textContent='Sale: '+saleTxt;
+      priceWrap.appendChild(saleEl);
+    }
+    if(nd.listed_duration){
+      var durEl=document.createElement('span');
+      durEl.style.cssText='font-size:0.68rem;color:var(--text-muted);padding:0.1rem 0.4rem;background:var(--bg-panel);border-radius:4px;border:1px solid var(--border);';
+      durEl.textContent=nd.listed_duration;
+      priceWrap.appendChild(durEl);
+    }
+    if(priceWrap.children.length)infoRow.appendChild(priceWrap);
     if(nd.link){
       var linkEl=document.createElement('a');
       linkEl.href=nd.link;linkEl.target='_blank';
-      linkEl.style.cssText='font-size:0.72rem;color:var(--accent);text-decoration:none;font-weight:600;';
+      linkEl.onclick=function(e){e.stopPropagation();};
+      linkEl.style.cssText='font-size:0.72rem;color:var(--accent);text-decoration:none;font-weight:600;flex-shrink:0;';
       linkEl.textContent='View listing';infoRow.appendChild(linkEl);
     }
     if(infoRow.children.length)body.appendChild(infoRow);
@@ -972,7 +993,7 @@ function setVaultSub(val,btn){
 }
 
 function openVaultModal(editId){
-  ['v-title','v-link','v-img','v-price','v-tags','v-theme','v-notes'].forEach(function(f){document.getElementById(f).value='';});
+  ['v-title','v-link','v-img','v-price','v-sale-price','v-listed-duration','v-tags','v-theme','v-notes'].forEach(function(f){document.getElementById(f).value='';});
   document.getElementById('v-product').value='';
   document.getElementById('v-holiday').value='';
   document.getElementById('v-edit-id').value='';
@@ -986,6 +1007,8 @@ function openVaultModal(editId){
       document.getElementById('v-link').value=nd.link||'';
       document.getElementById('v-img').value=nd.img||'';
       document.getElementById('v-price').value=nd.price||'';
+      document.getElementById('v-sale-price').value=nd.sale_price||'';
+      document.getElementById('v-listed-duration').value=nd.listed_duration||'';
       document.getElementById('v-tags').value=nd.tags||'';
       document.getElementById('v-product').value=item.product_type||'';
       document.getElementById('v-theme').value=nd.theme||'';
@@ -1014,6 +1037,8 @@ function saveVaultIdea(){
     link:document.getElementById('v-link').value.trim(),
     img:document.getElementById('v-img').value.trim(),
     price:document.getElementById('v-price').value.trim(),
+    sale_price:document.getElementById('v-sale-price').value.trim(),
+    listed_duration:document.getElementById('v-listed-duration').value.trim(),
     tags:document.getElementById('v-tags').value.trim(),
     theme:document.getElementById('v-theme').value.trim(),
     holiday:document.getElementById('v-holiday').value,
@@ -1558,8 +1583,18 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closePanel(
     <label class="m-label">Image URL (from Etsy, Pinterest, etc.)</label>
     <input class="m-input" id="v-img" placeholder="https://..." oninput="previewVaultImg(this.value)">
     <div id="v-img-preview" style="display:none;margin-bottom:0.875rem;"><img id="v-img-preview-img" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;border:1px solid var(--border);" onerror="this.parentElement.style.display=none"></div>
-    <label class="m-label">Price</label>
-    <input class="m-input" id="v-price" placeholder="e.g. $4.99">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div>
+        <label class="m-label">Original Price</label>
+        <input class="m-input" id="v-price" placeholder="e.g. $4.99">
+      </div>
+      <div>
+        <label class="m-label">Sale Price (if any)</label>
+        <input class="m-input" id="v-sale-price" placeholder="e.g. $2.99">
+      </div>
+    </div>
+    <label class="m-label">How Long Listed</label>
+    <input class="m-input" id="v-listed-duration" placeholder="e.g. 6 months, 2 years, 3 weeks...">
     <label class="m-label">Tags (comma separated)</label>
     <input class="m-input" id="v-tags" placeholder="e.g. boho, floral, summer, clipart">
     <label class="m-label">Product Type</label>
