@@ -434,14 +434,14 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
       <button class="btn-add" onclick="openAddModal()">+ Capture Idea</button>
     </div>
     <div style="display:flex;gap:0.5rem;margin-bottom:1.1rem;flex-wrap:wrap;">
-      <button class="idea-filter-btn active" onclick="filterIdeas('all',this)">All Ideas</button>
-      <button class="idea-filter-btn" onclick="filterIdeas('starred',this)">Pinned</button>
-      <button class="idea-filter-btn" onclick="filterIdeas('Clipart',this)">Clipart</button>
-      <button class="idea-filter-btn" onclick="filterIdeas('Coloring Books',this)">Coloring Books</button>
-      <button class="idea-filter-btn" onclick="filterIdeas('Seamless Paper',this)">Seamless Paper</button>
-      <button class="idea-filter-btn" onclick="filterIdeas('Alpha PNGs',this)">Alpha PNGs</button>
-      <button class="idea-filter-btn" onclick="filterIdeas('Journals',this)">Journals</button>
-      <button class="idea-filter-btn" onclick="filterIdeas('Sublimation Designs',this)">Sublimation</button>
+      <button class="idea-filter-btn active" onclick="filterVault('all',this)">All Ideas</button>
+      <button class="idea-filter-btn" onclick="filterVault('all',this)">Pinned</button>
+      <button class="idea-filter-btn" onclick="filterVault('Clipart',this)">Clipart</button>
+      <button class="idea-filter-btn" onclick="filterVault('Coloring Books',this)">Coloring Books</button>
+      <button class="idea-filter-btn" onclick="filterVault('Seamless Paper',this)">Seamless Paper</button>
+      <button class="idea-filter-btn" onclick="filterVault('Alpha PNGs',this)">Alpha PNGs</button>
+      <button class="idea-filter-btn" onclick="filterVault('Journals',this)">Journals</button>
+      <button class="idea-filter-btn" onclick="filterVault('Sublimation Designs',this)">Sublimation</button>
     </div>
     <div class="ideas-vault-grid" id="ideas-grid"></div>
   </div>
