@@ -431,7 +431,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
         <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:0.3rem;">Idea Vault</h2>
         <p style="font-size:0.88rem;color:var(--text-secondary);max-width:560px;line-height:1.6;">Your private brainstorm space. Drop every product idea here the moment it sparks — a trend you spotted, a holiday coming up, a niche you want to try. When you are ready to actually work on it, move it over to the Pipeline.</p>
       </div>
-      <button class="btn-add" onclick="openVaultModal()">+ Capture Idea</button>
+      <button class="btn-add" onclick="openVaultModal()">+ Save Idea</button>
     </div>
     <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;align-items:center;">
       <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Sort by:</span>
@@ -982,7 +982,32 @@ function renderVault(){
       notesEl.textContent='My thoughts: '+nd.my_notes;
       body.appendChild(notesEl);
     }
-    card.appendChild(body);g.appendChild(card);
+    // Share to Trending footer bar
+    var shareBar=document.createElement('div');
+    shareBar.style.cssText='padding:0.6rem 1rem;border-top:1px solid var(--border);background:var(--bg-panel);display:flex;align-items:center;justify-content:space-between;gap:0.5rem;';
+    var shareLabel=document.createElement('div');
+    shareLabel.style.cssText='font-size:0.7rem;color:var(--text-muted);font-weight:600;';
+    shareLabel.textContent=v.is_trending?'Shared with Skoolers':'Share with Skoolers?';
+    var shareBtnFoot=document.createElement('button');
+    shareBtnFoot.style.cssText='padding:0.3rem 0.85rem;border-radius:20px;font-family:Syne,sans-serif;font-weight:700;font-size:0.75rem;cursor:pointer;border:1.5px solid;transition:all 0.2s;'+(v.is_trending?'background:var(--accent2);border-color:var(--accent2);color:var(--bg);':'background:none;border-color:var(--border-bright);color:var(--text-secondary);');
+    shareBtnFoot.textContent=v.is_trending?'Shared to Trending':'Share to Trending';
+    (function(vid,item,lbl,btn){
+      btn.onclick=function(e){
+        e.stopPropagation();
+        var nowShared=item.is_trending;
+        item.is_trending=!nowShared;
+        lbl.textContent=item.is_trending?'Shared with Skoolers':'Share with Skoolers?';
+        btn.textContent=item.is_trending?'Shared to Trending':'Share to Trending';
+        btn.style.background=item.is_trending?'var(--accent2)':'none';
+        btn.style.borderColor=item.is_trending?'var(--accent2)':'var(--border-bright)';
+        btn.style.color=item.is_trending?'var(--bg)':'var(--text-secondary)';
+        sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+vid+'&member_email=eq.'+enc(user),{is_trending:item.is_trending},function(err){
+          if(!err)showToast(item.is_trending?'// shared to Trending Reports!':'// removed from Trending Reports');
+        });
+      };
+    })(v.id,v,shareLabel,shareBtnFoot);
+    shareBar.appendChild(shareLabel);shareBar.appendChild(shareBtnFoot);
+    card.appendChild(body);card.appendChild(shareBar);g.appendChild(card);
   });
 }
 
