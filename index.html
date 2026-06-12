@@ -949,6 +949,33 @@ function renderVault(){
     }
     if(infoRow.children.length)body.appendChild(infoRow);
     // my thoughts
+    // Stats row
+    var hasStats=nd.mo_sales||nd.mo_revenue||nd.total_revenue||nd.views||nd.listed_duration;
+    if(hasStats){
+      var statsRow=document.createElement('div');
+      statsRow.style.cssText='display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);';
+      var statItems=[
+        {l:'Mo. Sales',v:nd.mo_sales},
+        {l:'Mo. Rev',v:nd.mo_revenue?(nd.mo_revenue.startsWith('$')?nd.mo_revenue:'$'+nd.mo_revenue):null},
+        {l:'Total Rev',v:nd.total_revenue?(nd.total_revenue.startsWith('$')?nd.total_revenue:'$'+nd.total_revenue):null},
+        {l:'Views',v:nd.views},
+        {l:'Age',v:nd.listed_duration}
+      ];
+      statItems.forEach(function(s){
+        if(!s.v)return;
+        var pill=document.createElement('div');
+        pill.style.cssText='display:flex;flex-direction:column;align-items:center;background:var(--bg-raised);border:1px solid var(--border);border-radius:7px;padding:0.25rem 0.5rem;min-width:52px;';
+        var lbl=document.createElement('div');
+        lbl.style.cssText='font-size:0.55rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);';
+        lbl.textContent=s.l;
+        var val=document.createElement('div');
+        val.style.cssText='font-family:Syne,sans-serif;font-weight:800;font-size:0.78rem;color:var(--text-primary);';
+        val.textContent=s.v;
+        pill.appendChild(lbl);pill.appendChild(val);
+        statsRow.appendChild(pill);
+      });
+      body.appendChild(statsRow);
+    }
     if(nd.my_notes){
       var notesEl=document.createElement('div');
       notesEl.style.cssText='font-size:0.78rem;color:var(--text-secondary);margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);line-height:1.5;';
@@ -993,7 +1020,7 @@ function setVaultSub(val,btn){
 }
 
 function openVaultModal(editId){
-  ['v-title','v-link','v-img','v-price','v-sale-price','v-listed-duration','v-tags','v-theme','v-notes'].forEach(function(f){document.getElementById(f).value='';});
+  ['v-title','v-link','v-img','v-price','v-sale-price','v-listed-duration','v-mo-sales','v-mo-revenue','v-total-revenue','v-views','v-tags','v-theme','v-notes'].forEach(function(f){document.getElementById(f).value='';});
   document.getElementById('v-product').value='';
   document.getElementById('v-holiday').value='';
   document.getElementById('v-edit-id').value='';
@@ -1009,6 +1036,10 @@ function openVaultModal(editId){
       document.getElementById('v-price').value=nd.price||'';
       document.getElementById('v-sale-price').value=nd.sale_price||'';
       document.getElementById('v-listed-duration').value=nd.listed_duration||'';
+      document.getElementById('v-mo-sales').value=nd.mo_sales||'';
+      document.getElementById('v-mo-revenue').value=nd.mo_revenue||'';
+      document.getElementById('v-total-revenue').value=nd.total_revenue||'';
+      document.getElementById('v-views').value=nd.views||'';
       document.getElementById('v-tags').value=nd.tags||'';
       document.getElementById('v-product').value=item.product_type||'';
       document.getElementById('v-theme').value=nd.theme||'';
@@ -1039,6 +1070,10 @@ function saveVaultIdea(){
     price:document.getElementById('v-price').value.trim(),
     sale_price:document.getElementById('v-sale-price').value.trim(),
     listed_duration:document.getElementById('v-listed-duration').value.trim(),
+    mo_sales:document.getElementById('v-mo-sales').value.trim(),
+    mo_revenue:document.getElementById('v-mo-revenue').value.trim(),
+    total_revenue:document.getElementById('v-total-revenue').value.trim(),
+    views:document.getElementById('v-views').value.trim(),
     tags:document.getElementById('v-tags').value.trim(),
     theme:document.getElementById('v-theme').value.trim(),
     holiday:document.getElementById('v-holiday').value,
@@ -1593,8 +1628,27 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closePanel(
         <input class="m-input" id="v-sale-price" placeholder="e.g. $2.99">
       </div>
     </div>
-    <label class="m-label">How Long Listed</label>
-    <input class="m-input" id="v-listed-duration" placeholder="e.g. 6 months, 2 years, 3 weeks...">
+    <label class="m-label">Listing Age</label>
+    <input class="m-input" id="v-listed-duration" placeholder="e.g. 11 Mo., 2 years...">
+    <div style="margin-bottom:0.3rem;font-family:Space Grotesk,sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);">Research Stats (from ProfitTree / EverBee)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.875rem;">
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Mo. Sales</label>
+        <input class="m-input" id="v-mo-sales" placeholder="e.g. 28">
+      </div>
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Mo. Revenue</label>
+        <input class="m-input" id="v-mo-revenue" placeholder="e.g. $91.00">
+      </div>
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Total Revenue</label>
+        <input class="m-input" id="v-total-revenue" placeholder="e.g. $273.00">
+      </div>
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Views</label>
+        <input class="m-input" id="v-views" placeholder="e.g. 3,814">
+      </div>
+    </div>
     <label class="m-label">Tags (comma separated)</label>
     <input class="m-input" id="v-tags" placeholder="e.g. boho, floral, summer, clipart">
     <label class="m-label">Product Type</label>
