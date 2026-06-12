@@ -822,7 +822,7 @@ var vaultSubFilter='';
 
 function loadVault(){
   sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&stage=eq.vault&order=created_at.desc',null,function(err,data){
-    vaultItems=(!err&&Array.isArray(data))?data:[];
+    vaultItems=(!err&&Array.isArray(data))?data.map(function(v){v.is_trending=v.is_trending||false;return v;}):[]; 
     renderVault();
   });
 }
@@ -1098,6 +1098,20 @@ function saveVaultIdea(){
   }
 }
 
+function toggleTrending(id,item,btn){
+  var nowShared=item.is_trending;
+  var newVal=!nowShared;
+  item.is_trending=newVal;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{is_trending:newVal},function(err){
+    if(!err){
+      btn.textContent=newVal?'Shared':'Share';
+      btn.style.background=newVal?'var(--accent2)':'none';
+      btn.style.borderColor=newVal?'var(--accent2)':'var(--border)';
+      btn.style.color=newVal?'var(--bg)':'var(--text-muted)';
+      showToast(newVal?'// shared to Trending Reports!':'// removed from Trending Reports');
+    }
+  });
+}
 function deleteVaultItem(id){
   if(!confirm('Delete this idea?'))return;
   sb('DELETE','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),null,function(){
