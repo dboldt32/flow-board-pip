@@ -1392,7 +1392,7 @@ function renderPanel(card){
   var postNote=card.stage==='postlisting'?'<div style="margin-top:1.25rem;background:var(--accent-glow);border:1px solid var(--accent);border-radius:12px;padding:1rem 1.1rem;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">** Reminder</div><div style="font-size:0.88rem;color:var(--text-primary);line-height:1.6;">Make sure to follow up in <strong>30 days</strong> to see how this listing is doing — both visually and monetarily — to see if any changes need to be made.</div></div>':'';
 
   document.getElementById('panel-scroll').innerHTML=staleHtml+
-    '<div style="margin-bottom:0.2rem"><input class="p-input" style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text-primary);padding:0.4rem 0.6rem;" value="'+esc(card.title)+'" maxlength="80" data-id="'+card.id+'" onchange="updateTitle(this.dataset.id,this.value)" placeholder="Product name"></div>'+
+    '<div style="margin-bottom:0.4rem"><div style="font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.25rem;">// Product Name — click to edit</div><input class="p-input" style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text-primary);padding:0.4rem 0.6rem;" value="'+esc(card.title)+'" maxlength="80" data-id="'+card.id+'" onchange="updateTitle(this.dataset.id,this.value)" placeholder="Product name"></div>'+
     '<div class="panel-added">// Added '+fmtDate(card.created_at)+'</div>'+
     typePickerHtml+designProgressHtml+toolsHtml+checklistHtml+planningHtml+researchHtml+etsyHtml+postNote+
     '<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(this.dataset.id,this.value)" data-id="'+card.id+'" oninput="this.nextElementSibling.textContent=this.value.length+\'/2000\'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';
@@ -1521,8 +1521,8 @@ function stepBackCard(){
   var idx=STAGES.indexOf(STAGES.filter(function(s){return s.key===card.stage;})[0]);
   if(idx<=0)return;
   var prev=STAGES[idx-1];
-  card.stage=prev.key;card.checklist={};card.updated_at=new Date().toISOString();
-  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+card.id+'&member_email=eq.'+enc(user),{stage:prev.key,checklist:{},updated_at:card.updated_at},function(){renderPanel(card);renderAll();showToast('// moved back to '+prev.label);});
+  card.stage=prev.key;card.updated_at=new Date().toISOString();
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+card.id+'&member_email=eq.'+enc(user),{stage:prev.key,updated_at:card.updated_at},function(){renderPanel(card);renderAll();showToast('// moved back to '+prev.label);});
 }
 
 function updateTitle(id,val){
