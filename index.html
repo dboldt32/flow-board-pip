@@ -619,6 +619,14 @@ const BADGES=[
   {key:'nightowl',    name:'Night Owl Creator', icon:'🦉', req:0,    label:'Listed 3 products in a single week!', special:'week3'},
   {key:'pipstar',     name:'PIP Star',          icon:'⭐', req:0,    label:'Completed every stage on a card without skipping a step!', special:'fullflow'},
 ];
+// Fixed dates (M/D) — same every year
+const FIXED_DATES={"New Year's Day":"1/1","Groundhog Day":"2/2","Valentine's Day":"2/14","St Patrick's Day":"3/17","International Women's Day":"3/8","Spring Equinox":"3/20","April Fools Day":"4/1","National Pet Day":"4/11","Earth Day":"4/22","National Superhero Day":"4/28","Autism Awareness Month":"4/2","Cinco de Mayo":"5/5","Star Wars Day (May 4)":"5/4","Teacher Appreciation Week":"5/4","Nurses Day":"5/6","Juneteenth":"6/19","National Best Friends Day":"6/8","National Donut Day":"6/5","Pride Month":"6/1","National Selfie Day":"6/21","Independence Day (4th of July)":"7/4","World Emoji Day":"7/17","National Hammock Day":"7/22","National Dog Day":"8/26","Book Lover's Day":"8/9","National S'mores Day":"8/10","Watermelon Day":"8/3","National Pepperoni Pizza Day":"9/20","Talk Like a Pirate Day":"9/19","National Coffee Day":"9/29","Oktoberfest":"9/20","Hispanic Heritage Month begins":"9/15","First Day of Fall":"9/22","World Coffee Day":"10/1","Breast Cancer Awareness Month":"10/1","Indigenous Peoples Day":"10/13","National Pumpkin Day":"10/26","Sweetest Day":"10/18","Bat Appreciation Day":"10/24","Halloween":"10/31","Veterans Day":"11/11","World Kindness Day":"11/13","National Sandwich Day":"11/3","International Men's Day":"11/19","Christmas":"12/25","Kwanzaa":"12/26","New Year's Eve":"12/31","National Cookie Day":"12/4","Winter Solstice":"12/21","Ugly Sweater Day":"12/18","Hot Cocoa Day":"1/31","National Puzzle Day":"1/29","Hugging Day":"1/21","Get to Know Your Customers Day":"1/15","National Pizza Day":"2/9","Galentine's Day":"2/13","Pi Day":"3/14","World Book Day":"3/5","National Puppy Day":"3/23","National Hot Dog Day":"7/17","National Ice Cream Day":"7/19","National Cat Day":"8/8","National Dog Mom Day":"5/10","Black History Month":"2/1","Back to School season begins":"8/1"};
+// Floating dates per year (Easter, Mother's Day, Father's Day, etc.)
+const YEAR_DATES={
+  2026:{"Easter":"4/5","Mother's Day":"5/10","Memorial Day":"5/25","Father's Day":"6/21","Labor Day":"9/7","Grandparents Day":"9/13","Thanksgiving":"11/26","Black Friday":"11/27","MLK Day":"1/19","Presidents Day":"2/16","Chinese New Year":"2/17","Diwali":"10/20","Friendship Day":"8/2","First Day of Summer":"6/21","Hanukkah":"12/5","Super Bowl Sunday":"2/1"},
+  2027:{"Easter":"3/28","Mother's Day":"5/9","Memorial Day":"5/31","Father's Day":"6/20","Labor Day":"9/6","Grandparents Day":"9/12","Thanksgiving":"11/25","Black Friday":"11/26","MLK Day":"1/18","Presidents Day":"2/15","Chinese New Year":"2/6","Diwali":"11/9","Friendship Day":"8/1","First Day of Summer":"6/21","Hanukkah":"12/25","Super Bowl Sunday":"2/7"},
+  2028:{"Easter":"4/16","Mother's Day":"5/14","Memorial Day":"5/29","Father's Day":"6/18","Labor Day":"9/4","Grandparents Day":"9/10","Thanksgiving":"11/23","Black Friday":"11/24","MLK Day":"1/17","Presidents Day":"2/21","Chinese New Year":"1/26","Diwali":"10/28","Friendship Day":"8/6","First Day of Summer":"6/20","Hanukkah":"12/13","Super Bowl Sunday":"2/13"}
+};
 const CAL={
   1:{name:'January',color:'#4A6FA5',
     create:["Valentine's Day","St Patrick's Day","Spring & Easter"],
@@ -664,7 +672,7 @@ const CAL={
   },
   8:{name:'August',color:'#6AA870',
     create:["Christmas","Thanksgiving","Halloween last push"],
-    holidays:["Back to School","National Dog Day","Friendship Day"],
+    holidays:["Back to School season begins","National Dog Day","Friendship Day"],
     fun:["Book Lover's Day","National Cat Day","National S'mores Day","Watermelon Day"],
     evergreens:["Apple & school clipart bundle","Autumn leaf watercolor clipart set","Neutral boho digital paper pack","Back-to-school journal page templates","Woodland creature clipart collection"]
   },
@@ -683,7 +691,7 @@ const CAL={
   11:{name:'November',color:'#7A5EA8',
     create:["Valentine's Day","Spring & Easter","Chinese New Year"],
     holidays:["Thanksgiving","Black Friday","Veterans Day","Diwali"],
-    fun:["World Kindness Day","International Men's Day","National Sandwich Day","Ugly Sweater prep"],
+    fun:["World Kindness Day","International Men's Day","National Sandwich Day","Ugly Sweater Day"],
     evergreens:["Cozy winter watercolor clipart set","Holiday sentiment & quote bundle","Plaid & buffalo check seamless paper","Gratitude journal page templates","Snowflake & frost illustration set"]
   },
   12:{name:'December',color:'#C84848',
@@ -1299,11 +1307,18 @@ function renderCalendar(){
   });
 }
 
+function getHolidayDate(yr,name){
+  var yd=YEAR_DATES[yr]||{};
+  return yd[name]||FIXED_DATES[name]||'';
+}
+
 function calItem(yr,month,type,text,style){
   var key=yr+'-'+month+'-'+type+'-'+text.replace(/[^a-z0-9]/gi,'_');
   var checked=!!calChecks[key];
   var icon=style==='major'?'<span class="cal-heart major">♥</span>':style==='fun'?'<span class="cal-heart fun">♡</span>':'<span class="cal-dot"></span>';
-  return'<div class="cal-item'+(checked?' done':'')+'" onclick="toggleCal(\''+key+'\',this)"><div class="cal-check">'+(checked?'✓':'')+'</div>'+icon+'<span class="cal-item-text">'+text+'</span></div>';
+  var dateStr=(style==='major'||style==='fun')?getHolidayDate(yr,text):'';
+  var dateBadge=dateStr?'<span style="margin-left:auto;font-family:\'Space Mono\',monospace;font-size:0.58rem;color:var(--text-muted);flex-shrink:0;padding-left:0.3rem;">'+dateStr+'</span>':'';
+  return'<div class="cal-item'+(checked?' done':'')+'" onclick="toggleCal(\''+key+'\',this)" style="justify-content:flex-start;"><div class="cal-check">'+(checked?'✓':'')+'</div>'+icon+'<span class="cal-item-text">'+text+'</span>'+dateBadge+'</div>';
 }
 
 function toggleCal(key,el){
