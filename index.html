@@ -208,6 +208,20 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .coll-l-thumb{width:44px;height:44px;border-radius:7px;background:var(--bg-panel);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
 .coll-l-title{font-weight:700;font-size:0.82rem;margin-bottom:0.18rem;}
 .coll-l-meta{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--text-muted);}
+.link-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0.9rem;}
+.link-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-card);transition:transform 0.15s,box-shadow 0.15s;}
+.link-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--border-bright);}
+.link-card-bar{height:4px;}
+.link-card-body{padding:0.85rem 1rem 0.9rem;}
+.link-card-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--text-primary);line-height:1.25;flex:1;}
+.link-cat-tag{display:inline-block;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.15rem 0.55rem;border-radius:20px;margin-bottom:0.45rem;}
+.link-notes{font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.45rem;line-height:1.4;}
+.link-url{display:block;font-size:0.75rem;color:var(--accent2);word-break:break-all;text-decoration:none;font-family:'Space Mono',monospace;margin-top:0.5rem;}
+.link-url:hover{text-decoration:underline;}
+.link-act-btn{background:var(--bg-raised);border:1px solid var(--border);border-radius:6px;color:var(--text-secondary);font-size:0.7rem;padding:0.18rem 0.45rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;}
+.link-act-btn:hover{border-color:var(--accent2);color:var(--accent2);}
+.link-act-btn.del{border-color:rgba(255,85,85,0.3);color:#FF5555;}
+.link-act-btn.del:hover{background:rgba(255,85,85,0.1);}
 .cal-header{display:flex;align-items:center;gap:0.875rem;margin-bottom:1rem;flex-wrap:wrap;}
 .cal-header h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;}
 .yr-select{padding:0.42rem 0.7rem;background:var(--bg-card);border:1px solid var(--border);border-radius:7px;font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--text-primary);font-weight:700;outline:none;cursor:pointer;}
@@ -419,6 +433,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
     <div style="display:flex;">
       <button class="tab-pill active" data-tab="workflow" onclick="switchTab('workflow')">Pipeline</button>
       <button class="tab-pill" data-tab="ideas" onclick="switchTab('ideas')">Idea Vault</button>
+      <button class="tab-pill" data-tab="links" onclick="switchTab('links')">Quick Links</button>
       <button class="tab-pill" data-tab="collections" onclick="switchTab('collections')">Listed <span class="tab-num" id="listed-count" style="display:none">0</span></button>
       <button class="tab-pill" data-tab="calendar" onclick="switchTab('calendar')">Season Map</button>
       <button class="tab-pill" data-tab="stats" onclick="switchTab('stats')">Stats</button>
@@ -452,6 +467,20 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
     </div>
     <div id="vault-sort-row" style="display:none;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;"></div>
     <div class="ideas-vault-grid" id="ideas-grid"></div>
+  </div>
+  <div id="tab-links" class="view">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+      <div>
+        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:0.3rem;">Quick Links</h2>
+        <p style="font-size:0.88rem;color:var(--text-secondary);max-width:560px;line-height:1.6;">Save your most-used links in one place — tracking sheets, Etsy shop, design tools, social accounts, anything you open constantly.</p>
+      </div>
+      <button class="btn-add" onclick="openLinkModal()">+ Add Link</button>
+    </div>
+    <div id="link-filter-row" style="display:flex;gap:0.4rem;margin-bottom:0.9rem;flex-wrap:wrap;align-items:center;">
+      <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Category:</span>
+      <button class="idea-filter-btn active" onclick="filterLinks('',this)">All</button>
+    </div>
+    <div class="link-grid" id="link-grid"></div>
   </div>
   <div id="tab-collections" class="view">
     <div class="collections-bar">
@@ -761,7 +790,7 @@ window.addEventListener('DOMContentLoaded',function(){
   document.getElementById('login-email').addEventListener('keydown',function(e){if(e.key==='Enter')handleLogin();});
 });
 
-function loadAll(){loadCards();loadBadges();loadJourney();loadGoal();loadStats();loadCalChecks();loadVault();}
+function loadAll(){loadCards();loadBadges();loadJourney();loadGoal();loadStats();loadCalChecks();loadVault();loadLinks();}
 
 function loadCards(){
   sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&stage=neq.vault&order=created_at.asc',null,function(err,data){
@@ -1752,6 +1781,7 @@ function switchTab(tab){
   if(tab==='calendar')renderCalendar();
   if(tab==='stats'){renderStats();renderChart();}
   if(tab==='ideas'){loadVault();}
+  if(tab==='links'){renderLinks();}
 }
 
 function openModal(id){
@@ -1775,7 +1805,147 @@ function weekEnd(ws){var d=new Date(ws);d.setDate(d.getDate()+6);return d.toISOS
 function fmtRange(ws,we){var s=new Date(ws+'T12:00:00'),e=new Date(we+'T12:00:00'),months=['January','February','March','April','May','June','July','August','September','October','November','December'];var yr=s.getFullYear();return s.getMonth()===e.getMonth()?months[s.getMonth()]+' '+s.getDate()+'-'+e.getDate()+', '+yr:months[s.getMonth()]+' '+s.getDate()+' - '+months[e.getMonth()]+' '+e.getDate()+', '+yr;}
 function getThisWeekCount(){var ws=weekStart(),we=weekEnd(ws);return cards.filter(function(c){return c.stage==='listed'&&c.listed_date&&c.listed_date>=ws&&c.listed_date<=we+'T23:59:59';}).length;}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closePanel();document.querySelectorAll('.modal-bg.open').forEach(function(m){m.classList.remove('open');});}});
+
+// ── QUICK LINKS ──────────────────────────────────────────────
+var linkItems=[];
+var linkCatFilter='';
+const LINK_CATS=['Tracking & Analytics','Etsy Shop','Design Tools','Social Media','Templates','Marketing','Other'];
+const LINK_CAT_COLORS={'Tracking & Analytics':'--s2','Etsy Shop':'--s6','Design Tools':'--s3','Social Media':'--s5','Templates':'--s4','Marketing':'--s1','Other':'--s7'};
+
+function loadLinks(){
+  sb('GET','/rest/v1/pip_flowboard_links?member_email=eq.'+enc(user)+'&order=created_at.desc',null,function(err,data){
+    linkItems=(!err&&Array.isArray(data))?data:[];
+    renderLinks();
+  });
+}
+
+function renderLinks(){
+  var grid=document.getElementById('link-grid');
+  if(!grid)return;
+  var filtered=linkCatFilter?linkItems.filter(function(l){return l.category===linkCatFilter;}):linkItems;
+
+  // rebuild filter pills
+  var filterRow=document.getElementById('link-filter-row');
+  var cats=[...new Set(linkItems.map(function(l){return l.category;}).filter(Boolean))];
+  filterRow.innerHTML='<span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Category:</span>'+
+    '<button class="idea-filter-btn'+(linkCatFilter===''?' active':'')+'" onclick="filterLinks(\'\',this)">All</button>'+
+    cats.map(function(c){return'<button class="idea-filter-btn'+(linkCatFilter===c?' active':'')+'" onclick="filterLinks(\''+esc(c)+'\',this)">'+esc(c)+'</button>';}).join('');
+
+  if(!filtered.length){
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-muted);font-family:\'Space Mono\',monospace;font-size:0.8rem;">// No links yet — add one above</div>';
+    return;
+  }
+  grid.innerHTML='';
+  filtered.forEach(function(l){
+    var sc=LINK_CAT_COLORS[l.category]||'--s1';
+    var card=document.createElement('div');card.className='link-card';
+    card.innerHTML=
+      '<div class="link-card-bar" style="background:var('+sc+')"></div>'+
+      '<div class="link-card-body">'+
+        '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;margin-bottom:0.4rem;">'+
+          '<div class="link-card-name">'+esc(l.name)+'</div>'+
+          '<div style="display:flex;gap:0.3rem;flex-shrink:0;">'+
+            '<button class="link-act-btn" onclick="openLinkModal(\''+l.id+'\')">Edit</button>'+
+            '<button class="link-act-btn del" onclick="deleteLinkItem(\''+l.id+'\')">✕</button>'+
+          '</div>'+
+        '</div>'+
+        (l.category?'<div class="link-cat-tag" style="background:var('+sc+'-bg,rgba(255,255,255,0.07));color:var('+sc+')">'+esc(l.category)+'</div>':'')+
+        (l.notes?'<div class="link-notes">'+esc(l.notes)+'</div>':'')+
+        '<a class="link-url" href="'+esc(l.url)+'" target="_blank" rel="noopener">🔗 '+esc(l.url.replace(/^https?:\/\//,'').substring(0,50))+(l.url.length>53?'…':'')+'</a>'+
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+
+function filterLinks(cat,btn){
+  linkCatFilter=cat;
+  document.querySelectorAll('#link-filter-row .idea-filter-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  renderLinks();
+}
+
+function openLinkModal(editId){
+  document.getElementById('lnk-edit-id').value='';
+  document.getElementById('lnk-name').value='';
+  document.getElementById('lnk-url').value='';
+  document.getElementById('lnk-cat').value='';
+  document.getElementById('lnk-notes').value='';
+  document.getElementById('link-modal-title').textContent='Add Quick Link';
+  if(editId){
+    var item=linkItems.filter(function(l){return l.id===editId;})[0];
+    if(item){
+      document.getElementById('lnk-edit-id').value=editId;
+      document.getElementById('lnk-name').value=item.name||'';
+      document.getElementById('lnk-url').value=item.url||'';
+      document.getElementById('lnk-cat').value=item.category||'';
+      document.getElementById('lnk-notes').value=item.notes||'';
+      document.getElementById('link-modal-title').textContent='Edit Link';
+    }
+  }
+  openModal('modal-link');
+  setTimeout(function(){document.getElementById('lnk-name').focus();},100);
+}
+
+function saveLink(){
+  var name=document.getElementById('lnk-name').value.trim();
+  var url=document.getElementById('lnk-url').value.trim();
+  if(!name){showToast('// enter a name first');return;}
+  if(!url){showToast('// enter a URL first');return;}
+  if(!/^https?:\/\//i.test(url))url='https://'+url;
+  var cat=document.getElementById('lnk-cat').value;
+  var notes=document.getElementById('lnk-notes').value.trim();
+  var editId=document.getElementById('lnk-edit-id').value;
+  var payload={member_email:user,name:name,url:url,category:cat,notes:notes};
+  if(editId){
+    sb('PATCH','/rest/v1/pip_flowboard_links?id=eq.'+editId+'&member_email=eq.'+enc(user),payload,function(err){
+      if(!err){var item=linkItems.filter(function(l){return l.id===editId;})[0];if(item){item.name=name;item.url=url;item.category=cat;item.notes=notes;}closeModal('modal-link');renderLinks();showToast('// link updated!');}
+    });
+  } else {
+    sb('POST','/rest/v1/pip_flowboard_links',payload,function(err,resp){
+      if(!err&&Array.isArray(resp)&&resp.length){linkItems.unshift(resp[0]);closeModal('modal-link');renderLinks();showToast('// link saved!');}
+      else showToast('// something went wrong — check the table exists in Supabase');
+    });
+  }
+}
+
+function deleteLinkItem(id){
+  if(!confirm('Delete this link?'))return;
+  sb('DELETE','/rest/v1/pip_flowboard_links?id=eq.'+id+'&member_email=eq.'+enc(user),null,function(){
+    linkItems=linkItems.filter(function(l){return l.id!==id;});renderLinks();showToast('// link deleted');
+  });
+}
 </script>
+
+<div class="modal-bg" id="modal-link">
+  <div class="modal-box" style="max-width:440px;">
+    <div class="modal-head">
+      <div class="modal-title" id="link-modal-title">Add Quick Link</div>
+      <div class="modal-x" onclick="closeModal('modal-link')">✕</div>
+    </div>
+    <input type="hidden" id="lnk-edit-id">
+    <label class="m-label">Link Name *</label>
+    <input class="m-input" id="lnk-name" placeholder="e.g. Listing Tracker Spreadsheet" maxlength="80">
+    <label class="m-label">URL *</label>
+    <input class="m-input" id="lnk-url" placeholder="https://" maxlength="500" type="url">
+    <label class="m-label">Category</label>
+    <select class="m-select" id="lnk-cat">
+      <option value="">— select category —</option>
+      <option>Tracking & Analytics</option>
+      <option>Etsy Shop</option>
+      <option>Design Tools</option>
+      <option>Social Media</option>
+      <option>Templates</option>
+      <option>Marketing</option>
+      <option>Other</option>
+    </select>
+    <label class="m-label">Notes (optional)</label>
+    <input class="m-input" id="lnk-notes" placeholder="e.g. Main listing tracker — update weekly" maxlength="200">
+    <div style="display:flex;gap:0.5rem;margin-top:1.1rem;">
+      <button class="m-btn-cancel" onclick="closeModal('modal-link')">Cancel</button>
+      <button class="m-btn-save" onclick="saveLink()">Save Link</button>
+    </div>
+  </div>
+</div>
 
 <div class="modal-bg" id="modal-vault">
   <div class="modal-box" style="max-width:520px;max-height:90vh;overflow-y:auto;">
