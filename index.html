@@ -212,11 +212,14 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .cal-header h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;}
 .yr-select{padding:0.42rem 0.7rem;background:var(--bg-card);border:1px solid var(--border);border-radius:7px;font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--text-primary);font-weight:700;outline:none;cursor:pointer;}
 .cal-tip{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--text-muted);margin-left:auto;}
-.this-month-strip{background:var(--bg-raised);border:1px solid var(--accent);border-radius:11px;padding:0.6rem 0.875rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;}
-.this-month-label{font-family:'Space Mono',monospace;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
-.this-month-tags{display:flex;flex-wrap:wrap;gap:0.3rem;}
-.m-tag{padding:0.12rem 0.55rem;border:1px solid var(--accent);border-radius:20px;font-size:0.7rem;color:var(--accent);font-weight:600;}
-.cal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;}
+.this-month-strip{background:var(--bg-raised);border:1px solid var(--accent);border-radius:14px;padding:1.2rem 1.5rem 1rem;margin-bottom:1.1rem;text-align:center;}
+.this-month-label{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent);margin-bottom:0.7rem;}
+.this-month-tags{display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:center;margin-bottom:0.75rem;}
+.m-tag{padding:0.25rem 0.75rem;border:1px solid var(--accent);border-radius:20px;font-size:0.78rem;color:var(--accent);font-weight:600;}
+.m-tag.evergreen{border-color:var(--accent2);color:var(--accent2);}
+.cal-legend{display:flex;gap:1.2rem;justify-content:center;font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--text-secondary);}
+.cal-legend span{display:flex;align-items:center;gap:0.3rem;}
+.cal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.65rem;}
 .cal-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-card);}
 .cal-card.now{
   border-color:var(--accent);
@@ -238,20 +241,23 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
   color:var(--text-primary);
   font-weight:500;
 }
-.cal-card-head{padding:0.55rem 0.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.cal-month-name{font-family:'Syne',sans-serif;font-weight:800;font-size:0.9rem;}
-.now-tag{font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:var(--accent);color:white;padding:0.1rem 0.45rem;border-radius:4px;}
-.cal-card-body{padding:0.6rem 0.8rem;}
-.cal-sec-label{font-family:'Space Mono',monospace;font-size:0.56rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin:0.45rem 0 0.25rem;}
+.cal-card-head{padding:0.5rem 0.75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;}
+.cal-month-name{font-family:'Syne',sans-serif;font-weight:800;font-size:0.88rem;text-align:center;}
+.now-tag{font-family:'Space Mono',monospace;font-size:0.55rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:var(--accent);color:white;padding:0.1rem 0.4rem;border-radius:4px;position:absolute;right:0.6rem;}
+.cal-card-body{padding:0.5rem 0.7rem;}
+.cal-sec-label{font-family:'Space Mono',monospace;font-size:0.52rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin:0.4rem 0 0.2rem;}
 .cal-sec-label:first-child{margin-top:0;}
-.cal-item{display:flex;align-items:center;gap:0.35rem;padding:0.15rem 0;cursor:pointer;transition:opacity 0.15s;}
+.cal-sec-label.evergreen-lbl{color:var(--accent2);}
+.cal-item{display:flex;align-items:center;gap:0.3rem;padding:0.12rem 0;cursor:pointer;transition:opacity 0.15s;}
 .cal-item.done{opacity:0.4;}
-.cal-check{width:13px;height:13px;border:1.5px solid var(--border-bright);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bg-input);transition:all 0.15s;font-size:0.5rem;}
+.cal-check{width:12px;height:12px;border:1.5px solid var(--border-bright);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bg-input);transition:all 0.15s;font-size:0.45rem;}
 .cal-item.done .cal-check{background:var(--accent);border-color:var(--accent);color:white;}
-.cal-item-text{font-size:0.82rem;color:var(--text-primary);line-height:1.35;}
+.cal-item-text{font-size:0.76rem;color:var(--text-primary);line-height:1.3;}
 .cal-item.done .cal-item-text{text-decoration:line-through;color:var(--text-muted);}
-.cal-star-icon{font-size:0.75rem;color:var(--accent3);flex-shrink:0;font-weight:900;}
-.cal-dot{width:13px;flex-shrink:0;}
+.cal-heart{font-size:0.72rem;flex-shrink:0;line-height:1;}
+.cal-heart.major{color:var(--accent);}
+.cal-heart.fun{color:var(--text-muted);}
+.cal-dot{width:12px;flex-shrink:0;}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.875rem;margin-bottom:1.25rem;}
 .stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1rem;text-align:center;box-shadow:var(--shadow-card);position:relative;overflow:hidden;}
 .stat-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent);}
@@ -327,6 +333,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+@media(max-width:1100px){.cal-grid{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:900px){.pipeline-row-1,.pipeline-row-2{grid-template-columns:repeat(2,1fr);}.cal-grid{grid-template-columns:repeat(2,1fr);}.stats-grid{grid-template-columns:repeat(2,1fr);}.badges-grid{grid-template-columns:repeat(2,1fr);}.week-mini-bar{display:none;}}
 @media(max-width:600px){.pipeline-row-1,.pipeline-row-2{grid-template-columns:1fr;}.cal-grid{grid-template-columns:1fr;}.power-bar{flex-wrap:wrap;}}
 
@@ -463,7 +470,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
     <div class="cal-header">
       <h2>Season Map</h2>
       <select class="yr-select" id="cal-year" onchange="loadCalChecks()"><option>2026</option><option>2027</option><option>2028</option></select>
-      <div class="cal-tip" style="font-size:0.75rem;color:var(--text-secondary)"><span style="color:var(--accent3);font-weight:700;">★ = Major holiday</span> — start creating 2-3 months early! &nbsp; No star = smaller holiday</div>
+      <div class="cal-tip"><span style="color:var(--accent);font-weight:700;">♥ = Major holiday</span> &nbsp; <span style="color:var(--text-muted);">♡ = Fun holiday</span></div>
     </div>
     <div id="this-month-strip"></div>
     <div class="cal-grid" id="cal-grid"></div>
@@ -612,7 +619,80 @@ const BADGES=[
   {key:'nightowl',    name:'Night Owl Creator', icon:'🦉', req:0,    label:'Listed 3 products in a single week!', special:'week3'},
   {key:'pipstar',     name:'PIP Star',          icon:'⭐', req:0,    label:'Completed every stage on a card without skipping a step!', special:'fullflow'},
 ];
-const CAL={1:{name:'January',color:'#4A6FA5',create:["St Patrick's Day","Spring and Easter","Super Bowl prep"],major:["New Year's Day","Valentine's Day prep","Black History Month"],minor:["MLK Day","Winter Olympics","Hot Cocoa Day"]},2:{name:'February',color:'#C84870',create:["Spring and Easter","Mother's Day","St Patrick's Day"],major:["Valentine's Day","Black History Month","Groundhog Day"],minor:["Chinese New Year","Super Bowl","Presidents Day","National Pizza Day"]},3:{name:'March',color:'#5A9E6A',create:["Mother's Day","Cinco de Mayo","Teacher Appreciation","Mental Health Month"],major:["Spring equinox","Women's Day","Easter","St Patrick's Day"],minor:[]},4:{name:'April',color:'#C4A040',create:["Father's Day","Summer and Beach","4th of July","Pride Month"],major:["April Fools","Easter","National Pet Day"],minor:["Autism Awareness","Earth Day","World Book Day","Superhero Day"]},5:{name:'May',color:'#8A6EA8',create:["4th of July","Summer collections","Father's Day"],major:["Mother's Day","Memorial Day","Cinco de Mayo"],minor:["Star Wars Day","Teacher Appreciation","Mental Health Month"]},6:{name:'June',color:'#D4885A',create:["Back to School","4th of July last push","Summer watercolor"],major:["Father's Day","Juneteenth","First Day of Summer"],minor:["Donut Day","Pride Month"]},7:{name:'July',color:'#5A8AC4',create:["Halloween","Back to School","Fall and Autumn"],major:["Independence Day"],minor:["Hot Dog Day","Ice Cream Day"]},8:{name:'August',color:'#6AA870',create:["Christmas","Halloween","Thanksgiving and Fall"],major:["Back to School season"],minor:["Friendship Day","Cat Day","Book Lover's Day","National Dog Day"]},9:{name:'September',color:'#A86A50',create:["Christmas","Winter and Holiday","Thanksgiving"],major:["First Day of Fall","Labor Day","Grandparents Day"],minor:["Hispanic Heritage Month","Oktoberfest"]},10:{name:'October',color:'#C87A30',create:["Christmas","Valentine's Day","Winter and New Year"],major:["Halloween","World Coffee Day"],minor:["Indigenous Peoples Day","Breast Cancer Awareness","NBA and NHL start"]},11:{name:'November',color:'#7A5EA8',create:["Valentine's Day","Chinese New Year","Winter and New Year sets"],major:["Thanksgiving","Black Friday","Veterans Day"],minor:["World Kindness Day","International Mens Day"]},12:{name:'December',color:'#C84848',create:["Valentine's Day","Chinese New Year","Spring and Easter","Black History Month"],major:["Christmas","Kwanzaa","New Year's Eve"],minor:["Cyber Monday"]}};
+const CAL={
+  1:{name:'January',color:'#4A6FA5',
+    create:["Valentine's Day","St Patrick's Day","Spring & Easter"],
+    holidays:["New Year's Day","MLK Day","Groundhog Day"],
+    fun:["Hot Cocoa Day","National Puzzle Day","Hugging Day","Get to Know Your Customers Day"],
+    evergreens:["Watercolor floral clipart bundle","Alphabet & number clipart set","Neutral digital paper pack (12 sheets)","Motivational quote prints bundle","Seamless watercolor dot & stripe patterns"]
+  },
+  2:{name:'February',color:'#C84870',
+    create:["Spring & Easter","Mother's Day","St Patrick's Day"],
+    holidays:["Valentine's Day","Black History Month","Presidents Day"],
+    fun:["National Pizza Day","Chinese New Year","Galentine's Day","Super Bowl Sunday"],
+    evergreens:["Floral watercolor clipart set","Heart & love seamless pattern paper","Self-care & wellness journal pages","Pastel boho digital paper pack","Botanical illustration clipart bundle"]
+  },
+  3:{name:'March',color:'#5A9E6A',
+    create:["Mother's Day","4th of July","Cinco de Mayo"],
+    holidays:["St Patrick's Day","Spring Equinox","International Women's Day","Easter"],
+    fun:["National Donut Day","World Book Day","National Puppy Day","Pi Day"],
+    evergreens:["Spring botanical clipart bundle","Watercolor garden floral set","Butterfly & nature clipart pack","Soft pastel seamless pattern paper","Garden journal & planner inserts"]
+  },
+  4:{name:'April',color:'#C4A040',
+    create:["Father's Day","4th of July","Summer Beach collection"],
+    holidays:["Easter","Earth Day","National Pet Day"],
+    fun:["April Fools Day","National Superhero Day","World Book Day","Autism Awareness Month"],
+    evergreens:["Cute animal & pet clipart bundle","Earth tones digital paper set","Spring garden watercolor clipart","Kids coloring book pages pack","Whimsical ABC alphabet clipart set"]
+  },
+  5:{name:'May',color:'#8A6EA8',
+    create:["4th of July","Back to School","Summer collections"],
+    holidays:["Mother's Day","Memorial Day","Cinco de Mayo"],
+    fun:["Star Wars Day (May 4)","Teacher Appreciation Week","National Dog Mom Day","Nurses Day"],
+    evergreens:["Watercolor wildflower clipart set","Boho seamless pattern paper pack","Inspirational wall art quote prints","Floral monogram & initial clipart","Hand-lettered sentiment clipart bundle"]
+  },
+  6:{name:'June',color:'#D4885A',
+    create:["Back to School","Halloween","Fall & Autumn"],
+    holidays:["Father's Day","Juneteenth","First Day of Summer"],
+    fun:["National Donut Day","National Best Friends Day","Pride Month","National Selfie Day"],
+    evergreens:["Beach & tropical clipart bundle","Bright summer digital paper pack","Lemonade & summer vibes clipart set","Tropical seamless pattern set","Vacation & travel journal pages"]
+  },
+  7:{name:'July',color:'#5A8AC4',
+    create:["Halloween","Thanksgiving","Fall collections"],
+    holidays:["Independence Day (4th of July)","Back to School season begins"],
+    fun:["National Hot Dog Day","National Ice Cream Day","World Emoji Day","National Hammock Day"],
+    evergreens:["Patriotic & Americana clipart bundle","Watercolor sunflower & daisy set","Bright bold seamless pattern paper","Kids summer activity coloring pages","Flag & banner clipart collection"]
+  },
+  8:{name:'August',color:'#6AA870',
+    create:["Christmas","Thanksgiving","Halloween last push"],
+    holidays:["Back to School","National Dog Day","Friendship Day"],
+    fun:["Book Lover's Day","National Cat Day","National S'mores Day","Watermelon Day"],
+    evergreens:["Apple & school clipart bundle","Autumn leaf watercolor clipart set","Neutral boho digital paper pack","Back-to-school journal page templates","Woodland creature clipart collection"]
+  },
+  9:{name:'September',color:'#A86A50',
+    create:["Christmas","Valentine's Day","New Year's"],
+    holidays:["Labor Day","First Day of Fall","Hispanic Heritage Month begins","Grandparents Day"],
+    fun:["National Coffee Day","Oktoberfest","National Pepperoni Pizza Day","Talk Like a Pirate Day"],
+    evergreens:["Pumpkin & fall harvest clipart set","Cozy autumn watercolor bundle","Warm earthy seamless pattern paper","Fall quote & affirmation prints","Sunflower & wheat botanical clipart"]
+  },
+  10:{name:'October',color:'#C87A30',
+    create:["Christmas","Valentine's Day","Winter Holiday sets"],
+    holidays:["Halloween","Breast Cancer Awareness Month","Indigenous Peoples Day"],
+    fun:["World Coffee Day","National Pumpkin Day","Sweetest Day","Bat Appreciation Day"],
+    evergreens:["Spooky Halloween clipart mega bundle","Gothic floral seamless pattern set","Skull & skeleton cute clipart pack","Fall plaid & tartan digital paper","Witch & potion watercolor clipart"]
+  },
+  11:{name:'November',color:'#7A5EA8',
+    create:["Valentine's Day","Spring & Easter","Chinese New Year"],
+    holidays:["Thanksgiving","Black Friday","Veterans Day","Diwali"],
+    fun:["World Kindness Day","International Men's Day","National Sandwich Day","Ugly Sweater prep"],
+    evergreens:["Cozy winter watercolor clipart set","Holiday sentiment & quote bundle","Plaid & buffalo check seamless paper","Gratitude journal page templates","Snowflake & frost illustration set"]
+  },
+  12:{name:'December',color:'#C84848',
+    create:["Valentine's Day","Spring & Easter","Black History Month","St Patrick's Day"],
+    holidays:["Christmas","Hanukkah","Kwanzaa","New Year's Eve"],
+    fun:["Ugly Sweater Day","National Cookie Day","Winter Solstice","New Year's Eve"],
+    evergreens:["Christmas clipart mega bundle","Holiday greeting card digital set","Festive seamless wrapping paper","Winter wonderland watercolor set","Santa & reindeer cute clipart pack"]
+  }
+};
 
 let user=null,cards=[],badges=[],journey=[],weeklyHistory=[],goal={weekly_goal:4,locked:false},stats={total_listed:0,best_week:0,best_streak:0},calChecks={},currentCard=null,collView='grid',starFilter=false,pendingGoal=4,currentTheme=localStorage.getItem('pip-flow-theme')||'pip';
 
@@ -1188,29 +1268,42 @@ function updateListedCount(){var n=cards.filter(function(c){return c.stage==='li
 function renderCalendar(){
   var yr=parseInt(document.getElementById('cal-year').value)||2026,now=new Date(),thisM=now.getMonth()+1;
   var strip=document.getElementById('this-month-strip'),td=CAL[thisM];
-  strip.innerHTML=td?'<div class="this-month-label">NOW — Start creating for:</div><div class="this-month-tags">'+td.create.map(function(i){return'<span class="m-tag">'+i+'</span>';}).join('')+'</div>':'';
+  if(td){
+    var holidayTags=td.create.map(function(i){return'<span class="m-tag">'+i+'</span>';}).join('');
+    var evTags=(td.evergreens||[]).slice(0,2).map(function(i){return'<span class="m-tag evergreen">'+i+'</span>';}).join('');
+    strip.innerHTML='<div class="this-month-label">✦ Start Creating For:</div>'+
+      '<div class="this-month-tags">'+holidayTags+evTags+'</div>'+
+      '<div class="cal-legend">'+
+        '<span><span style="color:var(--accent);font-size:0.85rem;">♥</span> Major holiday — start 60–90 days early</span>'+
+        '<span><span style="color:var(--text-muted);font-size:0.85rem;">♡</span> Fun holidays</span>'+
+      '</div>';
+  } else strip.innerHTML='';
   var grid=document.getElementById('cal-grid');grid.innerHTML='';
   Object.keys(CAL).forEach(function(m){
     var d=CAL[m],isCur=parseInt(m)===thisM&&yr===now.getFullYear();
     var card=document.createElement('div');card.className='cal-card'+(isCur?' now':'');
-    var head=document.createElement('div');head.className='cal-card-head';head.style.borderLeft='4px solid '+d.color;
+    var head=document.createElement('div');head.className='cal-card-head';head.style.borderTop='3px solid '+d.color;
     head.innerHTML='<span class="cal-month-name">'+d.name+'</span>'+(isCur?'<span class="now-tag">NOW</span>':'');
     var body=document.createElement('div');body.className='cal-card-body';
-    var html='<div class="cal-sec-label">// Create for</div>';
-    d.create.forEach(function(t){html+=calItem(yr,m,'c',t,false);});
-    html+='<div class="cal-sec-label">// This month</div>';
-    d.major.forEach(function(t){html+=calItem(yr,m,'m',t,true);});
-    d.minor.forEach(function(t){html+=calItem(yr,m,'n',t,false);});
+    var html='<div class="cal-sec-label">// Create for Holiday</div>';
+    (d.create||[]).forEach(function(t){html+=calItem(yr,m,'c',t,'dot');});
+    html+='<div class="cal-sec-label">// Holidays This Month</div>';
+    (d.holidays||[]).forEach(function(t){html+=calItem(yr,m,'h',t,'major');});
+    html+='<div class="cal-sec-label">// Fun Holidays</div>';
+    (d.fun||[]).forEach(function(t){html+=calItem(yr,m,'f',t,'fun');});
+    html+='<div class="cal-sec-label evergreen-lbl">// Create Evergreens</div>';
+    (d.evergreens||[]).forEach(function(t){html+=calItem(yr,m,'e',t,'dot');});
     body.innerHTML=html;
     card.appendChild(head);card.appendChild(body);
     grid.appendChild(card);
   });
 }
 
-function calItem(yr,month,type,text,isMajor){
+function calItem(yr,month,type,text,style){
   var key=yr+'-'+month+'-'+type+'-'+text.replace(/[^a-z0-9]/gi,'_');
   var checked=!!calChecks[key];
-  return'<div class="cal-item'+(checked?' done':'')+'" onclick="toggleCal(\''+key+'\',this)"><div class="cal-check">'+(checked?'✓':'')+'</div>'+(isMajor?'<span class="cal-star-icon">★</span>':'<span class="cal-dot"></span>')+'<span class="cal-item-text">'+text+'</span></div>';
+  var icon=style==='major'?'<span class="cal-heart major">♥</span>':style==='fun'?'<span class="cal-heart fun">♡</span>':'<span class="cal-dot"></span>';
+  return'<div class="cal-item'+(checked?' done':'')+'" onclick="toggleCal(\''+key+'\',this)"><div class="cal-check">'+(checked?'✓':'')+'</div>'+icon+'<span class="cal-item-text">'+text+'</span></div>';
 }
 
 function toggleCal(key,el){
