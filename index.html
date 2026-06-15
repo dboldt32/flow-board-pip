@@ -140,12 +140,9 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .btn-save:hover{border-color:var(--accent2);color:var(--accent2);}
 .btn-next{padding:0.48rem 1rem;background:var(--accent);color:white;border:none;border-radius:7px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;transition:opacity 0.2s;display:none;box-shadow:var(--glow-pink);}
 .btn-next:hover{opacity:0.88;}
-<<<<<<< HEAD
 .btn-back{padding:0.48rem 1rem;background:none;border:1px solid var(--border);border-radius:7px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;color:var(--text-secondary);transition:all 0.2s;display:none;}
 .btn-back.show{display:block;}
 .btn-back:hover{border-color:var(--accent2);color:var(--accent2);}
-=======
->>>>>>> 0a58fcc1b77b80bddafd074dc2acb37d07a9bf46
 .btn-next.show{display:block;}
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(2px);}
 .modal-bg.open{display:flex;}
@@ -508,10 +505,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
     <button class="btn-del" onclick="deleteCard()">Delete</button>
     <div style="display:flex;gap:0.45rem;">
       <button class="btn-save" onclick="saveCard()">Save</button>
-<<<<<<< HEAD
       <button class="btn-back" id="btn-back" onclick="stepBackCard()">← Back</button>
-=======
->>>>>>> 0a58fcc1b77b80bddafd074dc2acb37d07a9bf46
       <button class="btn-next" id="btn-next" onclick="advanceCard()">Next Stage →</button>
     </div>
   </div>
@@ -1314,14 +1308,11 @@ function renderPanel(card){
     btn.textContent=card.stage==='listed'?'Move to Post Listing →':'Next: '+nextSt.label+' →';
     btn.classList.add('show');
   } else btn.classList.remove('show');
-<<<<<<< HEAD
   var prevIdx=STAGES.indexOf(st)-1;
   var prevSt=prevIdx>=0?STAGES[prevIdx]:null;
   var btnBack=document.getElementById('btn-back');
   if(prevSt&&card.stage!=='listed'&&card.stage!=='postlisting'){btnBack.textContent='← '+prevSt.label;btnBack.classList.add('show');}
   else btnBack.classList.remove('show');
-=======
->>>>>>> 0a58fcc1b77b80bddafd074dc2acb37d07a9bf46
 
   var toolMap=STAGE_TOOLS[card.stage];
   var tools=toolMap?(toolMap[card.product_type]||toolMap.default||[]):[];
@@ -1401,11 +1392,7 @@ function renderPanel(card){
   var postNote=card.stage==='postlisting'?'<div style="margin-top:1.25rem;background:var(--accent-glow);border:1px solid var(--accent);border-radius:12px;padding:1rem 1.1rem;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">** Reminder</div><div style="font-size:0.88rem;color:var(--text-primary);line-height:1.6;">Make sure to follow up in <strong>30 days</strong> to see how this listing is doing — both visually and monetarily — to see if any changes need to be made.</div></div>':'';
 
   document.getElementById('panel-scroll').innerHTML=staleHtml+
-<<<<<<< HEAD
     '<div style="margin-bottom:0.2rem"><input class="p-input" style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text-primary);padding:0.4rem 0.6rem;" value="'+esc(card.title)+'" maxlength="80" data-id="'+card.id+'" onchange="updateTitle(this.dataset.id,this.value)" placeholder="Product name"></div>'+
-=======
-    '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem"><div class="panel-title">'+esc(card.title)+'</div></div>'+
->>>>>>> 0a58fcc1b77b80bddafd074dc2acb37d07a9bf46
     '<div class="panel-added">// Added '+fmtDate(card.created_at)+'</div>'+
     typePickerHtml+designProgressHtml+toolsHtml+checklistHtml+planningHtml+researchHtml+etsyHtml+postNote+
     '<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(this.dataset.id,this.value)" data-id="'+card.id+'" oninput="this.nextElementSibling.textContent=this.value.length+\'/2000\'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';
@@ -1529,7 +1516,6 @@ function advanceCard(){
   }
 }
 
-<<<<<<< HEAD
 function stepBackCard(){
   var card=cards.filter(function(c){return c.id===currentCard;})[0];if(!card)return;
   var idx=STAGES.indexOf(STAGES.filter(function(s){return s.key===card.stage;})[0]);
@@ -1545,8 +1531,6 @@ function updateTitle(id,val){
   if(card){card.title=val;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{title:val},function(){renderAll();showToast('// name updated');});}
 }
 
-=======
->>>>>>> 0a58fcc1b77b80bddafd074dc2acb37d07a9bf46
 function deleteCard(){
   if(!currentCard||!confirm('Delete this card? Cannot be undone.'))return;
   sb('DELETE','/rest/v1/pip_flowboard_cards?id=eq.'+currentCard+'&member_email=eq.'+enc(user),null,function(){cards=cards.filter(function(c){return c.id!==currentCard;});closePanel();renderAll();showToast('// card deleted');});
