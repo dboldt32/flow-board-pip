@@ -1293,12 +1293,13 @@ function renderCalendar(){
     var head=document.createElement('div');head.className='cal-card-head';head.style.borderTop='3px solid '+d.color;
     head.innerHTML='<span class="cal-month-name">'+d.name+'</span>'+(isCur?'<span class="now-tag">NOW</span>':'');
     var body=document.createElement('div');body.className='cal-card-body';
+    function byDay(a,b){var da=getHolidayDate(yr,a)||'99/99',db=getHolidayDate(yr,b)||'99/99';return parseInt(da.split('/')[1]||99)-parseInt(db.split('/')[1]||99);}
     var html='<div class="cal-sec-label">// Create for Holiday</div>';
     (d.create||[]).forEach(function(t){html+=calItem(yr,m,'c',t,'dot');});
     html+='<div class="cal-sec-label">// Holidays This Month</div>';
-    (d.holidays||[]).forEach(function(t){html+=calItem(yr,m,'h',t,'major');});
+    (d.holidays||[]).slice().sort(byDay).forEach(function(t){html+=calItem(yr,m,'h',t,'major');});
     html+='<div class="cal-sec-label">// Fun Holidays</div>';
-    (d.fun||[]).forEach(function(t){html+=calItem(yr,m,'f',t,'fun');});
+    (d.fun||[]).slice().sort(byDay).forEach(function(t){html+=calItem(yr,m,'f',t,'fun');});
     html+='<div class="cal-sec-label evergreen-lbl">// Create Evergreens</div>';
     (d.evergreens||[]).forEach(function(t){html+=calItem(yr,m,'e',t,'dot');});
     body.innerHTML=html;
