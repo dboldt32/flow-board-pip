@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIP Flow Board — Pixels Into Profit</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="pip"]{--bg:#0A1628;--bg-card:#111F35;--bg-panel:#162440;--bg-input:#1A2B4A;--bg-raised:#1E3055;--border:#2A3F60;--border-bright:#3A5280;--text-primary:#F0F4FF;--text-secondary:#8AAAC8;--text-muted:#4A6A88;--accent:#FF2D78;--accent-glow:rgba(255,45,120,0.25);--accent2:#00E5FF;--accent2-glow:rgba(0,229,255,0.2);--accent3:#FFD600;--shadow:0 4px 24px rgba(0,0,0,0.5);--shadow-card:0 2px 12px rgba(0,0,0,0.35);--glow-pink:0 0 20px rgba(255,45,120,0.4);--progress-bg:#1E3055;--s1:#FF2D78;--s1-bg:rgba(255,45,120,0.12);--s2:#FF7A00;--s2-bg:rgba(255,122,0,0.12);--s3:#FFD600;--s3-bg:rgba(255,214,0,0.12);--s4:#00E5FF;--s4-bg:rgba(0,229,255,0.12);--s5:#A855F7;--s5-bg:rgba(168,85,247,0.12);--s6:#00FF88;--s6-bg:rgba(0,255,136,0.12);--s7:#FF2D78;--s7-bg:rgba(255,45,120,0.08);}
+[data-theme="mocha"]{--bg:#18100E;--bg-card:#231612;--bg-panel:#2C1C18;--bg-input:#341F1A;--bg-raised:#3A2420;--border:#4A2E28;--border-bright:#6A4038;--text-primary:#F4EDE8;--text-secondary:#C0907A;--text-muted:#7A5048;--accent:#E8784A;--accent-glow:rgba(232,120,74,0.25);--accent2:#D4A855;--accent2-glow:rgba(212,168,85,0.2);--accent3:#E8A0C0;--shadow:0 4px 24px rgba(0,0,0,0.55);--shadow-card:0 2px 12px rgba(0,0,0,0.4);--glow-pink:0 0 20px rgba(232,120,74,0.35);--progress-bg:#3A2420;--s1:#E8784A;--s1-bg:rgba(232,120,74,0.15);--s2:#D4A030;--s2-bg:rgba(212,160,48,0.15);--s3:#C8D450;--s3-bg:rgba(200,212,80,0.12);--s4:#50C8B0;--s4-bg:rgba(80,200,176,0.12);--s5:#C880D0;--s5-bg:rgba(200,128,208,0.12);--s6:#70D880;--s6-bg:rgba(112,216,128,0.12);--s7:#E8784A;--s7-bg:rgba(232,120,74,0.08);}
+[data-theme="slate"]{--bg:#0E1220;--bg-card:#161C30;--bg-panel:#1C2440;--bg-input:#222C4A;--bg-raised:#283450;--border:#303C60;--border-bright:#404E78;--text-primary:#E8ECFF;--text-secondary:#7888C0;--text-muted:#485078;--accent:#7868E8;--accent-glow:rgba(120,104,232,0.3);--accent2:#58D8F0;--accent2-glow:rgba(88,216,240,0.2);--accent3:#F0A858;--shadow:0 4px 24px rgba(0,0,0,0.5);--shadow-card:0 2px 12px rgba(0,0,0,0.35);--glow-pink:0 0 20px rgba(120,104,232,0.4);--progress-bg:#283450;--s1:#7868E8;--s1-bg:rgba(120,104,232,0.15);--s2:#E868A8;--s2-bg:rgba(232,104,168,0.12);--s3:#F0A858;--s3-bg:rgba(240,168,88,0.12);--s4:#58D8F0;--s4-bg:rgba(88,216,240,0.12);--s5:#88E868;--s5-bg:rgba(136,232,104,0.12);--s6:#F0E858;--s6-bg:rgba(240,232,88,0.12);--s7:#7868E8;--s7-bg:rgba(120,104,232,0.08);}
+[data-theme="warm"]{--bg:#F5F0EB;--bg-card:#FFFFFF;--bg-panel:#EDE6DE;--bg-input:#FAF6F2;--bg-raised:#E8DDD4;--border:#D8CCBF;--border-bright:#C0AE9E;--text-primary:#28201A;--text-secondary:#6A5848;--text-muted:#9A8878;--accent:#C85A3A;--accent-glow:rgba(200,90,58,0.15);--accent2:#4A8A70;--accent2-glow:rgba(74,138,112,0.15);--accent3:#C89A30;--shadow:0 2px 16px rgba(40,32,26,0.1);--shadow-card:0 1px 6px rgba(40,32,26,0.07);--glow-pink:none;--progress-bg:#DDD0C4;--s1:#C85A3A;--s1-bg:rgba(200,90,58,0.1);--s2:#C87830;--s2-bg:rgba(200,120,48,0.1);--s3:#9A7820;--s3-bg:rgba(154,120,32,0.1);--s4:#3A8870;--s4-bg:rgba(58,136,112,0.1);--s5:#7A5AA0;--s5-bg:rgba(122,90,160,0.1);--s6:#3A7840;--s6-bg:rgba(58,120,64,0.1);--s7:#C85A3A;--s7-bg:rgba(200,90,58,0.07);}
+[data-theme="blush"]{--bg:#FBF4F6;--bg-card:#FFFFFF;--bg-panel:#F2E8EC;--bg-input:#FDF8FA;--bg-raised:#EAD8E0;--border:#E0CACE;--border-bright:#C8A8B0;--text-primary:#2A1820;--text-secondary:#6A4858;--text-muted:#9A7888;--accent:#C84870;--accent-glow:rgba(200,72,112,0.15);--accent2:#7848B8;--accent2-glow:rgba(120,72,184,0.15);--accent3:#C87820;--shadow:0 2px 16px rgba(42,24,32,0.1);--shadow-card:0 1px 6px rgba(42,24,32,0.07);--glow-pink:none;--progress-bg:#DCCAD0;--s1:#C84870;--s1-bg:rgba(200,72,112,0.1);--s2:#C87820;--s2-bg:rgba(200,120,32,0.1);--s3:#9858C0;--s3-bg:rgba(152,88,192,0.1);--s4:#2898A8;--s4-bg:rgba(40,152,168,0.1);--s5:#48A870;--s5-bg:rgba(72,168,112,0.1);--s6:#3870C0;--s6-bg:rgba(56,112,192,0.1);--s7:#C84870;--s7-bg:rgba(200,72,112,0.07);}
+[data-theme="fresh"]{--bg:#F0F7F4;--bg-card:#FFFFFF;--bg-panel:#E2F0EA;--bg-input:#F4FAF7;--bg-raised:#D4E8DC;--border:#BED8C8;--border-bright:#9AC0AC;--text-primary:#182820;--text-secondary:#486858;--text-muted:#789880;--accent:#208860;--accent-glow:rgba(32,136,96,0.15);--accent2:#1870B8;--accent2-glow:rgba(24,112,184,0.15);--accent3:#C89820;--shadow:0 2px 16px rgba(24,40,32,0.1);--shadow-card:0 1px 6px rgba(24,40,32,0.07);--glow-pink:none;--progress-bg:#C8DED4;--s1:#208860;--s1-bg:rgba(32,136,96,0.1);--s2:#C89820;--s2-bg:rgba(200,152,32,0.1);--s3:#1870B8;--s3-bg:rgba(24,112,184,0.1);--s4:#8838B8;--s4-bg:rgba(136,56,184,0.1);--s5:#C84820;--s5-bg:rgba(200,72,32,0.1);--s6:#188848;--s6-bg:rgba(24,136,72,0.1);--s7:#208860;--s7-bg:rgba(32,136,96,0.07);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh;transition:background 0.3s,color 0.3s;}
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--bg);position:relative;overflow:hidden;}
+#login-screen::before{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:48px 48px;opacity:0.4;}
+#login-screen::after{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+.login-card{background:var(--bg-card);border:1px solid var(--border-bright);border-radius:24px;padding:3rem 2.5rem;width:100%;max-width:440px;box-shadow:var(--shadow);text-align:center;position:relative;z-index:1;}
+.login-eyebrow{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;}
+.login-card h1{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;line-height:1.1;margin-bottom:0.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.login-card p{font-size:0.88rem;color:var(--text-secondary);margin-bottom:2rem;line-height:1.6;}
+.login-input{width:100%;padding:0.85rem 1.1rem;background:var(--bg-input);border:1px solid var(--border);border-radius:12px;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;color:var(--text-primary);outline:none;margin-bottom:0.875rem;transition:border-color 0.2s;}
+.login-input:focus{border-color:var(--accent);}
+.login-btn{width:100%;padding:0.9rem;background:var(--accent);color:white;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:opacity 0.2s;box-shadow:var(--glow-pink);}
+.login-btn:hover{opacity:0.88;}
+.login-error{color:#FF5555;font-size:0.82rem;margin-top:0.75rem;display:none;font-family:'Space Mono',monospace;}
+.login-links{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;justify-content:center;gap:1.25rem;}
+.login-links a{font-size:0.8rem;color:var(--text-muted);text-decoration:none;}
+.login-links a:hover{color:var(--accent);}
+#app{display:none;min-height:100vh;}
+.app-header{background:var(--bg-card);border-bottom:1px solid var(--border);padding:0 1.25rem;height:54px;display:flex;align-items:center;justify-content:space-between;gap:0.875rem;position:sticky;top:0;z-index:100;}
+.app-wordmark{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:0.04em;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;}
+.week-chip{display:flex;align-items:center;gap:0.5rem;background:var(--bg-panel);border:1px solid var(--border);border-radius:8px;padding:0.28rem 0.65rem;font-size:0.75rem;}
+.week-dates{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--text-muted);}
+.week-count{font-weight:700;color:var(--accent);}
+.week-mini-bar{width:80px;height:3px;background:var(--progress-bg);border-radius:2px;overflow:hidden;}
+.week-mini-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width 0.5s ease;}
+.power-bar{display:flex;align-items:center;gap:0.3rem;}
+.power-btn{display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.6rem;background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.72rem;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.power-btn:hover{border-color:var(--accent);color:var(--accent);}
+.power-pip{background:var(--accent);color:white;border-radius:5px;padding:0.03rem 0.38rem;font-size:0.65rem;font-weight:700;min-width:17px;text-align:center;}
+.power-pip.off{background:var(--border);color:var(--text-muted);}
+.theme-row{display:flex;align-items:center;gap:0.22rem;}.theme-select{padding:0.3rem 0.6rem;background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:var(--text-primary);cursor:pointer;outline:none;transition:all 0.2s;}.theme-select:hover{border-color:var(--accent);}
+
+
+
+
+
+
+
+
+
+.btn-signout{background:var(--accent-glow);border:1px solid var(--accent);border-radius:7px;padding:0.35rem 0.85rem;font-size:0.8rem;color:var(--accent);cursor:pointer;font-family:'Space Grotesk',sans-serif;font-weight:600;transition:all 0.2s;}
+.btn-signout:hover{color:var(--accent);border-color:var(--accent);}
+.tab-strip{display:flex;padding:0 1.25rem;background:var(--bg-card);border-bottom:1px solid var(--border);}
+.tab-pill{padding:0.6rem 1.1rem;background:none;border:none;border-bottom:2px solid transparent;font-family:'Space Grotesk',sans-serif;font-size:0.88rem;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.35rem;white-space:nowrap;}
+.tab-pill:hover{color:var(--text-primary);}
+.tab-pill.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-num{background:var(--accent);color:white;border-radius:5px;padding:0.03rem 0.38rem;font-size:0.65rem;font-weight:700;}
+.view{display:none;padding:1.1rem 1.25rem;}
+.view.active{display:block;}
+.pipeline-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.65rem;}
+.pipeline-row{display:grid;gap:0.65rem;margin-bottom:0.65rem;}
+.pipeline-row-1{grid-template-columns:repeat(4,1fr);}
+.pipeline-row-2{grid-template-columns:repeat(4,1fr);}
+.stage-col{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;min-height:260px;display:flex;flex-direction:column;}
+.stage-col-header{padding:0.65rem 0.875rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0;}
+.stage-col-left{display:flex;align-items:center;gap:0.45rem;}
+.stage-num{font-family:'Space Mono',monospace;font-size:0.62rem;font-weight:700;color:var(--text-muted);}
+.stage-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;}
+.stage-sub{font-size:0.65rem;color:var(--text-muted);margin-top:0.08rem;}
+.stage-count{font-family:'Space Mono',monospace;font-size:0.68rem;font-weight:700;padding:0.12rem 0.45rem;border-radius:5px;background:var(--bg-panel);color:var(--text-muted);min-width:22px;text-align:center;}
+.stage-count.has-cards{color:white;}
+.stage-col-body{flex:1;padding:0.65rem;overflow-y:auto;display:flex;flex-direction:column;gap:0.45rem;}
+.stage-add-btn{width:100%;padding:0.45rem;background:none;border:1px dashed var(--border);border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:var(--text-muted);cursor:pointer;transition:all 0.2s;flex-shrink:0;}
+.stage-add-btn:hover{color:var(--accent);border-color:var(--accent);}
+.stage-empty{font-size:0.72rem;color:var(--text-muted);text-align:center;padding:1rem 0.4rem;line-height:1.6;flex:1;display:flex;align-items:center;justify-content:center;}
+.product-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:9px;padding:0.6rem 0.7rem;cursor:grab;transition:all 0.18s;position:relative;flex-shrink:0;}.product-card:active{cursor:grabbing;}
+.product-card:hover{border-color:var(--border-bright);transform:translateY(-1px);box-shadow:var(--shadow-card);}
+.product-card.stale{border-left:3px solid var(--accent3);}
+.card-title{font-weight:600;font-size:0.88rem;margin-bottom:0.35rem;line-height:1.3;color:var(--text-primary);padding-right:1.1rem;}
+.card-star{position:absolute;top:0.45rem;right:0.45rem;background:none;border:none;cursor:pointer;font-size:0.82rem;color:var(--text-muted);transition:color 0.15s;line-height:1;padding:0;}
+.card-star:hover,.card-star.on{color:var(--accent3);}
+.type-tag{font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:0.12rem 0.45rem;border-radius:3px;}
+.card-progress{display:flex;align-items:center;gap:0.35rem;margin-top:0.35rem;}
+.card-bar{flex:1;height:3px;background:var(--progress-bg);border-radius:2px;overflow:hidden;}
+.card-bar-fill{height:100%;border-radius:2px;transition:width 0.3s;}
+.card-pct{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--text-muted);min-width:24px;text-align:right;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;backdrop-filter:blur(2px);}
+.overlay.open{display:block;}
+.side-panel{position:fixed;top:0;right:-530px;width:510px;max-width:96vw;height:100vh;background:var(--bg-card);border-left:1px solid var(--border);z-index:201;display:flex;flex-direction:column;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);overflow:hidden;}
+.side-panel.open{right:0;}
+.panel-top{display:flex;align-items:center;gap:0.65rem;padding:0.8rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0;}
+.panel-stage-tag{font-family:'Space Mono',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:5px;}
+.panel-ring{width:38px;height:38px;position:relative;flex-shrink:0;margin-left:auto;}
+.panel-ring svg{transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:var(--progress-bg);stroke-width:3;}
+.ring-fill{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:101;stroke-dashoffset:101;transition:stroke-dashoffset 0.4s;}
+.ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:0.56rem;font-weight:700;color:var(--text-secondary);}
+.panel-x{width:28px;height:28px;background:var(--bg-panel);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem;color:var(--text-secondary);transition:all 0.2s;flex-shrink:0;}
+.panel-x:hover{color:var(--accent);border-color:var(--accent);}
+.panel-scroll{flex:1;overflow-y:auto;padding:1rem;}
+.panel-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;line-height:1.2;color:var(--text-primary);}
+.panel-added{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--text-muted);margin-bottom:1.1rem;margin-top:0.2rem;}
+.p-section{margin-bottom:1.1rem;}
+.p-lbl{font-family:'Space Mono',monospace;font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.55rem;}
+.type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.3rem;}
+.type-btn{padding:0.38rem 0.25rem;border:1px solid var(--border);border-radius:6px;background:none;font-family:'Space Grotesk',sans-serif;font-size:0.67rem;color:var(--text-secondary);cursor:pointer;transition:all 0.15s;text-align:center;}
+.type-multi-btn{padding:0.4rem 0.75rem;border:1.5px solid var(--border);border-radius:20px;background:none;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;}
+.type-multi-btn:hover{border-color:var(--accent);color:var(--accent);}
+.type-multi-btn.selected{background:var(--accent);border-color:var(--accent);color:white;font-weight:600;}
+.type-btn:hover{border-color:var(--accent);color:var(--accent);}
+.type-btn.picked{background:var(--accent-glow);border-color:var(--accent);color:var(--accent);font-weight:700;}
+.tools-wrap{display:flex;flex-wrap:wrap;gap:0.35rem;}
+.tool-link{display:flex;align-items:center;gap:0.25rem;padding:0.32rem 0.65rem;background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;font-size:0.72rem;font-weight:600;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;}
+.tool-link:hover{border-color:var(--accent2);color:var(--accent2);}
+.checklist-box{background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.check-row{display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.8rem;cursor:pointer;transition:background 0.1s;}
+.check-row:hover{background:var(--bg-raised);}
+.check-row+.check-row{border-top:1px solid var(--border);}
+.check-box{width:16px;height:16px;border:2px solid var(--border-bright);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;background:var(--bg-input);}
+.check-box.ticked{background:var(--accent);border-color:var(--accent);color:white;}
+.check-box.ticked::after{content:"✓";font-size:0.6rem;font-weight:700;}
+.check-label{font-size:0.92rem;color:var(--text-primary);transition:all 0.15s;line-height:1.3;}
+.check-label.done{text-decoration:line-through;color:var(--text-muted);}
+.stale-banner{background:var(--bg-raised);border:1px solid var(--accent3);border-radius:9px;padding:0.55rem 0.8rem;font-size:0.75rem;color:var(--accent3);display:flex;align-items:center;justify-content:space-between;gap:0.45rem;margin-bottom:0.875rem;font-family:'Space Mono',monospace;}
+.nudge-x{background:none;border:none;color:var(--accent3);cursor:pointer;opacity:0.7;font-size:0.82rem;}
+.p-textarea{width:100%;padding:0.75rem 0.9rem;background:var(--bg-input);border:1px solid var(--border);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:0.88rem;color:var(--text-primary);resize:vertical;min-height:100px;outline:none;transition:border-color 0.2s;}
+.p-textarea:focus{border-color:var(--accent);}
+.p-input{width:100%;padding:0.55rem 0.8rem;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:var(--text-primary);outline:none;transition:border-color 0.2s;}
+.p-input:focus{border-color:var(--accent);}
+.char-ct{text-align:right;font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--text-muted);margin-top:0.18rem;}
+.panel-foot{padding:0.8rem 1rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:0.55rem;flex-shrink:0;background:var(--bg-card);}
+.btn-del{padding:0.45rem 0.85rem;background:none;border:1px solid var(--border);border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;color:#FF5555;cursor:pointer;transition:all 0.2s;}
+.btn-del:hover{background:rgba(255,85,85,0.1);border-color:#FF5555;}
+.btn-save{padding:0.45rem 0.9rem;background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;}
+.btn-save:hover{border-color:var(--accent2);color:var(--accent2);}
+.btn-next{padding:0.48rem 1rem;background:var(--accent);color:white;border:none;border-radius:7px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;transition:opacity 0.2s;display:none;box-shadow:var(--glow-pink);}
+.btn-next:hover{opacity:0.88;}
+.btn-back{padding:0.48rem 1rem;background:none;border:1px solid var(--border);border-radius:7px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;color:var(--text-secondary);transition:all 0.2s;display:none;}
+.btn-back.show{display:block;}
+.btn-back:hover{border-color:var(--accent2);color:var(--accent2);}
+.btn-next.show{display:block;}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(2px);}
+.modal-bg.open{display:flex;}
+.modal-box{background:var(--bg-card);border:1px solid var(--border-bright);border-radius:18px;padding:1.6rem;width:100%;max-width:460px;box-shadow:var(--shadow);animation:popIn 0.2s ease;}
+@keyframes popIn{from{opacity:0;transform:scale(0.95) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;margin-bottom:1rem;}
+.m-label{display:block;font-family:'Space Mono',monospace;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.35rem;}
+.m-input,.m-select{width:100%;padding:0.6rem 0.8rem;background:var(--bg-input);border:1px solid var(--border);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:0.88rem;color:var(--text-primary);outline:none;margin-bottom:0.875rem;transition:border-color 0.2s;}
+.m-input:focus,.m-select:focus{border-color:var(--accent);}
+.m-select{appearance:none;cursor:pointer;}
+.modal-btns{display:flex;gap:0.55rem;justify-content:flex-end;}
+.btn-cancel{padding:0.5rem 1rem;background:none;border:1px solid var(--border);border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.82rem;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;}
+.btn-cancel:hover{border-color:var(--text-primary);color:var(--text-primary);}
+.btn-go{padding:0.5rem 1.3rem;background:var(--accent);color:white;border:none;border-radius:7px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.92rem;cursor:pointer;transition:opacity 0.2s;box-shadow:var(--glow-pink);}
+.btn-go:hover{opacity:0.88;}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;gap:0.65rem;}
+.modal-head-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;}
+.modal-head-sub{font-size:0.72rem;color:var(--text-muted);margin-top:0.18rem;font-family:'Space Mono',monospace;}
+.modal-x{width:28px;height:28px;background:var(--bg-panel);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem;color:var(--text-secondary);flex-shrink:0;transition:all 0.2s;}
+.modal-x:hover{color:var(--accent);border-color:var(--accent);}
+.modal-scroll{max-height:58vh;overflow-y:auto;}
+.modal-sec-lbl{font-family:'Space Mono',monospace;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.7rem;}
+.btn-add{display:flex;align-items:center;gap:0.35rem;padding:0.6rem 1.1rem;background:var(--accent);color:white;border:none;border-radius:9px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:opacity 0.2s;box-shadow:var(--glow-pink);white-space:nowrap;flex-shrink:0;}
+.btn-add:hover{opacity:0.88;}
+.idea-filter-btn{padding:0.38rem 0.85rem;background:var(--bg-panel);border:1px solid var(--border);border-radius:20px;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;}
+.idea-filter-btn:hover{border-color:var(--accent);color:var(--accent);}
+.idea-filter-btn.active{background:var(--accent);border-color:var(--accent);color:white;}
+.ideas-vault-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+.idea-vault-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.18s;box-shadow:var(--shadow-card);}
+.idea-vault-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--border-bright);}
+.idea-vault-card.pinned{border-color:var(--accent3);box-shadow:0 0 12px rgba(255,214,0,0.15);}
+.idea-card-top{padding:0.875rem 1rem 0.6rem;display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;}
+.idea-card-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--text-primary);line-height:1.25;flex:1;}
+.idea-card-body{padding:0 1rem 0.75rem;}
+.idea-card-snippet{font-size:0.8rem;color:var(--text-secondary);line-height:1.5;margin-bottom:0.6rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.idea-card-tags{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.6rem;}
+.idea-card-foot{padding:0.6rem 1rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg-panel);}
+.idea-foot-date{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--text-muted);}
+.idea-foot-cat{font-size:0.7rem;font-weight:700;color:var(--text-muted);}
+.idea-tile-title{font-weight:700;font-size:0.85rem;margin-bottom:0.55rem;line-height:1.3;}
+.idea-tile-foot{display:flex;align-items:center;justify-content:space-between;}
+.idea-date{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--text-muted);}
+.empty-state{grid-column:1/-1;text-align:center;padding:3.5rem 2rem;color:var(--text-muted);}
+.empty-state-icon{font-size:2.2rem;margin-bottom:0.65rem;}
+.empty-state h3{font-family:'Syne',sans-serif;font-size:0.95rem;color:var(--text-secondary);margin-bottom:0.25rem;}
+.empty-state p{font-size:0.78rem;}
+.collections-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:0.65rem;flex-wrap:wrap;}
+.filter-row{display:flex;gap:0.45rem;flex-wrap:wrap;}
+.f-select{padding:0.42rem 0.7rem;background:var(--bg-card);border:1px solid var(--border);border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;color:var(--text-primary);outline:none;cursor:pointer;}
+.view-toggle{display:flex;border:1px solid var(--border);border-radius:7px;overflow:hidden;}
+.vt-btn{padding:0.38rem 0.65rem;background:none;border:none;font-size:0.72rem;color:var(--text-muted);cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all 0.2s;}
+.vt-btn.on{background:var(--accent);color:white;}
+.coll-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:0.8rem;}
+.coll-list{display:flex;flex-direction:column;gap:0.55rem;}
+.coll-card-g{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all 0.18s;box-shadow:var(--shadow-card);}
+.coll-card-g:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.coll-thumb{height:110px;background:var(--bg-panel);display:flex;align-items:center;justify-content:center;font-size:1.8rem;}
+.coll-body{padding:0.6rem 0.7rem;}
+.coll-title{font-weight:700;font-size:0.82rem;margin-bottom:0.3rem;}
+.coll-meta{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--text-muted);}
+.coll-card-l{background:var(--bg-card);border:1px solid var(--border);border-radius:11px;padding:0.7rem 0.875rem;display:flex;align-items:center;gap:0.8rem;cursor:pointer;transition:all 0.18s;box-shadow:var(--shadow-card);}
+.coll-card-l:hover{box-shadow:var(--shadow);border-color:var(--border-bright);}
+.coll-l-thumb{width:44px;height:44px;border-radius:7px;background:var(--bg-panel);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.coll-l-title{font-weight:700;font-size:0.82rem;margin-bottom:0.18rem;}
+.coll-l-meta{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--text-muted);}
+.cal-header{display:flex;align-items:center;gap:0.875rem;margin-bottom:1rem;flex-wrap:wrap;}
+.cal-header h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;}
+.yr-select{padding:0.42rem 0.7rem;background:var(--bg-card);border:1px solid var(--border);border-radius:7px;font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--text-primary);font-weight:700;outline:none;cursor:pointer;}
+.cal-tip{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--text-muted);margin-left:auto;}
+.this-month-strip{background:var(--bg-raised);border:1px solid var(--accent);border-radius:11px;padding:0.6rem 0.875rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;}
+.this-month-label{font-family:'Space Mono',monospace;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
+.this-month-tags{display:flex;flex-wrap:wrap;gap:0.3rem;}
+.m-tag{padding:0.12rem 0.55rem;border:1px solid var(--accent);border-radius:20px;font-size:0.7rem;color:var(--accent);font-weight:600;}
+.cal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;}
+.cal-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-card);}
+.cal-card.now{
+  border-color:var(--accent);
+  background:linear-gradient(135deg, var(--accent-glow) 0%, var(--bg-raised) 60%);
+  box-shadow:0 0 24px var(--accent-glow), inset 0 0 30px var(--accent-glow);
+}
+.cal-card.now .cal-card-head{
+  background:var(--accent);
+  border-bottom-color:var(--accent);
+}
+.cal-card.now .cal-month-name{
+  color:white;
+  font-size:1.05rem;
+}
+.cal-card.now .cal-sec-label{
+  color:var(--accent2);
+}
+.cal-card.now .cal-item-text{
+  color:var(--text-primary);
+  font-weight:500;
+}
+.cal-card-head{padding:0.55rem 0.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.cal-month-name{font-family:'Syne',sans-serif;font-weight:800;font-size:0.9rem;}
+.now-tag{font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:var(--accent);color:white;padding:0.1rem 0.45rem;border-radius:4px;}
+.cal-card-body{padding:0.6rem 0.8rem;}
+.cal-sec-label{font-family:'Space Mono',monospace;font-size:0.56rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin:0.45rem 0 0.25rem;}
+.cal-sec-label:first-child{margin-top:0;}
+.cal-item{display:flex;align-items:center;gap:0.35rem;padding:0.15rem 0;cursor:pointer;transition:opacity 0.15s;}
+.cal-item.done{opacity:0.4;}
+.cal-check{width:13px;height:13px;border:1.5px solid var(--border-bright);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bg-input);transition:all 0.15s;font-size:0.5rem;}
+.cal-item.done .cal-check{background:var(--accent);border-color:var(--accent);color:white;}
+.cal-item-text{font-size:0.82rem;color:var(--text-primary);line-height:1.35;}
+.cal-item.done .cal-item-text{text-decoration:line-through;color:var(--text-muted);}
+.cal-star-icon{font-size:0.75rem;color:var(--accent3);flex-shrink:0;font-weight:900;}
+.cal-dot{width:13px;flex-shrink:0;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.875rem;margin-bottom:1.25rem;}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1rem;text-align:center;box-shadow:var(--shadow-card);position:relative;overflow:hidden;}
+.stat-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent);}
+.stat-card:nth-child(2)::after{background:var(--accent2);}
+.stat-card:nth-child(3)::after{background:var(--accent3);}
+.stat-card:nth-child(4)::after{background:var(--s5);}
+.stat-val{font-family:'Syne',sans-serif;font-weight:800;font-size:2.4rem;color:var(--accent);line-height:1;margin-bottom:0.2rem;}
+.stat-card:nth-child(2) .stat-val{color:var(--accent2);}
+.stat-card:nth-child(3) .stat-val{color:var(--accent3);}
+.stat-card:nth-child(4) .stat-val{color:var(--s5);}
+.stat-lbl{font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.04em;color:var(--text-secondary);}
+.stat-sublbl{font-size:0.68rem;color:var(--text-muted);margin-top:0.15rem;}
+.chart-wrap{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.1rem;box-shadow:var(--shadow-card);}
+.chart-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text-primary);}
+.chart-bars{display:flex;align-items:flex-end;gap:0.5rem;height:140px;}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;}
+.bar{width:100%;background:var(--accent);border-radius:5px 5px 0 0;min-height:4px;transition:height 0.6s cubic-bezier(0.4,0,0.2,1);}
+.bar.cur{background:var(--accent2);box-shadow:0 0 12px var(--accent2-glow);}
+.bar-val{font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;color:var(--text-primary);}
+.bar-lbl{font-family:'Space Grotesk',sans-serif;font-size:0.65rem;color:var(--text-muted);text-align:center;}
+.pipeline-stage-row{display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0;}
+.pipeline-stage-row+.pipeline-stage-row{border-top:1px solid var(--border);}
+.ps-name{font-size:0.82rem;font-weight:600;color:var(--text-primary);width:90px;flex-shrink:0;}
+.ps-bar-wrap{flex:1;height:10px;background:var(--progress-bg);border-radius:5px;overflow:hidden;}
+.ps-bar-fill{height:100%;border-radius:5px;transition:width 0.6s ease;}
+.ps-count{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text-secondary);min-width:30px;text-align:right;flex-shrink:0;}
+.badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;}
+.badge-tile{background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;padding:1rem 0.75rem;text-align:center;transition:all 0.2s;cursor:default;position:relative;overflow:hidden;}
+.badge-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.badge-tile.got{border-color:var(--accent);background:var(--accent-glow);box-shadow:0 0 14px var(--accent-glow);}
+.badge-tile.got::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.badge-tile.locked{opacity:0.5;filter:grayscale(0.3);}
+.badge-icon-big{font-size:2rem;margin-bottom:0.4rem;display:block;}
+.badge-name{font-family:'Syne',sans-serif;font-weight:800;font-size:0.8rem;color:var(--text-primary);margin-bottom:0.2rem;}
+.badge-req{font-size:0.68rem;color:var(--text-muted);}
+.badge-date{font-size:0.65rem;color:var(--accent);margin-top:0.2rem;font-weight:700;}
+.journey-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:0.35rem;margin:0.875rem 0;}
+.j-dot-wrap{text-align:center;}
+.j-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);background:var(--bg-panel);margin:0 auto 0.22rem;display:flex;align-items:center;justify-content:center;font-size:0.75rem;transition:all 0.2s;}
+.j-dot.done{background:var(--accent);border-color:var(--accent);color:white;}
+.j-dot.milestone{border-color:var(--accent2);}
+.j-num{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--text-muted);}
+.streak-cards-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.1rem;}
+.streak-box{background:var(--bg-raised);border-radius:14px;padding:1.1rem;text-align:center;position:relative;overflow:hidden;}
+.streak-box::before{content:"";position:absolute;inset:0;border-radius:14px;border:1.5px solid var(--accent);opacity:0.4;}
+.streak-val{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;color:var(--accent);line-height:1;}
+.streak-val-sub{font-size:0.72rem;color:var(--text-secondary);margin-top:0.15rem;font-weight:500;}
+.streak-lbl{font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-secondary);margin-top:0.3rem;}
+.journey-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem;margin-bottom:1.1rem;}
+.j-dot-wrap{text-align:center;}
+.j-dot{width:42px;height:42px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg-panel);margin:0 auto 0.25rem;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all 0.2s;}
+.j-dot.done{background:var(--accent);border-color:var(--accent);box-shadow:0 0 10px var(--accent-glow);}
+.j-dot.milestone{border-color:var(--accent2);border-width:2px;}
+.j-num{font-family:'Space Grotesk',sans-serif;font-size:0.68rem;font-weight:600;color:var(--text-muted);}
+.streak-next-box{background:var(--bg-raised);border-radius:14px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;border:1px solid var(--border);}
+.streak-next-icon{font-size:2rem;flex-shrink:0;}
+.streak-next-label{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.2rem;}
+.streak-next-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text-primary);}
+.streak-next-sub{font-size:0.8rem;color:var(--text-secondary);margin-top:0.15rem;}
+.goal-quick{padding:0.45rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg-panel);font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;min-width:42px;text-align:center;}
+.goal-quick:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-glow);}
+.goal-quick.chosen{background:var(--accent);border-color:var(--accent);color:white;}
+.goal-locked-note{font-size:0.78rem;color:var(--accent3);margin-bottom:0.875rem;display:none;padding:0.5rem 0.75rem;background:rgba(255,214,0,0.08);border-radius:8px;border:1px solid rgba(255,214,0,0.2);}
+.trophy-wrap{text-align:center;padding:0.4rem 0;}
+.trophy-big{font-size:3.8rem;animation:bounce 0.5s ease;margin-bottom:0.45rem;}
+@keyframes bounce{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
+.trophy-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.45rem;margin-bottom:0.3rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.trophy-sub{font-size:0.82rem;color:var(--text-secondary);margin-bottom:1.1rem;line-height:1.5;}
+.trophy-badge-box{background:var(--accent-glow);border:1px solid var(--accent);border-radius:11px;padding:0.8rem;margin-bottom:1rem;}
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+#toast{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-raised);border:1px solid var(--border-bright);color:var(--text-primary);padding:0.55rem 1rem;border-radius:9px;font-family:'Space Mono',monospace;font-size:0.72rem;z-index:600;transition:transform 0.3s ease;white-space:nowrap;box-shadow:var(--shadow);}
+#toast.show{transform:translateX(-50%) translateY(0);}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+@media(max-width:900px){.pipeline-row-1,.pipeline-row-2{grid-template-columns:repeat(2,1fr);}.cal-grid{grid-template-columns:repeat(2,1fr);}.stats-grid{grid-template-columns:repeat(2,1fr);}.badges-grid{grid-template-columns:repeat(2,1fr);}.week-mini-bar{display:none;}}
+@media(max-width:600px){.pipeline-row-1,.pipeline-row-2{grid-template-columns:1fr;}.cal-grid{grid-template-columns:1fr;}.power-bar{flex-wrap:wrap;}}
+
+/* White text for ALL dark themes - easy to read */
+[data-theme="pip"],[data-theme="mocha"],[data-theme="slate"]{
+  --text-primary:#FFFFFF;
+  --text-secondary:#D8E8F8;
+  --text-muted:#A0B8D0;
+}
+[data-theme="pip"] *,[data-theme="mocha"] *,[data-theme="slate"] *{
+  -webkit-font-smoothing:antialiased;
+}
+[data-theme="pip"] .stage-sub,[data-theme="mocha"] .stage-sub,[data-theme="slate"] .stage-sub{color:#C0D8F0;font-size:0.8rem;}
+[data-theme="pip"] .card-title,[data-theme="mocha"] .card-title,[data-theme="slate"] .card-title{color:#FFFFFF;}
+[data-theme="pip"] .check-label,[data-theme="mocha"] .check-label,[data-theme="slate"] .check-label{color:#F0F8FF;}
+[data-theme="pip"] .check-label.done,[data-theme="mocha"] .check-label.done,[data-theme="slate"] .check-label.done{color:#7090A8;}
+[data-theme="pip"] .panel-title,[data-theme="mocha"] .panel-title,[data-theme="slate"] .panel-title{color:#FFFFFF;}
+[data-theme="pip"] .p-textarea,[data-theme="mocha"] .p-textarea,[data-theme="slate"] .p-textarea{color:#FFFFFF;}
+[data-theme="pip"] .p-input,[data-theme="mocha"] .p-input,[data-theme="slate"] .p-input{color:#FFFFFF;}
+[data-theme="pip"] .stage-empty,[data-theme="mocha"] .stage-empty,[data-theme="slate"] .stage-empty{color:#90B0C8;font-size:0.85rem;}
+[data-theme="pip"] .idea-tile-title,[data-theme="mocha"] .idea-tile-title,[data-theme="slate"] .idea-tile-title{color:#FFFFFF;}
+[data-theme="pip"] .cal-item-text,[data-theme="mocha"] .cal-item-text,[data-theme="slate"] .cal-item-text{color:#F0F8FF;}
+[data-theme="pip"] .tab-pill,[data-theme="mocha"] .tab-pill,[data-theme="slate"] .tab-pill{color:#C0D8F0;}
+[data-theme="pip"] .tab-pill.active,[data-theme="mocha"] .tab-pill.active,[data-theme="slate"] .tab-pill.active{color:var(--accent);}
+[data-theme="pip"] .power-btn,[data-theme="mocha"] .power-btn,[data-theme="slate"] .power-btn{color:#D0E8FF;}
+[data-theme="pip"] .week-dates,[data-theme="mocha"] .week-dates,[data-theme="slate"] .week-dates{color:#C0D8F0;font-size:0.78rem;}
+[data-theme="pip"] .week-count,[data-theme="mocha"] .week-count,[data-theme="slate"] .week-count{font-size:0.88rem;color:#FFFFFF;}
+[data-theme="pip"] .stage-name,[data-theme="mocha"] .stage-name,[data-theme="slate"] .stage-name{font-weight:800;}
+[data-theme="pip"] .modal-head-title,[data-theme="mocha"] .modal-head-title,[data-theme="slate"] .modal-head-title{color:#FFFFFF;}
+[data-theme="pip"] .badge-name,[data-theme="mocha"] .badge-name,[data-theme="slate"] .badge-name{color:#FFFFFF;}
+[data-theme="pip"] .coll-title,[data-theme="mocha"] .coll-title,[data-theme="slate"] .coll-title{color:#FFFFFF;}
+[data-theme="pip"] .coll-l-title,[data-theme="mocha"] .coll-l-title,[data-theme="slate"] .coll-l-title{color:#FFFFFF;}
+[data-theme="pip"] .panel-added,[data-theme="mocha"] .panel-added,[data-theme="slate"] .panel-added{color:#90B0C8;}
+[data-theme="pip"] .p-lbl,[data-theme="mocha"] .p-lbl,[data-theme="slate"] .p-lbl{color:#A0C0D8;}
+.stage-col-body.drag-over{background:var(--accent-glow)!important;border:1.5px dashed var(--accent);border-radius:10px;}
+</style>
+</head>
+<body data-theme="pip">
+<canvas id="confetti-canvas"></canvas>
+<div id="toast"></div>
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-eyebrow">✦ Pixels Into Profit — Members Only</div>
+    <h1>PIP Flow Board</h1>
+    <p>Your personal product pipeline. From spark to sale — tracked, organized, and celebrated.</p>
+    <input class="login-input" type="email" id="login-email" placeholder="your@email.com" autocomplete="email">
+    <button class="login-btn" onclick="handleLogin()">🔐 Enter My Flow Board →</button>
+    <div id="login-error" class="login-error">// That email is not approved. Contact Donna!</div>
+    <div class="login-links">
+      <a href="https://pip-member-hub.vercel.app">← Member Hub</a>
+      <a href="https://www.skool.com/pixels-into-profit-2137/about" target="_blank">Not a member? Join →</a>
+    </div>
+  </div>
+</div>
+<div id="app">
+  <header class="app-header">
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <div class="app-wordmark">PIP FLOW BOARD</div>
+      <div class="week-chip">
+        <span class="week-dates" id="hdr-dates">--</span>
+        <div class="week-mini-bar"><div class="week-mini-fill" id="hdr-bar" style="width:0%"></div></div>
+        <span class="week-count" id="hdr-count">0/4</span>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:0.55rem;">
+      <select class="theme-select" id="theme-select" onchange="setTheme(this.value)">
+        <optgroup label="── Dark Themes ──">
+          <option value="pip">🌙 PIP Dark — Navy/Pink/Cyan</option>
+          <option value="mocha">☕ Mocha Dark — Brown/Peach</option>
+          <option value="slate">🌌 Slate Dark — Blue/Lavender</option>
+        </optgroup>
+        <optgroup label="── Light Themes ──">
+          <option value="warm">🌿 Warm Light — Cream/Terracotta</option>
+          <option value="blush">🌸 Blush Light — Rose/Pink</option>
+          <option value="fresh">🍃 Fresh Light — Mint/Green</option>
+        </optgroup>
+      </select>
+      <button class="btn-signout" onclick="handleLogout()">Sign out</button>
+    </div>
+  </header>
+  <nav class="tab-strip" style="justify-content:space-between;align-items:center;">
+    <div style="display:flex;">
+      <button class="tab-pill active" data-tab="workflow" onclick="switchTab('workflow')">Pipeline</button>
+      <button class="tab-pill" data-tab="ideas" onclick="switchTab('ideas')">Idea Vault</button>
+      <button class="tab-pill" data-tab="collections" onclick="switchTab('collections')">Listed <span class="tab-num" id="listed-count" style="display:none">0</span></button>
+      <button class="tab-pill" data-tab="calendar" onclick="switchTab('calendar')">Season Map</button>
+      <button class="tab-pill" data-tab="stats" onclick="switchTab('stats')">Stats</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.3rem;padding-right:0.5rem;">
+      <button class="power-btn" onclick="openModal('modal-milestones')">Milestones <span class="power-pip off" id="pip-badges">0</span></button>
+      <button class="power-btn" onclick="openModal('modal-streak')">Streak <span class="power-pip off" id="pip-streak">0</span></button>
+      <button class="power-btn" onclick="toggleStarFilter()">Pinned <span class="power-pip off" id="pip-pinned">0</span></button>
+      <button class="power-btn" onclick="openModal('modal-goal')">Weekly Goal</button>
+    </div>
+  </nav>
+  <div id="tab-workflow" class="view active">
+    <div class="pipeline-label">YOUR PRODUCT PIPELINE — WORK EACH CARD THROUGH THE STAGES TO GET IT LIVE</div>
+    <div class="pipeline-row pipeline-row-1" id="row1"></div>
+    <div class="pipeline-row pipeline-row-2" id="row2"></div>
+  </div>
+  <div id="tab-ideas" class="view">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+      <div>
+        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:0.3rem;">Idea Vault</h2>
+        <p style="font-size:0.88rem;color:var(--text-secondary);max-width:560px;line-height:1.6;">Your private brainstorm space. Drop every product idea here the moment it sparks — a trend you spotted, a holiday coming up, a niche you want to try. When you are ready to actually work on it, move it over to the Pipeline.</p>
+      </div>
+      <button class="btn-add" onclick="openVaultModal()">+ Save Idea</button>
+    </div>
+    <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;align-items:center;">
+      <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Sort by:</span>
+      <button class="idea-filter-btn active" onclick="filterVault('all',this)">All</button>
+      <button class="idea-filter-btn" onclick="filterVault('product',this)">Product Type</button>
+      <button class="idea-filter-btn" onclick="filterVault('theme',this)">Theme</button>
+      <button class="idea-filter-btn" onclick="filterVault('holiday',this)">Holiday</button>
+    </div>
+    <div id="vault-sort-row" style="display:none;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;"></div>
+    <div class="ideas-vault-grid" id="ideas-grid"></div>
+  </div>
+  <div id="tab-collections" class="view">
+    <div class="collections-bar">
+      <div class="filter-row">
+        <select class="f-select" id="coll-cat" onchange="renderCollections()"><option value="">All types</option><option>Alpha PNGs</option><option>Clipart</option><option>Coloring Books</option><option>Digital Paper</option><option>Journals</option><option>Procreate Brushes</option><option>Procreate Stamps</option><option>Seamless Paper</option><option>Sticker Sheets</option><option>Sublimation Designs</option><option>SVG Files</option></select>
+        <select class="f-select" id="coll-sort" onchange="renderCollections()"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="az">A to Z</option></select>
+      </div>
+      <div class="view-toggle">
+        <button class="vt-btn on" id="vt-grid" onclick="setCollView('grid')">Grid</button>
+        <button class="vt-btn" id="vt-list" onclick="setCollView('list')">List</button>
+      </div>
+    </div>
+    <div id="coll-container"></div>
+  </div>
+  <div id="tab-calendar" class="view">
+    <div class="cal-header">
+      <h2>Season Map</h2>
+      <select class="yr-select" id="cal-year" onchange="loadCalChecks()"><option>2026</option><option>2027</option><option>2028</option></select>
+      <div class="cal-tip" style="font-size:0.75rem;color:var(--text-secondary)"><span style="color:var(--accent3);font-weight:700;">★ = Major holiday</span> — start creating 2-3 months early! &nbsp; No star = smaller holiday</div>
+    </div>
+    <div id="this-month-strip"></div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+  <div id="tab-stats" class="view">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:0.35rem">My Creator Stats</div>
+    <div style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:1.5rem">Track your progress from idea to listed</div>
+    <div class="stats-grid" id="stats-grid"></div>
+    <div class="chart-wrap" style="margin-bottom:1.25rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem">
+        <div>
+          <div class="chart-title" style="margin-bottom:0.15rem">Weekly Output</div>
+          <div style="font-size:0.8rem;color:var(--text-secondary)">How many products you listed each week</div>
+        </div>
+        <div id="chart-goal-line" style="font-size:0.78rem;color:var(--accent);font-weight:700;font-family:'Space Mono',monospace"></div>
+      </div>
+      <div class="chart-bars" id="chart-bars" style="height:140px;align-items:flex-end;"></div>
+      <div style="display:flex;align-items:center;gap:1rem;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:12px;height:12px;border-radius:3px;background:var(--accent)"></div><div style="font-size:0.75rem;color:var(--text-secondary)">Past weeks</div></div>
+        <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:12px;height:12px;border-radius:3px;background:var(--accent2)"></div><div style="font-size:0.75rem;color:var(--text-secondary)">Current week</div></div>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title" style="margin-bottom:1rem">Pipeline Breakdown</div>
+      <div id="pipeline-breakdown"></div>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+<div class="side-panel" id="side-panel">
+  <div class="panel-top">
+    <div class="panel-stage-tag" id="ptag">Ideas</div>
+    <div style="flex:1"></div>
+    <div class="panel-ring"><svg width="38" height="38" viewBox="0 0 38 38"><circle class="ring-bg" cx="19" cy="19" r="16"/><circle class="ring-fill" cx="19" cy="19" r="16" id="ring-arc"/></svg><div class="ring-pct" id="ring-pct">0%</div></div>
+    <div class="panel-x" onclick="closePanel()">✕</div>
+  </div>
+  <div class="panel-scroll" id="panel-scroll"></div>
+  <div class="panel-foot">
+    <button class="btn-del" onclick="deleteCard()">Delete</button>
+    <div style="display:flex;gap:0.45rem;">
+      <button class="btn-save" onclick="saveCard()">Save</button>
+      <button class="btn-back" id="btn-back" onclick="stepBackCard()">← Back</button>
+      <button class="btn-next" id="btn-next" onclick="advanceCard()">Next Stage →</button>
+    </div>
+  </div>
+</div>
+<div class="modal-bg" id="modal-add">
+  <div class="modal-box">
+    <div class="modal-title">New product idea</div>
+    <label class="m-label">Product name</label>
+    <input class="m-input" id="new-name" placeholder="e.g. Boho Sunflower Clipart Set" maxlength="80">
+    <label class="m-label">Category</label>
+    <select class="m-select" id="new-cat"><option value="">— pick a category —</option><option>Alpha PNGs</option><option>Clipart</option><option>Coloring Books</option><option>Digital Paper</option><option>Journals</option><option>Procreate Brushes</option><option>Procreate Stamps</option><option>Seamless Paper</option><option>Sticker Sheets</option><option>Sublimation Designs</option><option>SVG Files</option></select>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('modal-add')">Cancel</button>
+      <button class="btn-go" onclick="createCard()">Create card →</button>
+    </div>
+  </div>
+</div>
+<div class="modal-bg" id="modal-milestones">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-head"><div><div class="modal-head-title">Milestones</div><div class="modal-head-sub" id="milestones-sub">// 0 of 8 unlocked</div></div><div class="modal-x" onclick="closeModal('modal-milestones')">✕</div></div>
+    <div class="modal-sec-lbl">Listing badges earned as you get products live on Etsy</div>
+    <div class="modal-scroll"><div class="badges-grid" id="badges-grid"></div></div>
+  </div>
+</div>
+<div class="modal-bg" id="modal-streak">
+  <div class="modal-box" style="max-width:520px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--text-primary)">Your Streak</div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-top:0.25rem" id="streak-weeks-label">Hit your weekly listing goal to keep it going</div>
+      </div>
+      <div class="modal-x" onclick="closeModal('modal-streak')">✕</div>
+    </div>
+    <div class="streak-cards-row" id="streak-row"></div>
+    <div style="margin:1.25rem 0 0.75rem;font-family:'Space Grotesk',sans-serif;font-size:0.82rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em">12-Week Journey</div>
+    <div class="journey-grid" id="j-grid"></div>
+    <div class="streak-next-box" id="next-unlock"></div>
+  </div>
+</div>
+<div class="modal-bg" id="modal-goal">
+  <div class="modal-box" style="max-width:400px;padding:0;overflow:hidden;text-align:center;">
+    <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding:2rem 1.75rem 1.5rem;">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:0.5rem;">
+        <div class="modal-x" style="background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3);color:white;" onclick="closeModal('modal-goal')">✕</div>
+      </div>
+      <div style="font-size:2.5rem;margin-bottom:0.5rem;">🎯</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:white;margin-bottom:0.3rem;">Weekly Target</div>
+      <div style="font-size:0.85rem;color:rgba(255,255,255,0.85);margin-bottom:1.5rem;">How many products will you list this week?</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:1rem;">
+        <button onclick="adjustGoal(-1)" style="background:rgba(255,255,255,0.25);border:none;color:white;width:42px;height:42px;border-radius:50%;font-size:1.4rem;cursor:pointer;font-weight:700;line-height:1;">−</button>
+        <div style="background:rgba(255,255,255,0.15);border-radius:14px;padding:0.5rem 1.25rem;min-width:90px;">
+          <input type="number" id="goal-num" min="1" max="200" value="4" style="width:70px;background:none;border:none;color:white;font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;text-align:center;outline:none;" oninput="pickGoal(parseInt(this.value)||1)">
+          <div style="font-size:0.72rem;color:rgba(255,255,255,0.75);margin-top:0.1rem;">listings / week</div>
+        </div>
+        <button onclick="adjustGoal(1)" style="background:rgba(255,255,255,0.25);border:none;color:white;width:42px;height:42px;border-radius:50%;font-size:1.4rem;cursor:pointer;font-weight:700;line-height:1;">+</button>
+      </div>
+    </div>
+    <div style="padding:1.25rem 1.75rem;">
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.65rem;">Quick pick</div>
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.25rem;">
+        <button class="goal-quick" onclick="pickGoal(1)">1</button>
+        <button class="goal-quick" onclick="pickGoal(2)">2</button>
+        <button class="goal-quick" onclick="pickGoal(3)">3</button>
+        <button class="goal-quick" onclick="pickGoal(4)">4</button>
+        <button class="goal-quick" onclick="pickGoal(5)">5</button>
+        <button class="goal-quick" onclick="pickGoal(7)">7</button>
+        <button class="goal-quick" onclick="pickGoal(10)">10</button>
+        <button class="goal-quick" onclick="pickGoal(15)">15</button>
+        <button class="goal-quick" onclick="pickGoal(20)">20</button>
+      </div>
+      <button id="lock-goal-btn" onclick="saveGoal()" style="width:100%;padding:0.9rem;background:var(--accent);color:white;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;cursor:pointer;transition:all 0.2s;letter-spacing:0.02em;">Let's Do This! 🚀</button>
+    </div>
+  </div>
+</div>
+<div class="modal-bg" id="modal-trophy">
+  <div class="modal-box" style="max-width:370px">
+    <div style="text-align:right;margin-bottom:0.4rem"><div class="modal-x" style="display:inline-flex" onclick="closeModal('modal-trophy')">✕</div></div>
+    <div class="trophy-wrap" id="trophy-content"></div>
+  </div>
+</div>
+
+<script>
+const SB_URL='https://bvbuojlwrfhyeumlzffu.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2YnVvamx3cmZoeWV1bWx6ZmZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3OTU3OTAsImV4cCI6MjA5NjM3MTc5MH0.J4cpGcXQikdrr9tULjKA7Ez2vtNxduZdPldNMXqv9rA';
+const STAGES=[{key:'ideas',label:'Ideas',sub:'Research it',icon:'💡',n:1,sc:'--s1'},{key:'planning',label:'Planning',sub:'Plan the product',icon:'📋',n:2,sc:'--s2'},{key:'designing',label:'Designing',sub:'Design it',icon:'🎨',n:3,sc:'--s3'},{key:'creating',label:'Creating',sub:'Create it',icon:'✨',n:4,sc:'--s4'},{key:'preparing',label:'Preparing',sub:'Polish the files',icon:'🛠',n:5,sc:'--s5'},{key:'listing',label:'Listing',sub:'Build the listing',icon:'🏷',n:6,sc:'--s6'},{key:'listed',label:'Listed',sub:'Live on Etsy!',icon:'🚀',n:7,sc:'--s7'},{key:'postlisting',label:'Post Listing',sub:'Promote and organize',icon:'📣',n:8,sc:'--s1'}];
+const ROW1=['ideas','planning','designing','creating'];
+const ROW2=['preparing','listing','listed','postlisting'];
+const CHECKLISTS={ideas:['Search Etsy for this product idea','Note top competitor shop names','Record sales numbers (ProfitTree, eRank, or EverBee)','Note number of competing listings','Check price range of top sellers','Review top listing images for style ideas','Confirm demand is strong enough','Ready to move forward'],planning:['Style and aesthetic decided','Collection theme confirmed','Elements and subjects brainstormed','Piece count per product type chosen','Color palette planned','Reference images gathered','Ready to design'],designing:['Rough layouts or sketches done','AI prompts written and saved','Prompt saved for future use','Design tool chosen','Design schedule laid out'],creating:['Images or files created','Best work selected and culled','All files organized in named folders'],preparing:['Images upscaled to 4000-5000px or 4x','Backgrounds removed','Cleanup done in Canva, Photoshop, or Affinity if needed','Files checked at 300 DPI','Files renamed','Delivery ZIP and PDF mockup done','Final check complete'],listing:['Files uploaded to Drive or Dropbox','Delivery link for PDF tested','All listing mockup images created','Listing video created','Etsy title written','13 tags added','Alt text written for all images','Description written','Price set','Published on Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable'],
+postlisting:['All mockups, product listing PDF and images zipped into one folder','Product logged on tracking spreadsheet','All files backed up to secondary drive or cloud','Social media posts created to promote','Upsell opportunities identified and actioned']};
+const STAGE_TOOLS={planning:{default:['Chroma Snap']},designing:{Clipart:['Q4 Prompt Studio'],'Alpha PNGs':['Letter Lab Luxe','Alpha Forge Studio'],'Coloring Books':['Q4 Prompt Studio','Word Slay'],'Procreate Brushes':[],'Procreate Stamps':[],Journals:['Planner Prompt Studio','Word Slay'],'Sublimation Designs':['Q4 Prompt Studio','Word Slay'],'Sticker Sheets':['Q4 Prompt Studio','Word Slay'],'Digital Paper':['Tile Me Pretty'],'Seamless Paper':['Tile Me Pretty','Q4 Prompt Studio'],'SVG Files':['Word Slay'],default:['Q4 Prompt Studio','Word Slay','Letter Lab Luxe','Planner Prompt Studio']},creating:{default:[]},preparing:{default:['SheetCraft Studio','FileFlip','Mockup Studio']},listing:{default:['Mockup Studio']}};
+const TOOL_URLS={'Q4 Prompt Studio':'https://pip-member-hub.vercel.app','Tile Me Pretty':'https://tile-me-pretty-pip.vercel.app','Word Slay':'https://word-slay-studio-pip.vercel.app','Letter Lab Luxe':'https://letter-luxe-studio-pip.vercel.app','Alpha Forge Studio':'https://alpha-forge-studio-pip.vercel.app','Planner Prompt Studio':'https://planner-prompt-architect.vercel.app','Chroma Snap':'https://chroma-snap-pip.vercel.app','Glow & Go':'https://glow-go-pip.vercel.app','SheetCraft Studio':'https://pip-sheetcraft-studio.vercel.app','FileFlip':'https://fileflip-pip.vercel.app','Mockup Studio':'https://mockery-reloaded-pip.vercel.app'};
+const PRODUCT_TYPES=['Alpha PNGs','Clipart','Coloring Books','Digital Paper','Journals','Procreate Brushes','Procreate Stamps','Seamless Paper','Sticker Sheets','Sublimation Designs','SVG Files'];
+const BADGES=[
+  {key:'firstspark',  name:'First Spark',      icon:'✨', req:1,    label:'Your very first listing is live! The journey begins, babe!'},
+  {key:'bouquet',     name:'Bouquet of Five',   icon:'💐', req:5,    label:'5 listings live! Your shop is blooming!'},
+  {key:'glowup',      name:'Glow Up',           icon:'💅', req:10,   label:'10 listings! You are absolutely glowing!'},
+  {key:'confetti',    name:'Confetti Queen',    icon:'🎉', req:25,   label:'25 listings! Time to celebrate, Queen!'},
+  {key:'hottea',      name:'Hot Tea',           icon:'☕', req:50,   label:'50 listings! You are steaming hot right now!'},
+  {key:'mainchar',    name:'Main Character',    icon:'🌟', req:100,  label:'100 listings! You ARE the main character!'},
+  {key:'bundle',      name:'Bundle Bestie',     icon:'🎀', req:0,    label:'Created and listed a product bundle!', special:'bundle'},
+  {key:'fullshop',    name:'Full Shop Moment',  icon:'🏪', req:0,    label:'Built out a full shop collection!', special:'fullshop'},
+  {key:'consistency', name:'Consistency Queen', icon:'👸', req:0,    label:'Hit your weekly goal 4 weeks in a row!', special:'streak4'},
+  {key:'trendsetter', name:'Trendsetter',       icon:'🔥', req:0,    label:'Listed a product within 2 weeks of adding the idea!', special:'fast'},
+  {key:'nightowl',    name:'Night Owl Creator', icon:'🦉', req:0,    label:'Listed 3 products in a single week!', special:'week3'},
+  {key:'pipstar',     name:'PIP Star',          icon:'⭐', req:0,    label:'Completed every stage on a card without skipping a step!', special:'fullflow'},
+];
+const CAL={1:{name:'January',color:'#4A6FA5',create:["St Patrick's Day","Spring and Easter","Super Bowl prep"],major:["New Year's Day","Valentine's Day prep","Black History Month"],minor:["MLK Day","Winter Olympics","Hot Cocoa Day"]},2:{name:'February',color:'#C84870',create:["Spring and Easter","Mother's Day","St Patrick's Day"],major:["Valentine's Day","Black History Month","Groundhog Day"],minor:["Chinese New Year","Super Bowl","Presidents Day","National Pizza Day"]},3:{name:'March',color:'#5A9E6A',create:["Mother's Day","Cinco de Mayo","Teacher Appreciation","Mental Health Month"],major:["Spring equinox","Women's Day","Easter","St Patrick's Day"],minor:[]},4:{name:'April',color:'#C4A040',create:["Father's Day","Summer and Beach","4th of July","Pride Month"],major:["April Fools","Easter","National Pet Day"],minor:["Autism Awareness","Earth Day","World Book Day","Superhero Day"]},5:{name:'May',color:'#8A6EA8',create:["4th of July","Summer collections","Father's Day"],major:["Mother's Day","Memorial Day","Cinco de Mayo"],minor:["Star Wars Day","Teacher Appreciation","Mental Health Month"]},6:{name:'June',color:'#D4885A',create:["Back to School","4th of July last push","Summer watercolor"],major:["Father's Day","Juneteenth","First Day of Summer"],minor:["Donut Day","Pride Month"]},7:{name:'July',color:'#5A8AC4',create:["Halloween","Back to School","Fall and Autumn"],major:["Independence Day"],minor:["Hot Dog Day","Ice Cream Day"]},8:{name:'August',color:'#6AA870',create:["Christmas","Halloween","Thanksgiving and Fall"],major:["Back to School season"],minor:["Friendship Day","Cat Day","Book Lover's Day","National Dog Day"]},9:{name:'September',color:'#A86A50',create:["Christmas","Winter and Holiday","Thanksgiving"],major:["First Day of Fall","Labor Day","Grandparents Day"],minor:["Hispanic Heritage Month","Oktoberfest"]},10:{name:'October',color:'#C87A30',create:["Christmas","Valentine's Day","Winter and New Year"],major:["Halloween","World Coffee Day"],minor:["Indigenous Peoples Day","Breast Cancer Awareness","NBA and NHL start"]},11:{name:'November',color:'#7A5EA8',create:["Valentine's Day","Chinese New Year","Winter and New Year sets"],major:["Thanksgiving","Black Friday","Veterans Day"],minor:["World Kindness Day","International Mens Day"]},12:{name:'December',color:'#C84848',create:["Valentine's Day","Chinese New Year","Spring and Easter","Black History Month"],major:["Christmas","Kwanzaa","New Year's Eve"],minor:["Cyber Monday"]}};
+
+let user=null,cards=[],badges=[],journey=[],weeklyHistory=[],goal={weekly_goal:4,locked:false},stats={total_listed:0,best_week:0,best_streak:0},calChecks={},currentCard=null,collView='grid',starFilter=false,pendingGoal=4,currentTheme=localStorage.getItem('pip-flow-theme')||'pip';
+
+function sb(method,path,body,cb){
+  const xhr=new XMLHttpRequest();
+  xhr.open(method,SB_URL+path);
+  xhr.setRequestHeader('apikey',SB_KEY);
+  xhr.setRequestHeader('Authorization','Bearer '+SB_KEY);
+  xhr.setRequestHeader('Content-Type','application/json');
+  if(method!=='GET'&&method!=='DELETE')xhr.setRequestHeader('Prefer','return=representation');
+  xhr.onload=function(){try{cb(null,JSON.parse(xhr.responseText));}catch(e){cb(e,null);}};
+  xhr.onerror=function(){cb(new Error('Network error'),null);};
+  xhr.send(body?JSON.stringify(body):null);
+}
+
+function setTheme(t){currentTheme=t;document.body.setAttribute('data-theme',t);var sel=document.getElementById('theme-select');if(sel)sel.value=t;localStorage.setItem('pip-flow-theme',t);}
+
+function handleLogin(){
+  const email=document.getElementById('login-email').value.trim().toLowerCase();
+  if(!email)return;
+  document.getElementById('login-error').style.display='none';
+  sb('GET','/rest/v1/pip_members?Email=eq.'+encodeURIComponent(email)+'&select=Email',null,function(err,data){
+    if(err||!data||!data.length){document.getElementById('login-error').style.display='block';return;}
+    user=email;
+    localStorage.setItem('pip-flow-user',email);
+    sessionStorage.setItem('pip_member',email);
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    loadAll();
+  });
+}
+
+function handleLogout(){
+  user=null;
+  localStorage.removeItem('pip-flow-user');
+  sessionStorage.removeItem('pip_member');
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-email').value='';
+}
+
+window.addEventListener('DOMContentLoaded',function(){
+  setTheme(currentTheme);
+  const p=new URLSearchParams(window.location.search);
+  const saved=p.get('e')||p.get('email')||sessionStorage.getItem('pip_member')||localStorage.getItem('pip-flow-user')||localStorage.getItem('pip-member')||localStorage.getItem('memberEmail');
+  if(saved){
+    sb('GET','/rest/v1/pip_members?Email=eq.'+encodeURIComponent(saved)+'&select=Email',null,function(err,data){
+      if(!err&&data&&data.length){
+        user=saved;
+        localStorage.setItem('pip-flow-user',saved);
+        sessionStorage.setItem('pip_member',saved);
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('app').style.display='block';
+        loadAll();
+      }
+    });
+  }
+  document.getElementById('login-email').addEventListener('keydown',function(e){if(e.key==='Enter')handleLogin();});
+});
+
+function loadAll(){loadCards();loadBadges();loadJourney();loadGoal();loadStats();loadCalChecks();loadVault();}
+
+function loadCards(){
+  sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&stage=neq.vault&order=created_at.asc',null,function(err,data){
+    cards=(!err&&Array.isArray(data))?data.map(function(c){return Object.assign({},c,{checklist:parseJ(c.checklist,{}),competition_links:parseJ(c.competition_links,[]),research_links:parseJ(c.research_links,['','','','']),research_images:parseJ(c.research_images,['','']),product_types:parseJ(c.product_types,[]),designed_types:parseJ(c.designed_types,[]),created_types:parseJ(c.created_types,[])});}):[];
+    renderAll();
+  });
+}
+
+function loadBadges(){sb('GET','/rest/v1/pip_flowboard_badges?member_email=eq.'+enc(user),null,function(err,data){badges=(!err&&Array.isArray(data))?data:[];updatePowerBar();});}
+function loadJourney(){sb('GET','/rest/v1/pip_flowboard_journey?member_email=eq.'+enc(user)+'&order=week_start.asc',null,function(err,data){journey=(!err&&Array.isArray(data))?data:[];updatePowerBar();});}
+
+function loadGoal(){
+  var ws=weekStart();
+  sb('GET','/rest/v1/pip_flowboard_goals?member_email=eq.'+enc(user)+'&week_start=eq.'+ws,null,function(err,data){
+    if(!err&&Array.isArray(data)&&data.length){goal={weekly_goal:data[0].weekly_goal,locked:true};pendingGoal=goal.weekly_goal;}
+    updateWeekChip();
+  });
+}
+
+function loadStats(){
+  sb('GET','/rest/v1/pip_flowboard_stats?member_email=eq.'+enc(user),null,function(err,data){
+    if(!err&&Array.isArray(data)&&data.length)stats=data[0];
+    renderStats();
+    sb('GET','/rest/v1/pip_flowboard_journey?member_email=eq.'+enc(user)+'&order=week_start.desc&limit=8',null,function(e2,d2){
+      weeklyHistory=(!e2&&Array.isArray(d2))?d2.reverse():[];
+      renderChart();
+    });
+  });
+}
+
+function loadCalChecks(){
+  var yr=parseInt(document.getElementById('cal-year').value)||2026;
+  sb('GET','/rest/v1/pip_flowboard_calendar_checks?member_email=eq.'+enc(user)+'&calendar_year=eq.'+yr,null,function(err,data){
+    calChecks={};
+    if(!err&&Array.isArray(data))data.forEach(function(r){calChecks[r.item_key]=true;});
+    renderCalendar();
+  });
+}
+
+function renderAll(){renderPipeline();renderCollections();updateWeekChip();updatePowerBar();updateListedCount();}
+
+function renderPipeline(){
+  var r1=document.getElementById('row1'),r2=document.getElementById('row2');
+  r1.innerHTML='';r2.innerHTML='';
+  STAGES.forEach(function(st){
+    var sc=cards.filter(function(c){return c.stage===st.key;}),col=document.createElement('div');
+    col.className='stage-col';
+    var stC='var('+st.sc+')';
+    var hdr=document.createElement('div');
+    hdr.className='stage-col-header';
+    hdr.style.borderTop='3px solid '+stC;
+    hdr.innerHTML='<div class="stage-col-left"><span class="stage-num">'+String(st.n).padStart(2,'0')+'</span><div><div class="stage-name" style="color:'+stC+'">'+st.icon+' '+st.label+'</div><div class="stage-sub">'+st.sub+'</div></div></div><span class="stage-count'+(sc.length?' has-cards':'')+'" style="'+(sc.length?'background:'+stC:'')+'">'+ sc.length+'</span>';
+    col.appendChild(hdr);
+    var body=document.createElement('div');
+    body.className='stage-col-body';
+    body.id='col-'+st.key;
+    body.addEventListener('dragover',function(e){
+      e.preventDefault();
+      e.dataTransfer.dropEffect='move';
+      body.style.background='var(--accent-glow)';
+    });
+    body.addEventListener('dragleave',function(){body.style.background='';});
+    body.addEventListener('drop',function(e){
+      e.preventDefault();
+      body.style.background='';
+      var cardId=e.dataTransfer.getData('text/plain');
+      var dropCard=cards.filter(function(c){return c.id===cardId;})[0];
+      if(!dropCard||dropCard.stage===st.key)return;
+      // Only allow moving to postlisting from listed, or forward moves
+      var fromIdx=STAGES.indexOf(STAGES.filter(function(s){return s.key===dropCard.stage;})[0]);
+      var toIdx=STAGES.indexOf(st);
+      if(toIdx<fromIdx)return; // no going backwards
+      dropCard.stage=st.key;
+      dropCard.checklist={};
+      dropCard.updated_at=new Date().toISOString();
+      var patch={stage:st.key,checklist:{},updated_at:dropCard.updated_at};
+      if(st.key==='listed'&&!dropCard.listed_date){dropCard.listed_date=new Date().toISOString();patch.listed_date=dropCard.listed_date;}
+      sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+cardId+'&member_email=eq.'+enc(user),patch,function(){
+        renderAll();
+        if(st.key==='postlisting'){openPanel(cardId);}
+        else if(st.key==='listed'){checkBadges();updateStatsDB();showTrophy(dropCard);}
+        else showToast('// moved to '+st.label);
+      });
+    });
+    if(st.key==='ideas'){
+      var addBtn=document.createElement('button');
+      addBtn.className='stage-add-btn';
+      addBtn.style.borderColor=stC;addBtn.style.color=stC;
+      addBtn.textContent='+ Add idea';
+      addBtn.onclick=function(){openAddModal();};
+      body.appendChild(addBtn);
+    }
+    if(!sc.length){
+      var hint=document.createElement('div');
+      hint.className='stage-empty';
+      hint.textContent=getHint(st.key);
+      body.appendChild(hint);
+    } else {
+      var now=new Date();
+      sc.forEach(function(card){
+        var pct=getCardPct(card);
+        var days=Math.floor((now-new Date(card.updated_at))/86400000);
+        var stale=days>=7&&card.stage!=='listed'&&!card.stale_nudge_dismissed;
+        var el=document.createElement('div');
+        el.className='product-card'+(stale?' stale':'');
+        el.draggable=true;
+        el.dataset.cardId=card.id;
+        el.onclick=function(){openPanel(card.id);};
+        el.addEventListener('dragstart',function(e){
+          e.dataTransfer.setData('text/plain',card.id);
+          e.dataTransfer.effectAllowed='move';
+          setTimeout(function(){el.style.opacity='0.5';},0);
+        });
+        el.addEventListener('dragend',function(){el.style.opacity='1';});
+        var starBtn=document.createElement('button');
+        starBtn.className='card-star'+(card.is_starred?' on':'');
+        starBtn.textContent=card.is_starred?'★':'☆';
+        starBtn.onclick=function(e){e.stopPropagation();toggleStar(card.id);};
+        el.appendChild(starBtn);
+        var titleDiv=document.createElement('div');
+        titleDiv.className='card-title';
+        titleDiv.textContent=card.title;
+        el.appendChild(titleDiv);
+        var metaDiv=document.createElement('div');
+        metaDiv.style.cssText='display:flex;align-items:center;gap:0.35rem;margin-bottom:0.35rem';
+        var tag=document.createElement('span');
+        tag.className='type-tag';
+        tag.style.background='var('+st.sc+'-bg,rgba(255,255,255,0.08))';
+        tag.style.color=stC;
+        tag.textContent=card.category||card.product_type||'';
+        metaDiv.appendChild(tag);
+        el.appendChild(metaDiv);
+        var progDiv=document.createElement('div');
+        progDiv.className='card-progress';
+        progDiv.innerHTML='<div class="card-bar"><div class="card-bar-fill" style="width:'+pct+'%;background:'+stC+'"></div></div><span class="card-pct">'+pct+'%</span>';
+        el.appendChild(progDiv);
+        body.appendChild(el);
+      });
+    }
+    col.appendChild(body);
+    (ROW1.indexOf(st.key)>=0?r1:r2).appendChild(col);
+  });
+}
+
+function getHint(k){var h={ideas:'Capture a product idea to start your pipeline.',planning:'Move here when ready to plan it out.',designing:'Move here when ready to design.',creating:'Move here when you start creating files.',preparing:'Move here to upscale, clean up, and rename.',listing:'Move here to build your Etsy listing.',listed:'Products land here once live on Etsy.',postlisting:'Move here after listing to complete your post-listing workflow.'};return h[k]||'';}
+
+var vaultItems=[];
+var vaultFilter='all';
+var vaultSubFilter='';
+
+function loadVault(){
+  sb('GET','/rest/v1/pip_flowboard_cards?member_email=eq.'+enc(user)+'&stage=eq.vault&order=created_at.desc',null,function(err,data){
+    vaultItems=(!err&&Array.isArray(data))?data.map(function(v){v.is_trending=v.is_trending||false;return v;}):[]; 
+    renderVault();
+  });
+}
+
+function renderVault(){
+  var show=vaultItems.slice();
+  if(vaultFilter==='product'&&vaultSubFilter)show=show.filter(function(v){return v.product_type===vaultSubFilter;});
+  if(vaultFilter==='holiday'&&vaultSubFilter)show=show.filter(function(v){var nd=parseJ(v.notes,{});return nd.holiday===vaultSubFilter;});
+  if(vaultFilter==='theme'&&vaultSubFilter)show=show.filter(function(v){var nd=parseJ(v.notes,{});return nd.theme===vaultSubFilter;});
+  var g=document.getElementById('ideas-grid');
+  if(!show.length){
+    g.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon" style="font-size:3rem;margin-bottom:1rem">&#x1F4A1;</div><h3 style="font-size:1.1rem;margin-bottom:0.5rem">No ideas saved yet.</h3><p style="font-size:0.88rem;line-height:1.6;max-width:400px;margin:0 auto">Tap &quot;+ Save Idea&quot; to start building your trend board. Save Etsy finds, Pinterest inspo, trending products.</p></div>';
+    return;
+  }
+  g.innerHTML='';
+  show.forEach(function(v){
+    var nd=parseJ(v.notes,{});
+    var colorMap={'Clipart':'--s1','Alpha PNGs':'--s3','Coloring Books':'--s2','Digital Paper':'--s7','Journals':'--s4','Seamless Paper':'--s2','Sticker Sheets':'--s6','Sublimation Designs':'--s5','Procreate Brushes':'--s3','Procreate Stamps':'--s4','SVG Files':'--s5'};
+    var sc=colorMap[v.product_type]||'--s1';
+    var card=document.createElement('div');
+    card.className='idea-vault-card';
+    card.style.cursor='pointer';
+    (function(vid){card.onclick=function(e){if(e.target.tagName!=='A'&&e.target.tagName!=='BUTTON')openVaultModal(vid);};})(v.id);
+    // color bar
+    var bar=document.createElement('div');
+    bar.style.cssText='height:4px;background:var('+sc+');';
+    card.appendChild(bar);
+    // image
+    if(nd.img){
+      var imgWrap=document.createElement('div');
+      imgWrap.style.cssText='width:100%;height:160px;overflow:hidden;background:var(--bg-panel);';
+      var img=document.createElement('img');
+      img.src=nd.img;
+      img.style.cssText='width:100%;height:160px;object-fit:cover;';
+      img.onerror=function(){imgWrap.style.display='none';};
+      imgWrap.appendChild(img);
+      card.appendChild(imgWrap);
+    }
+    // body
+    var body=document.createElement('div');
+    body.style.cssText='padding:0.875rem 1rem 0.75rem;';
+    // title + actions
+    var titleRow=document.createElement('div');
+    titleRow.style.cssText='display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;margin-bottom:0.5rem;';
+    var titleEl=document.createElement('div');
+    titleEl.style.cssText='font-family:Syne,sans-serif;font-weight:800;font-size:0.95rem;color:var(--text-primary);line-height:1.25;flex:1;';
+    titleEl.textContent=v.title;
+    var actRow=document.createElement('div');
+    actRow.style.cssText='display:flex;gap:0.3rem;flex-shrink:0;';
+    var editBtn=document.createElement('button');
+    editBtn.style.cssText='background:var(--bg-raised);border:1px solid var(--border);border-radius:6px;color:var(--text-secondary);font-size:0.72rem;padding:0.2rem 0.5rem;cursor:pointer;';
+    editBtn.textContent='Edit';
+    (function(vid){editBtn.onclick=function(){openVaultModal(vid);};})(v.id);
+    var delBtn=document.createElement('button');
+    delBtn.style.cssText='background:none;border:1px solid rgba(255,85,85,0.4);border-radius:6px;color:#FF5555;font-size:0.72rem;padding:0.2rem 0.5rem;cursor:pointer;';
+    delBtn.textContent='x';
+    (function(vid){delBtn.onclick=function(){deleteVaultItem(vid);};})(v.id);
+    actRow.appendChild(editBtn);actRow.appendChild(delBtn);
+    titleRow.appendChild(titleEl);titleRow.appendChild(actRow);
+    body.appendChild(titleRow);
+    // tags
+    var tags=document.createElement('div');
+    tags.style.cssText='display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.5rem;';
+    if(v.product_type){
+      var pt=document.createElement('span');pt.className='type-tag';
+      pt.style.cssText='background:var('+sc+'-bg,rgba(255,255,255,0.08));color:var('+sc+')';
+      pt.textContent=v.product_type;tags.appendChild(pt);
+    }
+    if(nd.holiday&&nd.holiday!=='None'){
+      var ht=document.createElement('span');ht.className='type-tag';
+      ht.style.cssText='background:var(--bg-raised);color:var(--accent3)';
+      ht.textContent=nd.holiday;tags.appendChild(ht);
+    }
+    if(nd.theme){
+      var tt=document.createElement('span');tt.className='type-tag';
+      tt.style.cssText='background:var(--bg-raised);color:var(--text-secondary)';
+      tt.textContent=nd.theme;tags.appendChild(tt);
+    }
+    if(tags.children.length)body.appendChild(tags);
+    // tag pills
+    if(nd.tags){
+      var tagPills=document.createElement('div');
+      tagPills.style.cssText='display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.5rem;';
+      nd.tags.split(',').slice(0,6).forEach(function(t){
+        if(!t.trim())return;
+        var tp=document.createElement('span');
+        tp.style.cssText='font-size:0.65rem;padding:0.12rem 0.45rem;border-radius:10px;background:var(--bg-panel);color:var(--text-muted);border:1px solid var(--border);';
+        tp.textContent=t.trim();tagPills.appendChild(tp);
+      });
+      body.appendChild(tagPills);
+    }
+    // price + link
+    var infoRow=document.createElement('div');
+    infoRow.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.35rem;flex-wrap:wrap;';
+    var priceWrap=document.createElement('div');
+    priceWrap.style.cssText='display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;';
+    if(nd.price){
+      var priceEl=document.createElement('span');
+      var priceTxt=nd.price.startsWith('$')?nd.price:'$'+nd.price;
+      priceEl.style.cssText='font-family:Syne,sans-serif;font-weight:700;font-size:0.82rem;color:var(--text-secondary);';
+      priceEl.textContent='Orig: '+priceTxt;
+      priceWrap.appendChild(priceEl);
+    }
+    if(nd.sale_price){
+      var saleEl=document.createElement('span');
+      var saleTxt=nd.sale_price.startsWith('$')?nd.sale_price:'$'+nd.sale_price;
+      saleEl.style.cssText='font-family:Syne,sans-serif;font-weight:700;font-size:0.82rem;color:var(--accent2);';
+      saleEl.textContent='Sale: '+saleTxt;
+      priceWrap.appendChild(saleEl);
+    }
+    if(nd.listed_duration){
+      var durEl=document.createElement('span');
+      durEl.style.cssText='font-size:0.68rem;color:var(--text-muted);padding:0.1rem 0.4rem;background:var(--bg-panel);border-radius:4px;border:1px solid var(--border);';
+      durEl.textContent=nd.listed_duration;
+      priceWrap.appendChild(durEl);
+    }
+    if(priceWrap.children.length)infoRow.appendChild(priceWrap);
+    if(nd.link){
+      var linkEl=document.createElement('a');
+      linkEl.href=nd.link;linkEl.target='_blank';
+      linkEl.onclick=function(e){e.stopPropagation();};
+      linkEl.style.cssText='font-size:0.72rem;color:var(--accent);text-decoration:none;font-weight:600;flex-shrink:0;';
+      linkEl.textContent='View listing';infoRow.appendChild(linkEl);
+    }
+    if(infoRow.children.length)body.appendChild(infoRow);
+    // my thoughts
+    // Stats row
+    var hasStats=nd.mo_sales||nd.mo_revenue||nd.total_revenue||nd.views||nd.listed_duration;
+    if(hasStats){
+      var statsRow=document.createElement('div');
+      statsRow.style.cssText='display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);';
+      var statItems=[
+        {l:'Mo. Sales',v:nd.mo_sales},
+        {l:'Mo. Rev',v:nd.mo_revenue?(nd.mo_revenue.startsWith('$')?nd.mo_revenue:'$'+nd.mo_revenue):null},
+        {l:'Total Rev',v:nd.total_revenue?(nd.total_revenue.startsWith('$')?nd.total_revenue:'$'+nd.total_revenue):null},
+        {l:'Views',v:nd.views},
+        {l:'Age',v:nd.listed_duration}
+      ];
+      statItems.forEach(function(s){
+        if(!s.v)return;
+        var pill=document.createElement('div');
+        pill.style.cssText='display:flex;flex-direction:column;align-items:center;background:var(--bg-raised);border:1px solid var(--border);border-radius:7px;padding:0.25rem 0.5rem;min-width:52px;';
+        var lbl=document.createElement('div');
+        lbl.style.cssText='font-size:0.55rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);';
+        lbl.textContent=s.l;
+        var val=document.createElement('div');
+        val.style.cssText='font-family:Syne,sans-serif;font-weight:800;font-size:0.78rem;color:var(--text-primary);';
+        val.textContent=s.v;
+        pill.appendChild(lbl);pill.appendChild(val);
+        statsRow.appendChild(pill);
+      });
+      body.appendChild(statsRow);
+    }
+    if(nd.my_notes){
+      var notesEl=document.createElement('div');
+      notesEl.style.cssText='font-size:0.78rem;color:var(--text-secondary);margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);line-height:1.5;';
+      notesEl.textContent='My thoughts: '+nd.my_notes;
+      body.appendChild(notesEl);
+    }
+    // Share to Trending footer bar
+    var shareBar=document.createElement('div');
+    shareBar.style.cssText='padding:0.6rem 1rem;border-top:1px solid var(--border);background:var(--bg-panel);display:flex;align-items:center;justify-content:space-between;gap:0.5rem;';
+    var shareLabel=document.createElement('div');
+    shareLabel.style.cssText='font-size:0.7rem;color:var(--text-muted);font-weight:600;';
+    shareLabel.textContent=v.is_trending?'Shared with Skoolers':'Share with Skoolers?';
+    var shareBtnFoot=document.createElement('button');
+    shareBtnFoot.style.cssText='padding:0.3rem 0.85rem;border-radius:20px;font-family:Syne,sans-serif;font-weight:700;font-size:0.75rem;cursor:pointer;border:1.5px solid;transition:all 0.2s;'+(v.is_trending?'background:var(--accent2);border-color:var(--accent2);color:var(--bg);':'background:none;border-color:var(--border-bright);color:var(--text-secondary);');
+    shareBtnFoot.textContent=v.is_trending?'Shared to Trending':'Share to Trending';
+    (function(vid,item,lbl,btn){
+      btn.onclick=function(e){
+        e.stopPropagation();
+        var nowShared=item.is_trending;
+        item.is_trending=!nowShared;
+        lbl.textContent=item.is_trending?'Shared with Skoolers':'Share with Skoolers?';
+        btn.textContent=item.is_trending?'Shared to Trending':'Share to Trending';
+        btn.style.background=item.is_trending?'var(--accent2)':'none';
+        btn.style.borderColor=item.is_trending?'var(--accent2)':'var(--border-bright)';
+        btn.style.color=item.is_trending?'var(--bg)':'var(--text-secondary)';
+        sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+vid+'&member_email=eq.'+enc(user),{is_trending:item.is_trending},function(err){
+          if(!err)showToast(item.is_trending?'// shared to Trending Reports!':'// removed from Trending Reports');
+        });
+      };
+    })(v.id,v,shareLabel,shareBtnFoot);
+    shareBar.appendChild(shareLabel);shareBar.appendChild(shareBtnFoot);
+    card.appendChild(body);card.appendChild(shareBar);g.appendChild(card);
+  });
+}
+
+function filterVault(mode,btn){
+  vaultFilter=mode;vaultSubFilter='';
+  document.querySelectorAll('.idea-filter-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  var row=document.getElementById('vault-sort-row');
+  if(mode==='product'){
+    row.style.display='flex';
+    row.innerHTML=['All','Alpha PNGs','Clipart','Coloring Books','Digital Paper','Journals','Procreate Brushes','Procreate Stamps','Seamless Paper','Sticker Sheets','Sublimation Designs','SVG Files'].map(function(t){
+      return '<button class="idea-filter-btn'+(t==='All'?' active':'')+'" onclick="setVaultSub(\''+t+'\',this)">'+t+'</button>';
+    }).join('');
+  } else if(mode==='holiday'){
+    row.style.display='flex';
+    row.innerHTML=['All','Christmas','Halloween','Valentine\'s Day','Easter','Mother\'s Day','4th of July','Back to School','Thanksgiving','Summer','Fall / Autumn','Winter','Spring'].map(function(t){
+      return '<button class="idea-filter-btn'+(t==='All'?' active':'')+'" onclick="setVaultSub(\''+t+'\',this)">'+t+'</button>';
+    }).join('');
+  } else if(mode==='theme'){
+    var themes=['All'];
+    vaultItems.forEach(function(v){var nd=parseJ(v.notes,{});if(nd.theme&&themes.indexOf(nd.theme)<0)themes.push(nd.theme);});
+    row.style.display='flex';
+    row.innerHTML=themes.map(function(t){
+      return '<button class="idea-filter-btn'+(t==='All'?' active':'')+'" onclick="setVaultSub(\''+t+'\',this)">'+t+'</button>';
+    }).join('');
+  } else {row.style.display='none';}
+  renderVault();
+}
+
+function setVaultSub(val,btn){
+  vaultSubFilter=val==='All'?'':val;
+  document.querySelectorAll('#vault-sort-row .idea-filter-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  renderVault();
+}
+
+function openVaultModal(editId){
+  ['v-title','v-link','v-img','v-price','v-sale-price','v-listed-duration','v-mo-sales','v-mo-revenue','v-total-revenue','v-views','v-tags','v-theme','v-notes'].forEach(function(f){document.getElementById(f).value='';});
+  document.getElementById('v-product').value='';
+  document.getElementById('v-holiday').value='';
+  document.getElementById('v-edit-id').value='';
+  document.getElementById('v-img-preview').style.display='none';
+  document.getElementById('vault-modal-title').textContent='Save Trending Idea';
+  if(editId){
+    var item=vaultItems.filter(function(v){return v.id===editId;})[0];
+    if(item){
+      var nd=parseJ(item.notes,{});
+      document.getElementById('v-title').value=item.title||'';
+      document.getElementById('v-link').value=nd.link||'';
+      document.getElementById('v-img').value=nd.img||'';
+      document.getElementById('v-price').value=nd.price||'';
+      document.getElementById('v-sale-price').value=nd.sale_price||'';
+      document.getElementById('v-listed-duration').value=nd.listed_duration||'';
+      document.getElementById('v-mo-sales').value=nd.mo_sales||'';
+      document.getElementById('v-mo-revenue').value=nd.mo_revenue||'';
+      document.getElementById('v-total-revenue').value=nd.total_revenue||'';
+      document.getElementById('v-views').value=nd.views||'';
+      document.getElementById('v-tags').value=nd.tags||'';
+      document.getElementById('v-product').value=item.product_type||'';
+      document.getElementById('v-theme').value=nd.theme||'';
+      document.getElementById('v-holiday').value=nd.holiday||'';
+      document.getElementById('v-notes').value=nd.my_notes||'';
+      document.getElementById('v-edit-id').value=editId;
+      document.getElementById('vault-modal-title').textContent='Edit Idea';
+      if(nd.img)previewVaultImg(nd.img);
+    }
+  }
+  openModal('modal-vault');
+  setTimeout(function(){document.getElementById('v-title').focus();},100);
+}
+
+function previewVaultImg(url){
+  var p=document.getElementById('v-img-preview'),i=document.getElementById('v-img-preview-img');
+  if(url&&url.startsWith('http')){i.src=url;p.style.display='block';}
+  else p.style.display='none';
+}
+
+function saveVaultIdea(){
+  var title=document.getElementById('v-title').value.trim();
+  if(!title){showToast('// enter a title first');return;}
+  var editId=document.getElementById('v-edit-id').value;
+  var nd={
+    link:document.getElementById('v-link').value.trim(),
+    img:document.getElementById('v-img').value.trim(),
+    price:document.getElementById('v-price').value.trim(),
+    sale_price:document.getElementById('v-sale-price').value.trim(),
+    listed_duration:document.getElementById('v-listed-duration').value.trim(),
+    mo_sales:document.getElementById('v-mo-sales').value.trim(),
+    mo_revenue:document.getElementById('v-mo-revenue').value.trim(),
+    total_revenue:document.getElementById('v-total-revenue').value.trim(),
+    views:document.getElementById('v-views').value.trim(),
+    tags:document.getElementById('v-tags').value.trim(),
+    theme:document.getElementById('v-theme').value.trim(),
+    holiday:document.getElementById('v-holiday').value,
+    my_notes:document.getElementById('v-notes').value.trim()
+  };
+  var pt=document.getElementById('v-product').value||'';
+  if(editId){
+    sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+editId+'&member_email=eq.'+enc(user),{title:title,product_type:pt,category:pt,notes:JSON.stringify(nd)},function(err){
+      if(!err){
+        var item=vaultItems.filter(function(v){return v.id===editId;})[0];
+        if(item){item.title=title;item.product_type=pt;item.notes=JSON.stringify(nd);}
+        closeModal('modal-vault');renderVault();showToast('// idea updated!');
+      }
+    });
+  } else {
+    sb('POST','/rest/v1/pip_flowboard_cards',{member_email:user,title:title,product_type:pt,category:pt,stage:'vault',notes:JSON.stringify(nd),checklist:{},etsy_url:'',is_starred:false,stale_nudge_dismissed:false},function(err,resp){
+      if(!err&&Array.isArray(resp)&&resp.length){
+        vaultItems.unshift(resp[0]);
+        closeModal('modal-vault');renderVault();showToast('// idea saved!');
+      } else showToast('// something went wrong');
+    });
+  }
+}
+
+function toggleTrending(id,item,btn){
+  var nowShared=item.is_trending;
+  var newVal=!nowShared;
+  item.is_trending=newVal;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{is_trending:newVal},function(err){
+    if(!err){
+      btn.textContent=newVal?'Shared':'Share';
+      btn.style.background=newVal?'var(--accent2)':'none';
+      btn.style.borderColor=newVal?'var(--accent2)':'var(--border)';
+      btn.style.color=newVal?'var(--bg)':'var(--text-muted)';
+      showToast(newVal?'// shared to Trending Reports!':'// removed from Trending Reports');
+    }
+  });
+}
+function deleteVaultItem(id){
+  if(!confirm('Delete this idea?'))return;
+  sb('DELETE','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),null,function(){
+    vaultItems=vaultItems.filter(function(v){return v.id!==id;});
+    renderVault();showToast('// idea deleted');
+  });
+}
+
+
+function toggleStarFilter(){filterVault('all',null);}
+
+function renderCollections(){
+  var cat=document.getElementById('coll-cat').value,sort=document.getElementById('coll-sort').value;
+  var list=cards.filter(function(c){return c.stage==='listed';});
+  if(cat)list=list.filter(function(c){return (c.category||c.product_type)===cat;});
+  if(sort==='oldest')list.sort(function(a,b){return new Date(a.listed_date||a.created_at)-new Date(b.listed_date||b.created_at);});
+  else if(sort==='az')list.sort(function(a,b){return a.title.localeCompare(b.title);});
+  else list.sort(function(a,b){return new Date(b.listed_date||b.created_at)-new Date(a.listed_date||a.created_at);});
+  var c=document.getElementById('coll-container');
+  if(!list.length){c.innerHTML='<div class="empty-state" style="padding:3.5rem 2rem"><div class="empty-state-icon">📦</div><h3>Nothing listed yet.</h3><p>Move a card all the way to Listed and it shows up here.</p></div>';return;}
+  if(collView==='grid'){
+    c.innerHTML='';
+    var grid=document.createElement('div');grid.className='coll-grid';
+    list.forEach(function(x){
+      var card=document.createElement('div');card.className='coll-card-g';card.onclick=function(){openPanel(x.id);};
+      card.innerHTML='<div class="coll-thumb">📦</div><div class="coll-body"><div class="coll-title">'+esc(x.title)+'</div><div class="type-tag" style="background:var(--s6-bg);color:var(--s6);margin-bottom:0.25rem">'+esc(x.category||x.product_type||'')+'</div><div class="coll-meta">Listed '+fmtDate(x.listed_date||x.created_at)+'</div></div>';
+      grid.appendChild(card);
+    });
+    c.appendChild(grid);
+  } else {
+    c.innerHTML='';
+    var lst=document.createElement('div');lst.className='coll-list';
+    list.forEach(function(x){
+      var card=document.createElement('div');card.className='coll-card-l';card.onclick=function(){openPanel(x.id);};
+      card.innerHTML='<div class="coll-l-thumb">📦</div><div><div class="coll-l-title">'+esc(x.title)+'</div><span class="type-tag" style="background:var(--s6-bg);color:var(--s6)">'+esc(x.category||x.product_type||'')+'</span><div class="coll-l-meta" style="margin-top:0.15rem">Listed '+fmtDate(x.listed_date||x.created_at)+'</div></div>';
+      lst.appendChild(card);
+    });
+    c.appendChild(lst);
+  }
+}
+
+function setCollView(v){collView=v;document.getElementById('vt-grid').classList.toggle('on',v==='grid');document.getElementById('vt-list').classList.toggle('on',v==='list');renderCollections();}
+function updateListedCount(){var n=cards.filter(function(c){return c.stage==='listed';}).length,el=document.getElementById('listed-count');el.textContent=n;el.style.display=n?'inline-block':'none';}
+
+function renderCalendar(){
+  var yr=parseInt(document.getElementById('cal-year').value)||2026,now=new Date(),thisM=now.getMonth()+1;
+  var strip=document.getElementById('this-month-strip'),td=CAL[thisM];
+  strip.innerHTML=td?'<div class="this-month-label">NOW — Start creating for:</div><div class="this-month-tags">'+td.create.map(function(i){return'<span class="m-tag">'+i+'</span>';}).join('')+'</div>':'';
+  var grid=document.getElementById('cal-grid');grid.innerHTML='';
+  Object.keys(CAL).forEach(function(m){
+    var d=CAL[m],isCur=parseInt(m)===thisM&&yr===now.getFullYear();
+    var card=document.createElement('div');card.className='cal-card'+(isCur?' now':'');
+    var head=document.createElement('div');head.className='cal-card-head';head.style.borderLeft='4px solid '+d.color;
+    head.innerHTML='<span class="cal-month-name">'+d.name+'</span>'+(isCur?'<span class="now-tag">NOW</span>':'');
+    var body=document.createElement('div');body.className='cal-card-body';
+    var html='<div class="cal-sec-label">// Create for</div>';
+    d.create.forEach(function(t){html+=calItem(yr,m,'c',t,false);});
+    html+='<div class="cal-sec-label">// This month</div>';
+    d.major.forEach(function(t){html+=calItem(yr,m,'m',t,true);});
+    d.minor.forEach(function(t){html+=calItem(yr,m,'n',t,false);});
+    body.innerHTML=html;
+    card.appendChild(head);card.appendChild(body);
+    grid.appendChild(card);
+  });
+}
+
+function calItem(yr,month,type,text,isMajor){
+  var key=yr+'-'+month+'-'+type+'-'+text.replace(/[^a-z0-9]/gi,'_');
+  var checked=!!calChecks[key];
+  return'<div class="cal-item'+(checked?' done':'')+'" onclick="toggleCal(\''+key+'\',this)"><div class="cal-check">'+(checked?'✓':'')+'</div>'+(isMajor?'<span class="cal-star-icon">★</span>':'<span class="cal-dot"></span>')+'<span class="cal-item-text">'+text+'</span></div>';
+}
+
+function toggleCal(key,el){
+  var yr=parseInt(document.getElementById('cal-year').value)||2026;
+  if(calChecks[key]){delete calChecks[key];el.classList.remove('done');el.querySelector('.cal-check').textContent='';sb('DELETE','/rest/v1/pip_flowboard_calendar_checks?member_email=eq.'+enc(user)+'&item_key=eq.'+encodeURIComponent(key),null,function(){});}
+  else{calChecks[key]=true;el.classList.add('done');el.querySelector('.cal-check').textContent='✓';sb('POST','/rest/v1/pip_flowboard_calendar_checks',{member_email:user,calendar_year:yr,item_key:key},function(){});}
+}
+
+function renderStats(){
+  var tw=getThisWeekCount(),now=new Date();
+  var tm=cards.filter(function(c){if(c.stage!=='listed')return false;var d=new Date(c.listed_date||c.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).length;
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  var inProgress=cards.filter(function(c){return c.stage!=='listed';}).length;
+  var statsData=[
+    {v:total,l:'Total Listed',sub:'all time'},
+    {v:tm,l:'This Month',sub:now.toLocaleString('default',{month:'long'})},
+    {v:tw,l:'This Week',sub:'vs goal of '+(goal.weekly_goal||4)},
+    {v:inProgress,l:'In Progress',sub:'across all stages'}
+  ];
+  document.getElementById('stats-grid').innerHTML=statsData.map(function(s){
+    return'<div class="stat-card"><div class="stat-val">'+s.v+'</div><div class="stat-lbl">'+s.l+'</div><div class="stat-sublbl">'+s.sub+'</div></div>';
+  }).join('');
+  // Pipeline breakdown
+  var breakdown=document.getElementById('pipeline-breakdown');
+  if(breakdown){
+    var maxCards=Math.max.apply(null,STAGES.map(function(st){return cards.filter(function(c){return c.stage===st.key;}).length;}));
+    maxCards=Math.max(maxCards,1);
+    var colors=['--s1','--s2','--s3','--s4','--s5','--s6','--s7'];
+    breakdown.innerHTML=STAGES.map(function(st,i){
+      var n=cards.filter(function(c){return c.stage===st.key;}).length;
+      var pct=Math.round((n/maxCards)*100);
+      return'<div class="pipeline-stage-row">'+
+        '<div class="ps-name">'+st.label+'</div>'+
+        '<div class="ps-bar-wrap"><div class="ps-bar-fill" style="width:'+pct+'%;background:var('+colors[i]+')"></div></div>'+
+        '<div class="ps-count">'+n+' card'+(n!==1?'s':'')+'</div>'+
+      '</div>';
+    }).join('');
+  }
+}
+
+function renderChart(){
+  var el=document.getElementById('chart-bars');if(!el)return;
+  if(!weeklyHistory.length){el.innerHTML='<div style="color:var(--text-muted);font-size:0.75rem;padding:2rem;text-align:center">// no data yet</div>';return;}
+  var mx=Math.max.apply(null,weeklyHistory.map(function(w){return w.listings_that_week||0;}).concat([goal.weekly_goal||4,1]));
+  var curWS=weekStart(),months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  el.innerHTML=weeklyHistory.map(function(w){var d=new Date(w.week_start+'T12:00:00'),h=Math.max(4,Math.round(((w.listings_that_week||0)/mx)*100)),isCur=w.week_start===curWS;return'<div class="bar-wrap"><div class="bar-val">'+(w.listings_that_week||0)+'</div><div class="bar'+(isCur?' cur':'')+'" style="height:'+h+'px"></div><div class="bar-lbl">'+months[d.getMonth()]+' '+d.getDate()+'</div></div>';}).join('');
+}
+
+function updateWeekChip(){
+  var ws=weekStart(),we=weekEnd(ws),listed=getThisWeekCount(),g=goal.weekly_goal||4,pct=Math.min(100,Math.round((listed/g)*100));
+  document.getElementById('hdr-dates').textContent=fmtRange(ws,we);
+  document.getElementById('hdr-count').textContent=listed+'/'+g;
+  document.getElementById('hdr-bar').style.width=pct+'%';
+}
+
+function updatePowerBar(){
+  var bn=badges.length,streak=calcStreak(),pinned=cards.filter(function(c){return c.is_starred;}).length;
+  [['pip-badges',bn],['pip-streak',streak],['pip-pinned',pinned]].forEach(function(pair){var el=document.getElementById(pair[0]);el.textContent=pair[1];el.className=pair[1]?'power-pip':'power-pip off';});
+}
+
+function calcStreak(){var s=0;var sorted=journey.slice().sort(function(a,b){return new Date(b.week_start)-new Date(a.week_start);});for(var i=0;i<sorted.length;i++){if(sorted[i].goal_met)s++;else break;}return s;}
+
+function openPanel(id){
+  currentCard=id;
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  renderPanel(card);
+  document.getElementById('side-panel').dataset.cid=id;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('side-panel').classList.add('open');
+}
+
+function closePanel(){document.getElementById('overlay').classList.remove('open');document.getElementById('side-panel').classList.remove('open');currentCard=null;}
+
+function renderPanel(card){
+  var st=STAGES.filter(function(s){return s.key===card.stage;})[0];
+  var items=CHECKLISTS[card.stage]||[];
+  var cl=card.checklist||{};
+  var checked=items.filter(function(_,i){return cl[i];}).length;
+  var pct=items.length?Math.round((checked/items.length)*100):0;
+  var stC='var('+(st?st.sc:'--s1')+')';
+  var ptag=document.getElementById('ptag');
+  ptag.textContent=st?st.label:'';
+  ptag.style.cssText='background:var('+(st?st.sc:'--s1')+'-bg,rgba(255,255,255,0.08));color:'+stC+';font-family:monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:5px;';
+  var arc=document.getElementById('ring-arc');
+  arc.style.strokeDashoffset=101-(pct/100)*101;
+  arc.style.stroke=stC;
+  document.getElementById('ring-pct').textContent=pct+'%';
+  var nextIdx=STAGES.indexOf(st)+1;
+  var nextSt=nextIdx<STAGES.length?STAGES[nextIdx]:null;
+  var btn=document.getElementById('btn-next');
+  // Listed cards always show the Post Listing button
+  var showNext=nextSt&&(pct===100||card.stage==='listed');
+  if(showNext){
+    btn.textContent=card.stage==='listed'?'Move to Post Listing →':'Next: '+nextSt.label+' →';
+    btn.classList.add('show');
+  } else btn.classList.remove('show');
+  var prevIdx=STAGES.indexOf(st)-1;
+  var prevSt=prevIdx>=0?STAGES[prevIdx]:null;
+  var btnBack=document.getElementById('btn-back');
+  if(prevSt&&card.stage!=='listed'&&card.stage!=='postlisting'){btnBack.textContent='← '+prevSt.label;btnBack.classList.add('show');}
+  else btnBack.classList.remove('show');
+
+  var toolMap=STAGE_TOOLS[card.stage];
+  var tools=toolMap?(toolMap[card.product_type]||toolMap.default||[]):[];
+  // Designing: show product types from planning as checkboxes
+  var designProgressHtml='';
+  if(card.stage==='designing'||card.stage==='creating'){
+    var plannedTypes=parseJ(card.product_types,[]);
+    if(plannedTypes.length>0){
+      var designedTypes=card.stage==='designing'?parseJ(card.designed_types,[]):parseJ(card.created_types,[]);
+      designProgressHtml='<div class="p-section"><div class="p-lbl">// Product Types — Check Off as You Design Each</div>'+
+        '<div class="checklist-box">';
+      plannedTypes.forEach(function(t){
+        var done=designedTypes.indexOf(t)>=0;
+        var toggleFn=card.stage==='designing'?'toggleDesignedType':'toggleCreatedType';
+        designProgressHtml+='<div class="check-row" onclick="'+toggleFn+'(this.dataset.id,this.dataset.t)" data-id="'+card.id+'" data-t="'+t+'">'+
+          '<div class="check-box'+(done?' ticked':'')+'"></div>'+
+          '<span class="check-label'+(done?' done':'')+'">'+t+'</span>'+
+        '</div>';
+      });
+      designProgressHtml+='</div></div>';
+    } else {
+      designProgressHtml='<div class="p-section"><div style="background:var(--bg-raised);border:1px solid var(--border);border-radius:10px;padding:0.75rem 1rem;font-size:0.82rem;color:var(--text-secondary);">No product types selected yet — go back to Planning and select the types for this theme first.</div></div>';
+    }
+  }
+  var toolsHtml='';
+  if(tools.length){
+    toolsHtml='<div class="p-section"><div class="p-lbl">// PIP tools for this stage</div><div class="tools-wrap">';
+    tools.forEach(function(t){toolsHtml+='<a class="tool-link" href="'+(TOOL_URLS[t]||'#')+'" target="_blank">\u26a1 '+t+'</a>';});
+    toolsHtml+='</div></div>';
+  }
+
+  var showTypePicker=false;
+  var stale=Math.floor((new Date()-new Date(card.updated_at))/86400000)>=7&&card.stage!=='listed'&&!card.stale_nudge_dismissed;
+  var typePickerHtml='';
+  if(showTypePicker){
+    typePickerHtml='<div class="p-section"><div class="p-lbl">// Product type</div><div class="type-grid">';
+    PRODUCT_TYPES.forEach(function(t){typePickerHtml+='<button class="type-btn'+(card.product_type===t?' picked':'')+'" onclick="updateType(\''+card.id+'\',\''+t+'\')">'+t+'</button>';});
+    typePickerHtml+='</div></div>';
+  }
+  var checklistHtml='<div class="p-section"><div class="p-lbl">// Stage checklist</div><div class="checklist-box">';
+  items.forEach(function(item,i){checklistHtml+='<div class="check-row" onclick="toggleCheck(\''+card.id+'\','+i+')"><div class="check-box'+(cl[i]?' ticked':'')+'"></div><span class="check-label'+(cl[i]?' done':'')+'">'+item+'</span></div>';});
+  checklistHtml+='</div></div>';
+  var etsyHtml=card.stage==='listed'?'<div class="p-section"><div class="p-lbl">// Etsy listing URL</div><input class="p-input" id="etsy-inp" placeholder="https://www.etsy.com/listing/..." value="'+esc(card.etsy_url||'')+'" onchange="updateEtsy(\''+card.id+'\',this.value)"></div>':'';
+  var staleHtml=stale?'<div class="stale-banner">\u23f0 This card has not moved in a while<button class="nudge-x" onclick="dismissNudge(\''+card.id+'\')">✕</button></div>':'';
+  var planningHtml='';
+  if(card.stage==='planning'){
+    var prodTypes=parseJ(card.product_types,[]);
+    var ptHtml='<div class="p-section"><div class="p-lbl">// Product Types for This Theme</div><div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.65rem;">';
+    ['Alpha PNGs','Clipart','Coloring Books','Digital Paper','Journals','Procreate Brushes','Procreate Stamps','Seamless Paper','Sticker Sheets','Sublimation Designs','SVG Files'].forEach(function(t){
+      var isSel=prodTypes.indexOf(t)>=0;
+      ptHtml+='<button class="type-multi-btn'+(isSel?' selected':'')+'" data-cid="'+card.id+'" onclick="toggleProductType(this.dataset.cid,this.textContent)">'+t+'</button>';
+    });
+    ptHtml+='</div></div>';
+    planningHtml=ptHtml+
+      '<div class="p-section"><div class="p-lbl">// Style and Aesthetic</div><textarea class="p-textarea" style="min-height:90px;" placeholder="e.g. Soft watercolor boho florals..." data-id="'+card.id+'" data-f="style_notes" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)">'+esc(card.style_notes||'')+'</textarea></div>'+
+      '<div class="p-section"><div class="p-lbl">// Color Palette</div><textarea class="p-textarea" style="min-height:75px;" placeholder="e.g. Dusty Rose #C9A0A0, Sage Green #8FAF8F..." data-id="'+card.id+'" data-f="color_palette" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)">'+esc(card.color_palette||'')+'</textarea></div>'+
+      '<div class="p-section"><div class="p-lbl">// Style Keywords</div><input class="p-input" placeholder="e.g. boho, cottagecore, minimalist..." value="'+esc(card.style_keywords||'')+'" data-id="'+card.id+'" data-f="style_keywords" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>';
+  }
+  var researchHtml='';
+  if(card.stage==='ideas'){
+    var lnks=parseJ(card.research_links,['','','','']);
+    researchHtml='<div class="p-section"><div class="p-lbl">// Competitor Links</div><div style="display:flex;flex-direction:column;gap:0.4rem;">'+
+      '<input class="p-input" placeholder="Competitor listing 1..." value="'+esc(lnks[0]||'')+'" data-id="'+card.id+'" onchange="updateResearchLink(this.dataset.id,0,this.value)">'+
+      '<input class="p-input" placeholder="Competitor listing 2..." value="'+esc(lnks[1]||'')+'" data-id="'+card.id+'" onchange="updateResearchLink(this.dataset.id,1,this.value)">'+
+      '<input class="p-input" placeholder="Competitor listing 3..." value="'+esc(lnks[2]||'')+'" data-id="'+card.id+'" onchange="updateResearchLink(this.dataset.id,2,this.value)">'+
+      '</div></div>'+
+      '<div class="p-section"><div class="p-lbl">// Research Numbers</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Avg price range</div><input class="p-input" placeholder="e.g. $3-$8" value="'+esc(card.research_price||'')+'" data-id="'+card.id+'" data-f="research_price" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Monthly sales est.</div><input class="p-input" placeholder="e.g. 50-200/mo" value="'+esc(card.research_sales||'')+'" data-id="'+card.id+'" data-f="research_sales" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Competition count</div><input class="p-input" placeholder="e.g. 1,200 listings" value="'+esc(card.research_competition||'')+'" data-id="'+card.id+'" data-f="research_competition" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Demand level</div><input class="p-input" placeholder="High / Medium / Low" value="'+esc(card.research_demand||'')+'" data-id="'+card.id+'" data-f="research_demand" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Competitor 2 sales</div><input class="p-input" placeholder="e.g. 80/mo" value="'+esc(card.research_sales2||'')+'" data-id="'+card.id+'" data-f="research_sales2" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '<div><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Competitor 3 sales</div><input class="p-input" placeholder="e.g. 40/mo" value="'+esc(card.research_sales3||'')+'" data-id="'+card.id+'" data-f="research_sales3" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
+      '</div></div>';
+  }
+
+  var postNote=card.stage==='postlisting'?'<div style="margin-top:1.25rem;background:var(--accent-glow);border:1px solid var(--accent);border-radius:12px;padding:1rem 1.1rem;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">** Reminder</div><div style="font-size:0.88rem;color:var(--text-primary);line-height:1.6;">Make sure to follow up in <strong>30 days</strong> to see how this listing is doing — both visually and monetarily — to see if any changes need to be made.</div></div>':'';
+
+  document.getElementById('panel-scroll').innerHTML=staleHtml+
+    '<div style="margin-bottom:0.2rem"><input class="p-input" style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text-primary);padding:0.4rem 0.6rem;" value="'+esc(card.title)+'" maxlength="80" data-id="'+card.id+'" onchange="updateTitle(this.dataset.id,this.value)" placeholder="Product name"></div>'+
+    '<div class="panel-added">// Added '+fmtDate(card.created_at)+'</div>'+
+    typePickerHtml+designProgressHtml+toolsHtml+checklistHtml+planningHtml+researchHtml+etsyHtml+postNote+
+    '<div class="p-section"><div class="p-lbl">// Notes</div><textarea class="p-textarea" maxlength="2000" onchange="updateNotes(this.dataset.id,this.value)" data-id="'+card.id+'" oninput="this.nextElementSibling.textContent=this.value.length+\'/2000\'">'+esc(card.notes||'')+'</textarea><div class="char-ct">'+(card.notes||'').length+'/2000</div></div>';
+}
+
+function getCardPct(card){var items=CHECKLISTS[card.stage]||[];if(!items.length)return 0;var cl=card.checklist||{};return Math.round((items.filter(function(_,i){return cl[i];}).length/items.length)*100);}
+
+function toggleCheck(id,idx){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  if(!card.checklist)card.checklist={};
+  card.checklist[idx]=!card.checklist[idx];
+  card.updated_at=new Date().toISOString();
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{checklist:card.checklist,updated_at:card.updated_at},function(){renderPanel(card);renderAll();});
+}
+
+function toggleStar(id){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  card.is_starred=!card.is_starred;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{is_starred:card.is_starred},function(){renderAll();if(currentCard===id)renderPanel(card);});
+}
+
+function updateType(id,type){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  card.product_type=type;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{product_type:type},function(){renderPanel(card);});
+}
+
+function updateNotes(id,notes){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(card){card.notes=notes;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{notes:notes,updated_at:new Date().toISOString()},function(){});}
+}
+
+function toggleCreatedType(id,type){
+  if(!id||!type)return;
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  var created=parseJ(card.created_types,[]);
+  var idx=created.indexOf(type);
+  if(idx>=0)created.splice(idx,1);
+  else created.push(type);
+  card.created_types=created;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{created_types:JSON.stringify(created)},function(){
+    renderPanel(card);renderAll();
+  });
+}
+function toggleDesignedType(id,type){
+  if(!id||!type)return;
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  var designed=parseJ(card.designed_types,[]);
+  var idx=designed.indexOf(type);
+  if(idx>=0)designed.splice(idx,1);
+  else designed.push(type);
+  card.designed_types=designed;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{designed_types:JSON.stringify(designed)},function(){
+    renderPanel(card);
+    renderAll();
+  });
+}
+function toggleProductType(id,type){
+  if(!id)return;
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  var types=parseJ(card.product_types,[]);
+  var idx=types.indexOf(type);
+  if(idx>=0)types.splice(idx,1);
+  else types.push(type);
+  card.product_types=types;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{product_types:JSON.stringify(types)},function(){
+    renderPanel(card);
+  });
+}
+function updateResearchLink(id,idx,url){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  if(!card.research_links)card.research_links=['','','',''];
+  card.research_links[idx]=url;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{research_links:card.research_links},function(){});
+}
+function updateResearchImage(id,idx,url){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  if(!card.research_images)card.research_images=['',''];
+  card.research_images[idx]=url;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{research_images:card.research_images},function(){
+    renderPanel(card);
+  });
+}
+function updateResearchField(id,field,val){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(!card)return;
+  card[field]=val;
+  var patch={};patch[field]=val;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),patch,function(){});
+}
+function updateEtsy(id,url){
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(card){card.etsy_url=url;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{etsy_url:url},function(){});}
+}
+
+function dismissNudge(id){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  card.stale_nudge_dismissed=true;
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{stale_nudge_dismissed:true},function(){renderPanel(card);});
+}
+
+function saveCard(){showToast('// saved');}
+
+function advanceCard(){
+  var card=cards.filter(function(c){return c.id===currentCard;})[0];if(!card)return;
+  var idx=STAGES.indexOf(STAGES.filter(function(s){return s.key===card.stage;})[0]);
+  if(idx<0||idx>=STAGES.length-1)return;
+  var next=STAGES[idx+1];
+  card.stage=next.key;card.checklist={};card.updated_at=new Date().toISOString();
+  var patch={stage:next.key,checklist:{},updated_at:card.updated_at};
+  if(next.key==='listed'){
+    card.listed_date=new Date().toISOString();patch.listed_date=card.listed_date;
+    sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+card.id+'&member_email=eq.'+enc(user),patch,function(){closePanel();renderAll();checkBadges();updateStatsDB();showTrophy(card);});
+  } else {
+    sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+card.id+'&member_email=eq.'+enc(user),patch,function(){renderPanel(card);renderAll();showToast('// moved to '+next.label);});
+  }
+}
+
+function stepBackCard(){
+  var card=cards.filter(function(c){return c.id===currentCard;})[0];if(!card)return;
+  var idx=STAGES.indexOf(STAGES.filter(function(s){return s.key===card.stage;})[0]);
+  if(idx<=0)return;
+  var prev=STAGES[idx-1];
+  card.stage=prev.key;card.checklist={};card.updated_at=new Date().toISOString();
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+card.id+'&member_email=eq.'+enc(user),{stage:prev.key,checklist:{},updated_at:card.updated_at},function(){renderPanel(card);renderAll();showToast('// moved back to '+prev.label);});
+}
+
+function updateTitle(id,val){
+  val=val.trim();if(!val)return;
+  var card=cards.filter(function(c){return c.id===id;})[0];
+  if(card){card.title=val;sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{title:val},function(){renderAll();showToast('// name updated');});}
+}
+
+function deleteCard(){
+  if(!currentCard||!confirm('Delete this card? Cannot be undone.'))return;
+  sb('DELETE','/rest/v1/pip_flowboard_cards?id=eq.'+currentCard+'&member_email=eq.'+enc(user),null,function(){cards=cards.filter(function(c){return c.id!==currentCard;});closePanel();renderAll();showToast('// card deleted');});
+}
+
+function openAddModal(){document.getElementById('new-name').value='';document.getElementById('new-cat').value='';openModal('modal-add');setTimeout(function(){document.getElementById('new-name').focus();},100);}
+
+function createCard(){
+  var name=document.getElementById('new-name').value.trim(),cat=document.getElementById('new-cat').value;
+  if(!name){showToast('// enter a product name first');return;}
+  sb('POST','/rest/v1/pip_flowboard_cards',{member_email:user,title:name,product_type:cat||'Clipart',category:cat,stage:'ideas',checklist:{},notes:'',etsy_url:'',is_starred:false,stale_nudge_dismissed:false,research_links:[],research_images:[],research_price:'',research_sales:'',research_competition:'',research_demand:'',product_types:[],style_notes:'',color_palette:'',style_keywords:''},function(err,data){
+    if(!err&&Array.isArray(data)&&data.length){cards.push(Object.assign({},data[0],{checklist:{},competition_links:[]}));closeModal('modal-add');renderAll();showToast('// "'+name+'" added!');}
+    else showToast('// something went wrong');
+  });
+}
+
+function checkBadges(){
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  // Check listing count badges
+  BADGES.filter(function(b){return b.req>0;}).forEach(function(b){
+    if(total>=b.req&&!badges.filter(function(x){return x.badge_key===b.key;}).length){
+      awardBadge(b);
+    }
+  });
+  // Check fast lister badge (listed within 14 days of idea creation)
+  cards.filter(function(c){return c.stage==='listed'&&c.listed_date;}).forEach(function(c){
+    var days=Math.floor((new Date(c.listed_date)-new Date(c.created_at))/86400000);
+    if(days<=14&&!badges.filter(function(x){return x.badge_key==='trendsetter';}).length){
+      awardBadge(BADGES.filter(function(b){return b.key==='trendsetter';})[0]);
+    }
+  });
+  // Check week3 badge (3+ listed this week)
+  if(getThisWeekCount()>=3&&!badges.filter(function(x){return x.badge_key==='nightowl';}).length){
+    awardBadge(BADGES.filter(function(b){return b.key==='nightowl';})[0]);
+  }
+  // Check streak4 badge
+  if(calcStreak()>=4&&!badges.filter(function(x){return x.badge_key==='consistency';}).length){
+    awardBadge(BADGES.filter(function(b){return b.key==='consistency';})[0]);
+  }
+}
+function awardBadge(b){
+  if(!b)return;
+  sb('POST','/rest/v1/pip_flowboard_badges',{member_email:user,badge_name:b.name,badge_key:b.key},function(err){
+    if(!err){badges.push({badge_key:b.key,badge_name:b.name,earned_at:new Date().toISOString()});updatePowerBar();showToast('// badge unlocked: '+b.icon+' '+b.name+'!');}
+  });
+}
+
+function renderMilestones(){
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  document.getElementById('milestones-sub').textContent='// '+badges.length+' of '+BADGES.length+' unlocked · '+total+' total listed';
+  document.getElementById('badges-grid').innerHTML=BADGES.map(function(b){
+    var got=badges.filter(function(x){return x.badge_key===b.key;})[0];
+    var reqText=b.req>0?(b.req+' listings'):(b.special?'Special unlock':'Special unlock');
+    return'<div class="badge-tile'+(got?' got':' locked')+'" title="'+b.label+'">'+
+      '<div class="badge-icon-big">'+b.icon+'</div>'+
+      '<div class="badge-name">'+b.name+'</div>'+
+      '<div class="badge-req">'+reqText+'</div>'+
+      (got?'<div class="badge-date">'+fmtDate(got.earned_at)+'</div>':'<div class="badge-req" style="margin-top:0.2rem;font-style:italic;">not yet...</div>')+
+    '</div>';
+  }).join('');
+}
+
+function renderStreakModal(){
+  var done=journey.filter(function(w){return w.goal_met;}).length;
+  document.getElementById('streak-weeks-label').textContent=done+' / 12 weeks completed';
+  var ms={2:'🔥',6:'🎯',12:'👑'};
+  document.getElementById('j-grid').innerHTML=Array.from({length:12},function(_,i){var w=journey[i],isDone=w&&w.goal_met,m=ms[i+1];return'<div class="j-dot-wrap"><div class="j-dot'+(isDone?' done':'')+(m?' milestone':'')+'">'+( isDone?'✓':(m||i+1))+'</div><div class="j-num">'+(i+1)+'</div></div>';}).join('');
+  var streak=calcStreak();
+  document.getElementById('streak-row').innerHTML='<div class="streak-box"><div class="streak-val">'+streak+'</div><div class="streak-lbl">Current Streak</div></div><div class="streak-box"><div class="streak-val">'+(stats.best_streak||0)+'</div><div class="streak-lbl">Best Streak</div></div>';
+  var nextMs=[2,6,12].filter(function(n){return done<n;})[0];
+  document.getElementById('next-unlock').innerHTML=nextMs?'<div class="next-unlock-label">Next unlock</div><div class="next-unlock-name">'+ms[nextMs]+' '+(nextMs===2?'On Fire':nextMs===6?'On a Roll':'Consistency Queen')+'</div><div class="next-unlock-sub">'+(nextMs-done)+' more week'+(nextMs-done!==1?'s':'')+' to go</div>':'<div class="next-unlock-name">👑 All streak badges earned!</div>';
+}
+
+function pickGoal(n){if(n<1)n=1;if(n>200)n=200;pendingGoal=n;document.querySelectorAll('.goal-quick').forEach(function(b){b.classList.toggle('chosen',parseInt(b.textContent)===n);});var inp=document.getElementById('goal-num');if(inp&&inp.value!=n)inp.value=n;}
+
+function saveGoal(){
+  if(goal.locked)return;
+  var ws=weekStart(),we=weekEnd(ws),g=pendingGoal||4;
+  sb('POST','/rest/v1/pip_flowboard_goals',{member_email:user,weekly_goal:g,week_start:ws,week_end:we},function(err){
+    if(!err){goal={weekly_goal:g,locked:true};updateWeekChip();closeModal('modal-goal');showToast('// goal set: '+g+' listings this week!');}
+  });
+}
+
+function adjustGoal(delta){var cur=parseInt(document.getElementById('goal-num').value)||4;pickGoal(cur+delta);}function openGoalModal(){pickGoal(goal.weekly_goal||4);document.getElementById('goal-locked-note').style.display=goal.locked?'block':'none';document.getElementById('lock-goal-btn').disabled=goal.locked;if(goal.locked)document.getElementById('lock-goal-btn').style.opacity='0.5';else document.getElementById('lock-goal-btn').style.opacity='1';openModal('modal-goal');}
+
+function showTrophy(card){
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  var newBadge=BADGES.filter(function(b){return b.req>0&&b.req===total;})[0];
+  document.getElementById('trophy-content').innerHTML='<div class="trophy-big">🏆</div><div class="trophy-title">IT\'S LIVE!</div><div class="trophy-sub">"'+esc(card.title)+'" is on Etsy!<br>'+total+' listing'+(total!==1?'s':'')+' total.</div>'+(newBadge?'<div class="trophy-badge-box"><div style="font-size:1.5rem">'+newBadge.icon+'</div><div style="font-weight:700;color:var(--accent)">'+newBadge.name+'</div></div>':'')+'<button class="login-btn" style="margin-top:1rem" onclick="closeModal(\'modal-trophy\')">Keep building 🚀</button>';
+  openModal('modal-trophy');launchConfetti();
+}
+
+function launchConfetti(){
+  var canvas=document.getElementById('confetti-canvas'),ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  var pieces=Array.from({length:120},function(){return{x:Math.random()*canvas.width,y:Math.random()*-canvas.height,w:Math.random()*10+4,h:Math.random()*5+3,color:['#FF2D78','#00E5FF','#FFD600','#00FF88','#A855F7','#FF7A00'][Math.floor(Math.random()*6)],speed:Math.random()*3+1,angle:Math.random()*360,spin:(Math.random()-.5)*7};});
+  var frame=0;
+  (function anim(){ctx.clearRect(0,0,canvas.width,canvas.height);pieces.forEach(function(p){p.y+=p.speed;p.angle+=p.spin;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle*Math.PI/180);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});if(++frame<200)requestAnimationFrame(anim);else ctx.clearRect(0,0,canvas.width,canvas.height);})();
+}
+
+function updateStatsDB(){
+  var total=cards.filter(function(c){return c.stage==='listed';}).length;
+  sb('POST','/rest/v1/pip_flowboard_stats',{member_email:user,total_listed:total,updated_at:new Date().toISOString()},function(err){if(err)sb('PATCH','/rest/v1/pip_flowboard_stats?member_email=eq.'+enc(user),{total_listed:total,updated_at:new Date().toISOString()},function(){});});
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-pill').forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab);});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('active',v.id==='tab-'+tab);});
+  if(tab==='collections')renderCollections();
+  if(tab==='calendar')renderCalendar();
+  if(tab==='stats'){renderStats();renderChart();}
+  if(tab==='ideas'){loadVault();}
+}
+
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  if(id==='modal-milestones')renderMilestones();
+  if(id==='modal-streak')renderStreakModal();
+  if(id==='modal-goal')openGoalModal();
+}
+
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+document.querySelectorAll('.modal-bg').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('open');});});
+
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
+function enc(s){return encodeURIComponent(s);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function parseJ(v,def){try{return typeof v==='string'?JSON.parse(v):(v||def);}catch(e){return def;}}
+function fmtDate(iso){if(!iso)return'';var d=new Date(iso);return d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getFullYear();}
+function weekStart(date){var d=date?new Date(date):new Date(),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);return new Date(d.setDate(diff)).toISOString().slice(0,10);}
+function weekEnd(ws){var d=new Date(ws);d.setDate(d.getDate()+6);return d.toISOString().slice(0,10);}
+function fmtRange(ws,we){var s=new Date(ws+'T12:00:00'),e=new Date(we+'T12:00:00'),months=['January','February','March','April','May','June','July','August','September','October','November','December'];var yr=s.getFullYear();return s.getMonth()===e.getMonth()?months[s.getMonth()]+' '+s.getDate()+'-'+e.getDate()+', '+yr:months[s.getMonth()]+' '+s.getDate()+' - '+months[e.getMonth()]+' '+e.getDate()+', '+yr;}
+function getThisWeekCount(){var ws=weekStart(),we=weekEnd(ws);return cards.filter(function(c){return c.stage==='listed'&&c.listed_date&&c.listed_date>=ws&&c.listed_date<=we+'T23:59:59';}).length;}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closePanel();document.querySelectorAll('.modal-bg.open').forEach(function(m){m.classList.remove('open');});}});
+</script>
+
+<div class="modal-bg" id="modal-vault">
+  <div class="modal-box" style="max-width:520px;max-height:90vh;overflow-y:auto;">
+    <div class="modal-head">
+      <div class="modal-head-title" id="vault-modal-title">Save Trending Idea</div>
+      <div class="modal-x" onclick="closeModal('modal-vault')">&#x2715;</div>
+    </div>
+    <label class="m-label">Product / Listing Title</label>
+    <input class="m-input" id="v-title" placeholder="e.g. Boho Sunflower Clipart Bundle">
+    <label class="m-label">Link to Listing or Page</label>
+    <input class="m-input" id="v-link" placeholder="https://www.etsy.com/listing/...">
+    <label class="m-label">Image URL (from Etsy, Pinterest, etc.)</label>
+    <input class="m-input" id="v-img" placeholder="https://..." oninput="previewVaultImg(this.value)">
+    <div id="v-img-preview" style="display:none;margin-bottom:0.875rem;"><img id="v-img-preview-img" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;border:1px solid var(--border);" onerror="this.parentElement.style.display=none"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div>
+        <label class="m-label">Original Price</label>
+        <input class="m-input" id="v-price" placeholder="e.g. $4.99">
+      </div>
+      <div>
+        <label class="m-label">Sale Price (if any)</label>
+        <input class="m-input" id="v-sale-price" placeholder="e.g. $2.99">
+      </div>
+    </div>
+    <label class="m-label">Listing Age</label>
+    <input class="m-input" id="v-listed-duration" placeholder="e.g. 11 Mo., 2 years...">
+    <div style="margin-bottom:0.3rem;font-family:Space Grotesk,sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);">Research Stats (from ProfitTree / EverBee)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.875rem;">
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Mo. Sales</label>
+        <input class="m-input" id="v-mo-sales" placeholder="e.g. 28">
+      </div>
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Mo. Revenue</label>
+        <input class="m-input" id="v-mo-revenue" placeholder="e.g. $91.00">
+      </div>
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Total Revenue</label>
+        <input class="m-input" id="v-total-revenue" placeholder="e.g. $273.00">
+      </div>
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Views</label>
+        <input class="m-input" id="v-views" placeholder="e.g. 3,814">
+      </div>
+    </div>
+    <label class="m-label">Tags (comma separated)</label>
+    <input class="m-input" id="v-tags" placeholder="e.g. boho, floral, summer, clipart">
+    <label class="m-label">Product Type</label>
+    <select class="m-select" id="v-product">
+      <option value="">select type</option>
+      <option>Alpha PNGs</option><option>Clipart</option><option>Coloring Books</option>
+      <option>Digital Paper</option><option>Journals</option><option>Procreate Brushes</option>
+      <option>Procreate Stamps</option><option>Seamless Paper</option><option>Sticker Sheets</option>
+      <option>Sublimation Designs</option><option>SVG Files</option>
+    </select>
+    <label class="m-label">Theme</label>
+    <input class="m-input" id="v-theme" placeholder="e.g. Boho, Coquette, Halloween, Christmas...">
+    <label class="m-label">Holiday / Season</label>
+    <select class="m-select" id="v-holiday">
+      <option value="">select if applicable</option>
+      <option>None</option><option>New Year</option><option>Valentine Day</option>
+      <option>St Patricks Day</option><option>Easter</option><option>Mothers Day</option>
+      <option>Fathers Day</option><option>4th of July</option><option>Back to School</option>
+      <option>Halloween</option><option>Thanksgiving</option><option>Christmas</option>
+      <option>Summer</option><option>Fall Autumn</option><option>Winter</option><option>Spring</option>
+    </select>
+    <label class="m-label">My Thoughts - How I Will Use This</label>
+    <textarea class="m-input" id="v-notes" placeholder="e.g. Could turn into clipart set, seamless pattern, and journal cover..." style="min-height:80px;resize:vertical;"></textarea>
+    <input type="hidden" id="v-edit-id" value="">
+    <div class="modal-btns" style="margin-top:0.5rem;">
+      <button class="btn-cancel" onclick="closeModal('modal-vault')">Cancel</button>
+      <button class="btn-go" onclick="saveVaultIdea()">Save Idea</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
