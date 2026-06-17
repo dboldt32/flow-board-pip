@@ -561,7 +561,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 </div>
 <div class="modal-bg" id="modal-milestones">
   <div class="modal-box" style="max-width:520px">
-    <div class="modal-head"><div><div class="modal-head-title">Milestones</div><div class="modal-head-sub" id="milestones-sub">// 0 of 8 unlocked</div></div><div class="modal-x" onclick="closeModal('modal-milestones')">✕</div></div>
+    <div class="modal-head"><div><div class="modal-head-title">Milestones</div><div class="modal-head-sub" id="milestones-sub">// 0 of 8 unlocked</div></div><div style="display:flex;align-items:center;gap:0.6rem;"><button onclick="resetMilestones()" style="font-size:0.72rem;color:var(--text-muted);background:none;border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:0.25rem 0.65rem;cursor:pointer;font-weight:600;letter-spacing:0.04em;">Reset</button><div class="modal-x" onclick="closeModal('modal-milestones')">✕</div></div></div>
     <div class="modal-sec-lbl">Listing badges earned as you get products live on Etsy</div>
     <div class="modal-scroll"><div class="badges-grid" id="badges-grid"></div></div>
   </div>
@@ -645,7 +645,7 @@ const CHECKLISTS={ideas:['Search Etsy for this product idea','Note top competito
   'Product listing images (use 72dpi) — <a href="https://mockery-reloaded-pip.vercel.app" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent2);font-weight:600;text-decoration:underline;">Mockup Studio</a>',
   'Double check PDF link is correct — move all mockups, PDF, 300DPI images and listing info into one final folder',
   'Delete all other folders and anything you don\'t want',
-],listing:['Set price <a href="https://pip-member-hub.vercel.app/profit-planner.html" target="_blank" style="font-size:0.66rem;color:var(--accent2);background:rgba(13,237,237,0.12);border:1px solid rgba(13,237,237,0.3);border-radius:4px;padding:0.1rem 0.45rem;margin-left:0.4rem;font-weight:700;text-decoration:none;">⚡ Profit Planner</a>','Publish to Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable'],
+],listing:['Set price — <a href="https://pip-member-hub.vercel.app/profit-planner.html" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent2);font-weight:600;text-decoration:underline;">Profit Planner</a>','Publish to Etsy'],listed:['Etsy URL saved','Shared on social media','Added to bundles if applicable'],
 postlisting:['All mockups, product listing PDF and images zipped into one folder','Product logged on tracking spreadsheet','All files backed up to secondary drive or cloud','Social media posts created to promote','Upsell opportunities identified and actioned','Final folder sweep — delete anything you no longer need']};
 const STAGE_TOOLS={planning:{default:['Chroma Snap']},designing:{default:['Letter Lab Luxe','Tile Me Pretty','Word Slay','Notepad Sticker Studio','Planner Prompt Studio','Alpha Forge Studio']},creating:{default:[]},preparing:{default:['SheetCraft Studio','FileFlip','Mockup Studio']},listing:{default:[]}};
 const TOOL_URLS={'Q4 Prompt Studio':'https://pip-member-hub.vercel.app','Tile Me Pretty':'https://tile-me-pretty-pip.vercel.app','Word Slay':'https://word-slay-studio-pip.vercel.app','Letter Lab Luxe':'https://letter-luxe-studio-pip.vercel.app','Alpha Forge Studio':'https://alpha-forge-studio-pip.vercel.app','Planner Prompt Studio':'https://planner-prompt-architect.vercel.app','Chroma Snap':'https://chroma-snap-pip.vercel.app','Glow & Go':'https://glow-go-pip.vercel.app','SheetCraft Studio':'https://pip-sheetcraft-studio.vercel.app','FileFlip':'https://fileflip-pip.vercel.app','Mockup Studio':'https://mockery-reloaded-pip.vercel.app','Notepad Sticker Studio':'https://notepad-sticker-hub.vercel.app'};
@@ -1785,6 +1785,13 @@ function renderMilestones(){
       (got?'<div class="badge-date">'+fmtDate(got.earned_at)+'</div>':'<div class="badge-req" style="margin-top:0.2rem;font-style:italic;">not yet...</div>')+
     '</div>';
   }).join('');
+}
+
+function resetMilestones(){
+  if(!confirm('Reset all milestones? This cannot be undone.'))return;
+  sb('DELETE','/rest/v1/pip_flowboard_badges?member_email=eq.'+enc(user),null,function(){
+    badges=[];updatePowerBar();renderMilestones();showToast('// milestones reset');
+  });
 }
 
 function renderStreakModal(){
