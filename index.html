@@ -1138,7 +1138,11 @@ function renderVault(){
         });
       };
     })(v.id,v,shareLabel,shareBtnFoot);
-    shareBar.appendChild(shareLabel);shareBar.appendChild(shareBtnFoot);
+    var pipeBtn=document.createElement('button');
+    pipeBtn.style.cssText='padding:0.3rem 0.85rem;border-radius:20px;font-family:Arial,sans-serif;font-weight:700;font-size:0.75rem;cursor:pointer;border:1.5px solid var(--accent);background:none;color:var(--accent);transition:all 0.2s;';
+    pipeBtn.textContent='→ Pipeline';
+    (function(vid){pipeBtn.onclick=function(e){e.stopPropagation();sendVaultToPipeline(vid);};})(v.id);
+    shareBar.appendChild(shareLabel);shareBar.appendChild(pipeBtn);shareBar.appendChild(shareBtnFoot);
     card.appendChild(body);card.appendChild(shareBar);g.appendChild(card);
   });
 }
@@ -1177,9 +1181,10 @@ function setVaultSub(val,btn){
 }
 
 function openVaultModal(editId){
-  ['v-title','v-link','v-img','v-price','v-sale-price','v-listed-duration','v-mo-sales','v-mo-revenue','v-total-revenue','v-views','v-tags','v-theme','v-notes'].forEach(function(f){document.getElementById(f).value='';});
+  ['v-title','v-link','v-img','v-price','v-sale-price','v-mo-sales','v-mo-revenue','v-total-revenue','v-views','v-images','v-shop-sales','v-shop-age','v-tags','v-theme','v-notes'].forEach(function(f){document.getElementById(f).value='';});
   document.getElementById('v-product').value='';
   document.getElementById('v-holiday').value='';
+  document.getElementById('v-when-listed').value='';
   document.getElementById('v-edit-id').value='';
   document.getElementById('v-img-preview').style.display='none';
   document.getElementById('vault-modal-title').textContent='Save Trending Idea';
@@ -1192,11 +1197,14 @@ function openVaultModal(editId){
       document.getElementById('v-img').value=nd.img||'';
       document.getElementById('v-price').value=nd.price||'';
       document.getElementById('v-sale-price').value=nd.sale_price||'';
-      document.getElementById('v-listed-duration').value=nd.listed_duration||'';
-      document.getElementById('v-mo-sales').value=nd.mo_sales||'';
-      document.getElementById('v-mo-revenue').value=nd.mo_revenue||'';
-      document.getElementById('v-total-revenue').value=nd.total_revenue||'';
+      document.getElementById('v-when-listed').value=nd.when_listed||'';
+      document.getElementById('v-images').value=nd.images||'';
       document.getElementById('v-views').value=nd.views||'';
+      document.getElementById('v-mo-sales').value=nd.mo_sales||'';
+      document.getElementById('v-total-revenue').value=nd.total_revenue||'';
+      document.getElementById('v-mo-revenue').value=nd.mo_revenue||'';
+      document.getElementById('v-shop-sales').value=nd.shop_sales||'';
+      document.getElementById('v-shop-age').value=nd.shop_age||'';
       document.getElementById('v-tags').value=nd.tags||'';
       document.getElementById('v-product').value=item.product_type||'';
       document.getElementById('v-theme').value=nd.theme||'';
@@ -1226,11 +1234,14 @@ function saveVaultIdea(){
     img:document.getElementById('v-img').value.trim(),
     price:document.getElementById('v-price').value.trim(),
     sale_price:document.getElementById('v-sale-price').value.trim(),
-    listed_duration:document.getElementById('v-listed-duration').value.trim(),
-    mo_sales:document.getElementById('v-mo-sales').value.trim(),
-    mo_revenue:document.getElementById('v-mo-revenue').value.trim(),
-    total_revenue:document.getElementById('v-total-revenue').value.trim(),
+    when_listed:document.getElementById('v-when-listed').value,
+    images:document.getElementById('v-images').value.trim(),
     views:document.getElementById('v-views').value.trim(),
+    mo_sales:document.getElementById('v-mo-sales').value.trim(),
+    total_revenue:document.getElementById('v-total-revenue').value.trim(),
+    mo_revenue:document.getElementById('v-mo-revenue').value.trim(),
+    shop_sales:document.getElementById('v-shop-sales').value.trim(),
+    shop_age:document.getElementById('v-shop-age').value.trim(),
     tags:document.getElementById('v-tags').value.trim(),
     theme:document.getElementById('v-theme').value.trim(),
     holiday:document.getElementById('v-holiday').value,
@@ -1253,6 +1264,37 @@ function saveVaultIdea(){
       } else showToast('// something went wrong');
     });
   }
+}
+
+function sendVaultToPipeline(vid){
+  var item=vaultItems.filter(function(v){return v.id===vid;})[0];
+  if(!item)return;
+  var nd=parseJ(item.notes,{});
+  var comp1={
+    link:nd.link||'',
+    when_listed:nd.when_listed||'',
+    orig_price:nd.price||'',
+    sale_price:nd.sale_price||'',
+    images:nd.images||'',
+    views:nd.views||'',
+    monthly_sales:nd.mo_sales||'',
+    total_revenue:nd.total_revenue||'',
+    shop_sales:nd.shop_sales||'',
+    shop_age:nd.shop_age||''
+  };
+  var emptyComp={link:'',when_listed:'',orig_price:'',sale_price:'',images:'',views:'',monthly_sales:'',total_revenue:'',shop_sales:'',shop_age:''};
+  var competition_links=[comp1,Object.assign({},emptyComp),Object.assign({},emptyComp)];
+  sb('POST','/rest/v1/pip_flowboard_cards',{
+    member_email:user,title:item.title,product_type:item.product_type||'Clipart',category:item.product_type||'Clipart',
+    stage:'ideas',checklist:{},notes:'',etsy_url:'',is_starred:false,stale_nudge_dismissed:false,
+    research_links:[],research_images:[],research_price:'',research_sales:'',research_competition:'',research_demand:'',
+    product_types:[],style_notes:'',color_palette:'',style_keywords:'',competition_links:competition_links
+  },function(err,data){
+    if(!err&&Array.isArray(data)&&data.length){
+      cards.unshift(data[0]);renderAll();
+      showToast('// sent to pipeline → Ideas');
+    } else showToast('// something went wrong');
+  });
 }
 
 function toggleTrending(id,item,btn){
@@ -2034,25 +2076,40 @@ function deleteLinkItem(id){
         <input class="m-input" id="v-sale-price" placeholder="e.g. $2.99">
       </div>
     </div>
-    <label class="m-label">Listing Age</label>
-    <input class="m-input" id="v-listed-duration" placeholder="e.g. 11 Mo., 2 years...">
+    <label class="m-label">When Listed</label>
+    <select class="m-select" id="v-when-listed">
+      <option value="">— select —</option>
+      <option>0-1 month</option><option>2-4 months</option><option>6-9 months</option><option>10-12 months</option><option>1-3 years</option>
+    </select>
     <div style="margin-bottom:0.3rem;font-family:Space Grotesk,sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);">Research Stats (from ProfitTree / EverBee)</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.875rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.875rem;">
       <div>
-        <label class="m-label" style="margin-bottom:0.2rem;">Mo. Sales</label>
-        <input class="m-input" id="v-mo-sales" placeholder="e.g. 28">
+        <label class="m-label" style="margin-bottom:0.2rem;">Images</label>
+        <input class="m-input" id="v-images" placeholder="e.g. 8">
+      </div>
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Views</label>
+        <input class="m-input" id="v-views" placeholder="e.g. 1,200">
+      </div>
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Monthly Sales</label>
+        <input class="m-input" id="v-mo-sales" placeholder="e.g. 35">
+      </div>
+      <div>
+        <label class="m-label" style="margin-bottom:0.2rem;">Total Revenue</label>
+        <input class="m-input" id="v-total-revenue" placeholder="e.g. $450">
       </div>
       <div>
         <label class="m-label" style="margin-bottom:0.2rem;">Mo. Revenue</label>
         <input class="m-input" id="v-mo-revenue" placeholder="e.g. $91.00">
       </div>
       <div>
-        <label class="m-label" style="margin-bottom:0.2rem;">Total Revenue</label>
-        <input class="m-input" id="v-total-revenue" placeholder="e.g. $273.00">
+        <label class="m-label" style="margin-bottom:0.2rem;">Shop Sales</label>
+        <input class="m-input" id="v-shop-sales" placeholder="e.g. 2300">
       </div>
-      <div>
-        <label class="m-label" style="margin-bottom:0.2rem;">Views</label>
-        <input class="m-input" id="v-views" placeholder="e.g. 3,814">
+      <div style="grid-column:span 2;">
+        <label class="m-label" style="margin-bottom:0.2rem;">Shop Age</label>
+        <input class="m-input" id="v-shop-age" placeholder="e.g. 2 years">
       </div>
     </div>
     <label class="m-label">Tags (comma separated)</label>
