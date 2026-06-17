@@ -1451,11 +1451,12 @@ function renderPanel(card){
   var nextIdx=STAGES.indexOf(st)+1;
   var nextSt=nextIdx<STAGES.length?STAGES[nextIdx]:null;
   var btn=document.getElementById('btn-next');
-  // Listed cards always show the Post Listing button
-  var showNext=nextSt&&(pct===100||card.stage==='listed');
-  if(showNext){
+  if(nextSt){
     btn.textContent=card.stage==='listed'?'Move to Post Listing →':'Next: '+nextSt.label+' →';
     btn.classList.add('show');
+    btn.style.opacity=pct===100?'1':'0.35';
+    btn.style.cursor=pct===100?'pointer':'default';
+    btn.style.boxShadow=pct===100?'var(--glow-pink)':'none';
   } else btn.classList.remove('show');
   var prevIdx=STAGES.indexOf(st)-1;
   var prevSt=prevIdx>=0?STAGES[prevIdx]:null;
