@@ -875,10 +875,6 @@ function renderPipeline(){
       var cardId=e.dataTransfer.getData('text/plain');
       var dropCard=cards.filter(function(c){return c.id===cardId;})[0];
       if(!dropCard||dropCard.stage===st.key)return;
-      // Only allow moving to postlisting from listed, or forward moves
-      var fromIdx=STAGES.indexOf(STAGES.filter(function(s){return s.key===dropCard.stage;})[0]);
-      var toIdx=STAGES.indexOf(st);
-      if(toIdx<fromIdx)return; // no going backwards
       dropCard.stage=st.key;
       dropCard.updated_at=new Date().toISOString();
       var patch={stage:st.key,updated_at:dropCard.updated_at};
