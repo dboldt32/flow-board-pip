@@ -1000,7 +1000,7 @@ function renderVault(){
     var titleRow=document.createElement('div');
     titleRow.style.cssText='display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;margin-bottom:0.5rem;';
     var titleEl=document.createElement('div');
-    titleEl.style.cssText='font-family:Syne,sans-serif;font-weight:800;font-size:0.95rem;color:var(--text-primary);line-height:1.25;flex:1;';
+    titleEl.style.cssText='font-family:Arial,sans-serif;font-weight:700;font-size:0.95rem;color:var(--text-primary);line-height:1.25;flex:1;';
     titleEl.textContent=v.title;
     var actRow=document.createElement('div');
     actRow.style.cssText='display:flex;gap:0.3rem;flex-shrink:0;';
@@ -1101,7 +1101,7 @@ function renderVault(){
         lbl.style.cssText='font-size:0.55rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);';
         lbl.textContent=s.l;
         var val=document.createElement('div');
-        val.style.cssText='font-family:Syne,sans-serif;font-weight:800;font-size:0.78rem;color:var(--text-primary);';
+        val.style.cssText='font-family:Arial,sans-serif;font-weight:700;font-size:0.78rem;color:var(--text-primary);';
         val.textContent=s.v;
         pill.appendChild(lbl);pill.appendChild(val);
         statsRow.appendChild(pill);
@@ -1121,7 +1121,7 @@ function renderVault(){
     shareLabel.style.cssText='font-size:0.7rem;color:var(--text-muted);font-weight:600;';
     shareLabel.textContent=v.is_trending?'Shared with Skoolers':'Share with Skoolers?';
     var shareBtnFoot=document.createElement('button');
-    shareBtnFoot.style.cssText='padding:0.3rem 0.85rem;border-radius:20px;font-family:Syne,sans-serif;font-weight:700;font-size:0.75rem;cursor:pointer;border:1.5px solid;transition:all 0.2s;'+(v.is_trending?'background:var(--accent2);border-color:var(--accent2);color:var(--bg);':'background:none;border-color:var(--border-bright);color:var(--text-secondary);');
+    shareBtnFoot.style.cssText='padding:0.3rem 0.85rem;border-radius:20px;font-family:Arial,sans-serif;font-weight:700;font-size:0.75rem;cursor:pointer;border:1.5px solid;transition:all 0.2s;'+(v.is_trending?'background:var(--accent2);border-color:var(--accent2);color:var(--bg);':'background:none;border-color:var(--border-bright);color:var(--text-secondary);');
     shareBtnFoot.textContent=v.is_trending?'Shared to Trending':'Share to Trending';
     (function(vid,item,lbl,btn){
       btn.onclick=function(e){
