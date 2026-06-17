@@ -1266,6 +1266,25 @@ function saveVaultIdea(){
   }
 }
 
+function updateCardTag(id,idx,val){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  var tags=parseJ(card.research_competition,[]);
+  if(!Array.isArray(tags))tags=[];
+  while(tags.length<13)tags.push('');
+  tags[idx]=val;
+  card.research_competition=JSON.stringify(tags);
+  sb('PATCH','/rest/v1/pip_flowboard_cards?id=eq.'+id+'&member_email=eq.'+enc(user),{research_competition:card.research_competition},function(){});
+}
+
+function copyCardTags(id){
+  var card=cards.filter(function(c){return c.id===id;})[0];if(!card)return;
+  var tags=parseJ(card.research_competition,[]);
+  if(!Array.isArray(tags))tags=[];
+  var text=tags.filter(function(t){return t&&t.trim();}).join(', ');
+  if(!text){showToast('// no tags to copy');return;}
+  navigator.clipboard.writeText(text).then(function(){showToast('// tags copied!');});
+}
+
 function sendVaultToPipeline(vid){
   var item=vaultItems.filter(function(v){return v.id===vid;})[0];
   if(!item)return;
@@ -1615,6 +1634,18 @@ function renderPanel(card){
       '<div style="grid-column:1/-1"><div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">Demand Level</div>'+
       '<input class="p-input" placeholder="High / Medium / Low" value="'+esc(card.research_demand||'')+'" data-id="'+card.id+'" data-f="research_demand" onchange="updateResearchField(this.dataset.id,this.dataset.f,this.value)"></div>'+
       '</div></div>';
+    var tagVals=parseJ(card.research_competition,[]);
+    if(!Array.isArray(tagVals))tagVals=[];
+    while(tagVals.length<13)tagVals.push('');
+    var tagInputs=tagVals.slice(0,13).map(function(t,i){
+      return '<input class="p-input" style="font-size:0.82rem;" placeholder="Tag '+(i+1)+'" value="'+esc(t)+'" data-id="'+card.id+'" onchange="updateCardTag(this.dataset.id,'+i+',this.value)">';
+    }).join('');
+    researchHtml+='<div class="p-section">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">'+
+      '<div class="p-lbl" style="margin-bottom:0;">// Etsy Tags</div>'+
+      '<button onclick="copyCardTags(\''+card.id+'\')" style="font-size:0.72rem;color:var(--accent2);background:none;border:1px solid rgba(13,237,237,0.3);border-radius:6px;padding:0.2rem 0.6rem;cursor:pointer;font-weight:600;">Copy All</button>'+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.35rem;">'+tagInputs+'</div></div>';
   }
 
   var postNote=card.stage==='postlisting'?'<div style="margin-top:1.25rem;background:var(--accent-glow);border:1px solid var(--accent);border-radius:12px;padding:1rem 1.1rem;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">** Reminder</div><div style="font-size:0.88rem;color:var(--text-primary);line-height:1.6;">Make sure to follow up in <strong>30 days</strong> to see how this listing is doing — both visually and monetarily — to see if any changes need to be made.</div></div>':'';
