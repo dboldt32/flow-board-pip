@@ -1292,8 +1292,8 @@ function sendVaultToPipeline(vid){
   var comp1={
     link:nd.link||'',
     when_listed:nd.when_listed||'',
-    orig_price:nd.price||'',
-    sale_price:nd.sale_price||'',
+    price_orig:nd.price||'',
+    price_sale:nd.sale_price||'',
     images:nd.images||'',
     views:nd.views||'',
     monthly_sales:nd.mo_sales||'',
@@ -1301,12 +1301,18 @@ function sendVaultToPipeline(vid){
     shop_sales:nd.shop_sales||'',
     shop_age:nd.shop_age||''
   };
-  var emptyComp={link:'',when_listed:'',orig_price:'',sale_price:'',images:'',views:'',monthly_sales:'',total_revenue:'',shop_sales:'',shop_age:''};
+  var emptyComp={link:'',when_listed:'',price_orig:'',price_sale:'',images:'',views:'',monthly_sales:'',total_revenue:'',shop_sales:'',shop_age:''};
   var competition_links=[comp1,Object.assign({},emptyComp),Object.assign({},emptyComp)];
+  // transfer vault tags into the 13-slot tag array
+  var rawTags=(nd.tags||'').split(',').map(function(t){return t.trim();}).filter(Boolean);
+  while(rawTags.length<13)rawTags.push('');
+  var tagData=JSON.stringify(rawTags.slice(0,13));
+  // also pass the listing URL into research_links[0]
+  var rLinks=[nd.link||'','','',''];
   sb('POST','/rest/v1/pip_flowboard_cards',{
     member_email:user,title:item.title,product_type:item.product_type||'Clipart',category:item.product_type||'Clipart',
     stage:'ideas',checklist:{},notes:'',etsy_url:'',is_starred:false,stale_nudge_dismissed:false,
-    research_links:[],research_images:[],research_price:'',research_sales:'',research_competition:'',research_demand:'',
+    research_links:rLinks,research_images:[],research_price:'',research_sales:'',research_competition:tagData,research_demand:'',
     product_types:[],style_notes:'',color_palette:'',style_keywords:'',competition_links:competition_links
   },function(err,data){
     if(!err&&Array.isArray(data)&&data.length){
